@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="5dp"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgoffre"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:src="@drawable/the"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/imgoffre"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="-40%"
+                android:background="#F6F1F0"
+                android:textStyle="bold"
+                android:textColor="#EA582A"
+                android:id="@+id/textpourcentage"
+                />
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/imgoffre"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="A-Power Capsule"
+                android:id="@+id/liboffre"
+                />
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/liboffre"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="27 500 FCFA"
+                android:id="@+id/prixoffre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                />
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/prixoffre"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="10sp"
+                android:text="25 articles restants"
+                android:id="@+id/itemrestantoffre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                />
+
+            <ProgressBar
+                app:layout_constraintTop_toBottomOf="@id/itemrestantoffre"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
+                android:id="@+id/baroffre"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

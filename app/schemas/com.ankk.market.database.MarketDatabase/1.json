@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "87eef09014087f79d151347f6bd5814f",
+    "entities": [
+      {
+        "tableName": "Produit",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idprd` INTEGER NOT NULL, `libelle` TEXT, `lienweb` TEXT, PRIMARY KEY(`idprd`))",
+        "fields": [
+          {
+            "fieldPath": "idprd",
+            "columnName": "idprd",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "libelle",
+            "columnName": "libelle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lienweb",
+            "columnName": "lienweb",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idprd"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '87eef09014087f79d151347f6bd5814f')"
+    ]
+  }
+}
