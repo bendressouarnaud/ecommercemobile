@@ -1,5 +1,6 @@
 package com.ankk.market;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.TextView;
 import com.ankk.market.fragments.Fragmentoffre;
 import com.ankk.market.fragments.Fragmentproduit;
 import com.ankk.market.mesenums.Modes;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -51,6 +54,25 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         //binding.appBarMain.appbarlayout.setElevation(0);
         getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+
+        // Set actions on NAVIGATIOn /
+        binding.homenavigationview.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+                    case R.id.menuaccueil:
+
+                        break;
+
+                    case R.id.menucategorie:
+                        Intent it = new Intent(MainActivity.this, SousproduitActivity.class);
+                        startActivity(it);
+                        break;
+                }
+                return true;
+            }
+        });
 
         // Register lifecycle. For activity this will be lifecycle/getLifecycle() and for fragments it will be viewLifecycleOwner/getViewLifecycleOwner().
         /*binding.maincontent.carousel.registerLifecycle(getLifecycle());

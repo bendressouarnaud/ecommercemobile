@@ -1,6 +1,7 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.databinding.CardviewoffreBinding;
 import com.ankk.market.mesenums.Modes;
 import com.ankk.market.models.Produit;
@@ -148,5 +150,12 @@ public class AdapterProduit extends RecyclerView.Adapter<
         int size = donnee.size();
         donnee.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    // Display DETAIL :
+    private void displayCatgories(){
+        Intent it = new Intent(context, SousproduitActivity.class);
+        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(it);
     }
 }

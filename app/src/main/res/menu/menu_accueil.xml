@@ -6,6 +6,11 @@
         android:icon="@drawable/ic_accueil"
         />
 
+    <item android:id="@+id/menucategorie"
+        android:title="Catégories"
+        android:icon="@drawable/ic_category"
+        />
+
     <item android:id="@+id/menucommande"
         android:title="Commande"
         android:icon="@drawable/ic_commande"
