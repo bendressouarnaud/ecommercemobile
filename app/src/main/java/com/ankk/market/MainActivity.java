@@ -1,5 +1,6 @@
 package com.ankk.market;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ankk.market.fragments.Fragmentcategorie;
 import com.ankk.market.fragments.Fragmentoffre;
 import com.ankk.market.fragments.Fragmentproduit;
 import com.ankk.market.mesenums.Modes;
@@ -17,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.helper.widget.Carousel;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     int mCartItemCount = 10;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    Fragmentproduit ft;
+    Fragmentcategorie fc;
     int [] images = {R.drawable.ganoderma, R.drawable.lipidcare, R.drawable.pinepollen};
 
 
@@ -62,12 +67,23 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.menuaccueil:
-
+                        Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);
+                        /*fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameproduit, ft);
+                        fragmentTransaction.commit();*/
+                        openFragment(ft);
                         break;
 
                     case R.id.menucategorie:
-                        Intent it = new Intent(MainActivity.this, SousproduitActivity.class);
-                        startActivity(it);
+                        /*Intent it = new Intent(MainActivity.this, SousproduitActivity.class);
+                        startActivity(it);*/
+                        Fragmentcategorie fc = new Fragmentcategorie();
+                        /*fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameproduit, fc);
+                        fragmentTransaction.commit();
+
+                        Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);*/
+                        openFragment(fc);
                         break;
                 }
                 return true;
@@ -172,18 +188,30 @@ public class MainActivity extends AppCompatActivity {
     // Display data :
     private void displayData(){
         // Default Fragment
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
 
-        // Display Offres
-        /*Fragmentoffre fe = new Fragmentoffre(Modes.OFFRES);
-        fragmentTransaction.replace(R.id.frameaccueil, fe);
-        fragmentTransaction.commit();*/
 
+        /*
         // Display products
         Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);
         fragmentTransaction.replace(R.id.frameproduit, ft);
-        fragmentTransaction.commit();
+        fragmentTransaction.commit();*/
+        ft = new Fragmentproduit(Modes.PRODUITS);
+        openFragment(ft);
+    }
 
+    private void openFragment(Fragment fragment) {
+        String fragmentTag = fragment.getClass().getName();
+
+        fragmentManager = getSupportFragmentManager();
+
+        boolean fragmentPopped = fragmentManager
+                .popBackStackImmediate(fragmentTag , 0);
+
+        if (!fragmentPopped && fragmentManager.findFragmentByTag(fragmentTag) == null) {
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.addToBackStack(fragment.getClass().getName()); //getSimpleName());
+            fragmentTransaction.add(R.id.frameproduit, fragment);
+            fragmentTransaction.commit();
+        }
     }
 }

@@ -77,10 +77,12 @@ public class AdapterDetailProduit extends RecyclerView.Adapter<AdapterDetailProd
         ProduitBean Mangue = new ProduitBean("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/27cdea7a-b472-4459-8dca-71721f9278c9.jpg?alt=media", "Mangue");
         ProduitBean Raisin = new ProduitBean("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/27cdea7a-b472-4459-8dca-71721f9278c9.jpg?alt=media", "Raisin");
         ProduitBean Avocat = new ProduitBean("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/27cdea7a-b472-4459-8dca-71721f9278c9.jpg?alt=media", "Avocat");
+        ProduitBean Orange = new ProduitBean("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/27cdea7a-b472-4459-8dca-71721f9278c9.jpg?alt=media", "Orange");
 
         list.add(Mangue);
         list.add(Raisin);
         list.add(Avocat);
+        list.add(Orange);
 
         return list;
     }
