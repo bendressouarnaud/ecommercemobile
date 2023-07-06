@@ -37,7 +37,10 @@ public class AdapterDetailProduit extends RecyclerView.Adapter<AdapterDetailProd
         // Get DATA :
         holder.binder.libsousproduit.setText(donnee.get(position));
         // Work on GRIDVIEW :
-        holder.binder.gridview.setAdapter(new AdapterGridView(context, getListData()));
+        List<ProduitBean> lt = getListData();
+        if(position == 1)
+            holder.binder.gridview.setAdapter(new AdapterGridView(context, lt.subList(0,2)));
+        else holder.binder.gridview.setAdapter(new AdapterGridView(context, lt));
     }
 
 

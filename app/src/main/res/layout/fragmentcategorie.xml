@@ -10,15 +10,43 @@
         android:layout_height="match_parent"
         >
 
-        <androidx.recyclerview.widget.RecyclerView
+        <!-- Shimmer for Produit -->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerlibprod"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:animationCache="true"
+            app:shimmer_repeat_mode="restart"
+            app:shimmer_shape="radial"
+            >
+
+            <LinearLayout
+                android:background="#EDE4E4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/cardviewproduitshimmer"/>
+                <include layout="@layout/cardviewproduitshimmer"/>
+                <include layout="@layout/cardviewproduitshimmer"/>
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toTopOf="@id/shimmerlibprod"
+            app:layout_constraintStart_toEndOf="@id/shimmerlibprod"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/recyclerfragdetail"
             android:id="@+id/recyclerfraglibprod"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="#EDE4E4"
+            android:visibility="gone"
             />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -55,6 +55,9 @@ public class Fragmentcategorie extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //
+        binder.shimmerlibprod.startShimmer();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         binder.recyclerfraglibprod.setLayoutManager(layoutManager);
