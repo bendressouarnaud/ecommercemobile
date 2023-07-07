@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.menuaccueil:
-                        Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);
+                        //Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);
                         /*fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frameproduit, ft);
                         fragmentTransaction.commit();*/
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menucategorie:
                         /*Intent it = new Intent(MainActivity.this, SousproduitActivity.class);
                         startActivity(it);*/
-                        Fragmentcategorie fc = new Fragmentcategorie();
+                        if(fc==null) fc = new Fragmentcategorie();
                         /*fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.frameproduit, fc);
                         fragmentTransaction.commit();
