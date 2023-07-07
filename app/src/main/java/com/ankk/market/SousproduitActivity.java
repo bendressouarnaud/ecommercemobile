@@ -46,7 +46,7 @@ public class SousproduitActivity extends AppCompatActivity {
         String[] donnees = {"Mangue", "Ananas", "Abricot", "Pomme", "Raisin"};
         Arrays.asList(donnees).forEach(
                 d -> {
-                    adapter.addItems(d);
+                    adapter.addItems(null);
                 }
         );
 

@@ -7,8 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.ankk.market.models.Produit;
+import com.ankk.market.models.Sousproduit;
 
-@Database(entities = {Produit.class},
+@Database(entities = {Produit.class, Sousproduit.class},
         version = 1, exportSchema = true)
 
 public abstract class MarketDatabase extends RoomDatabase {
@@ -19,6 +20,7 @@ public abstract class MarketDatabase extends RoomDatabase {
 
     // Method :
     public abstract ProduitDao produitDao();
+    public abstract SousproduitDao sousproduitDao();
 
 
     // --- INSTANCE ---

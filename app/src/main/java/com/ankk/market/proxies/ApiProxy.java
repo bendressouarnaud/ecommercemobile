@@ -1,7 +1,9 @@
 package com.ankk.market.proxies;
 
 import com.ankk.market.beans.Beansousproduit;
+import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.models.Produit;
+import com.ankk.market.models.Sousproduit;
 
 import java.util.List;
 
@@ -15,4 +17,7 @@ public interface ApiProxy {
     @GET("backendcommerce/getmobileAllProduits")
     Call<List<Produit>> getmobileAllProduits();
 
+    //
+    @POST("backendcommerce/getmobileallsousproduits")
+    Call<List<Sousproduit>> getmobileallsousproduits(@Body RequeteBean rn);
 }
