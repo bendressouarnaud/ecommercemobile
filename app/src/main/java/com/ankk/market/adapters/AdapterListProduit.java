@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ankk.market.BuildConfig;
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
+import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.databinding.CardviewlisteproduitBinding;
 import com.ankk.market.databinding.CardviewoffreBinding;
+import com.ankk.market.fragments.Fragmentcategorie;
 import com.ankk.market.mesenums.Modes;
 import com.ankk.market.mesobjets.RetrofitTool;
 import com.ankk.market.models.Produit;
@@ -115,24 +118,23 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
         RequeteBean rn = new RequeteBean();
         rn.setIdprd(idprd);
 
-        apiProxy.getmobileallsousproduits(rn).enqueue(new Callback<List<Sousproduit>>() {
+        apiProxy.getmobileallsousproduits(rn).enqueue(new Callback<List<Beancategorie>>() {
             @Override
-            public void onResponse(Call<List<Sousproduit>> call, Response<List<Sousproduit>> response) {
+            public void onResponse(Call<List<Beancategorie>> call, Response<List<Beancategorie>> response) {
                 // STOP SIMMMER :
+                Toast.makeText(context, "AZERTY : "+String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     // Now save it :
-                    response.body().forEach(p -> {
-                        repository.insert(p);
-                    });
 
                     // Notify FRAGMENT :
-
+                    Fragmentcategorie.notifyNewSousProduit(response.body());
                 }
                 //else onErreur();
             }
 
             @Override
-            public void onFailure(Call<List<Sousproduit>> call, Throwable t) {
+            public void onFailure(Call<List<Beancategorie>> call, Throwable t) {
+                Toast.makeText(context, "onFailure", Toast.LENGTH_SHORT).show();
             }
         });
     }

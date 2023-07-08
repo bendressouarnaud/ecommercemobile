@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "87eef09014087f79d151347f6bd5814f",
+    "identityHash": "01c83d4fd061b4c2ac8e61d77f89c611",
     "entities": [
       {
         "tableName": "Produit",
@@ -35,12 +35,50 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Sousproduit",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idspr` INTEGER, `libelle` TEXT, `lienweb` TEXT, `idprd` INTEGER, PRIMARY KEY(`idspr`))",
+        "fields": [
+          {
+            "fieldPath": "idspr",
+            "columnName": "idspr",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "libelle",
+            "columnName": "libelle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lienweb",
+            "columnName": "lienweb",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "idprd",
+            "columnName": "idprd",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idspr"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '87eef09014087f79d151347f6bd5814f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '01c83d4fd061b4c2ac8e61d77f89c611')"
     ]
   }
 }

@@ -52,7 +52,7 @@ public class SousproduitActivity extends AppCompatActivity {
 
 
         // Detail :
-        LinearLayoutManager layoutManagerDetail = new LinearLayoutManager(this,
+        /*LinearLayoutManager layoutManagerDetail = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
         binder.recyclerdetail.setLayoutManager(layoutManagerDetail);
         AdapterDetailProduit adapterDetailProduit = new AdapterDetailProduit(this);
@@ -64,7 +64,7 @@ public class SousproduitActivity extends AppCompatActivity {
                 d -> {
                     adapterDetailProduit.addItems(d);
                 }
-        );
+        );*/
     }
 
 

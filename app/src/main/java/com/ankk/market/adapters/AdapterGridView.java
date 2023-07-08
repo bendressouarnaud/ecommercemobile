@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ankk.market.R;
+import com.ankk.market.beans.Detail;
 import com.ankk.market.beans.ProduitBean;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -17,11 +18,11 @@ import java.util.List;
 
 public class AdapterGridView extends BaseAdapter {
 
-    private List<ProduitBean> listData;
+    private List<Detail> listData;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public AdapterGridView(Context aContext, List<ProduitBean> listData) {
+    public AdapterGridView(Context aContext, List<Detail> listData) {
         this.context = aContext;
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
@@ -54,10 +55,11 @@ public class AdapterGridView extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        ProduitBean country = this.listData.get(position);
-        holder.libgriditem.setText(country.getLib());
+        Detail detail = this.listData.get(position);
+        holder.libgriditem.setText(detail.getLibelle());
         Glide.with(context)
-                .load(country.getUrl())
+                .load("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/"+
+                        detail.getLienweb() + "?alt=media" )
                 .onlyRetrieveFromCache(false)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imggriditem);

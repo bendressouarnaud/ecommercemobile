@@ -17,6 +17,7 @@ import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
 import com.ankk.market.adapters.AdapterDetailProduit;
 import com.ankk.market.adapters.AdapterListProduit;
+import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.databinding.FragmentcategorieBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
@@ -158,13 +159,20 @@ public class Fragmentcategorie extends Fragment {
         });
     }*/
 
-    public static void notifyNewSousProduit(int idprd){
+    public static void notifyNewSousProduit(List<Beancategorie> data){
         binder.shimmerlibprod.stopShimmer();
+        binder.shimmerlibprod.setVisibility(View.GONE);
+        binder.recyclerfragdetail.setVisibility(View.VISIBLE);
 
-        viewmodel.getAllByIdprd(idprd).forEach(
+        data.forEach(
             d -> {
                 adapterDetailProduit.addItems(d);
             }
         );
+        /*viewmodel.getAllByIdprd(idprd).forEach(
+            d -> {
+                //adapterDetailProduit.addItems(d);
+            }
+        );*/
     }
 }
