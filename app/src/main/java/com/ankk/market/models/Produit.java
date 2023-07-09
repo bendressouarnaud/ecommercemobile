@@ -16,6 +16,9 @@ public class Produit {
     @ColumnInfo(name = "lienweb")
     String lienweb;
 
+    @ColumnInfo(name = "choix")
+    int choix;
+
     public Produit() {
     }
 
@@ -41,5 +44,13 @@ public class Produit {
 
     public void setLienweb(String lienweb) {
         this.lienweb = lienweb;
+    }
+
+    public int getChoix() {
+        return choix;
+    }
+
+    public void setChoix(int choix) {
+        this.choix = choix;
     }
 }

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "01c83d4fd061b4c2ac8e61d77f89c611",
+    "identityHash": "5df6340a8d10d6281a915dc96e821396",
     "entities": [
       {
         "tableName": "Produit",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idprd` INTEGER NOT NULL, `libelle` TEXT, `lienweb` TEXT, PRIMARY KEY(`idprd`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idprd` INTEGER NOT NULL, `libelle` TEXT, `lienweb` TEXT, `choix` INTEGER NOT NULL, PRIMARY KEY(`idprd`))",
         "fields": [
           {
             "fieldPath": "idprd",
@@ -25,6 +25,12 @@
             "columnName": "lienweb",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "choix",
+            "columnName": "choix",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -78,7 +84,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '01c83d4fd061b4c2ac8e61d77f89c611')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5df6340a8d10d6281a915dc96e821396')"
     ]
   }
 }

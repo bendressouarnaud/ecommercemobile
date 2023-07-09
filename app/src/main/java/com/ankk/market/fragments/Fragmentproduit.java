@@ -159,8 +159,14 @@ public class Fragmentproduit extends Fragment {
                 if (response.code() == 200) {
                     // Now save it :
                     response.body().forEach(p -> {
-                        produitRepository.insert(p);
-                        adapter.addItems(p);
+                        Produit pt = new Produit();
+                        pt.setChoix(0);
+                        pt.setIdprd(p.getIdprd());
+                        pt.setLibelle(p.getLibelle());
+                        pt.setLienweb(p.getLienweb());
+                        //
+                        produitRepository.insert(pt);
+                        adapter.addItems(pt);
                     });
                     // Hide :
                     binder.shimmerproduit.setVisibility(View.GONE);
