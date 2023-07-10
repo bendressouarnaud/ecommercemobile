@@ -1,6 +1,7 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.Detail;
 import com.ankk.market.beans.ProduitBean;
 import com.bumptech.glide.Glide;
@@ -64,6 +66,9 @@ public class AdapterGridView extends BaseAdapter {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imggriditem);
 
+        holder.libgriditem.setOnClickListener(d -> openInterface(detail.getIddet()));
+        holder.imggriditem.setOnClickListener(d -> openInterface(detail.getIddet()));
+
         return convertView;
     }
 
@@ -79,5 +84,15 @@ public class AdapterGridView extends BaseAdapter {
     static class ViewHolder {
         ImageView imggriditem;
         TextView libgriditem;
+    }
+
+    // Open INTERFACE :
+    private void openInterface(int detail){
+        Intent it = new Intent(context, SousproduitActivity.class);
+        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Set Mode : 3 -> DETAIL
+        it.putExtra("mode",3);
+        it.putExtra("id", detail);
+        context.startActivity(it);
     }
 }

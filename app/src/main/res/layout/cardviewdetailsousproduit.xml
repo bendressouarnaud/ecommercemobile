@@ -62,6 +62,7 @@
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
                 android:id="@+id/gridview"
+                android:listSelector="@drawable/list_selector"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

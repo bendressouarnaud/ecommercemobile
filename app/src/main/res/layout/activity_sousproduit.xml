@@ -45,29 +45,19 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                app:layout_constraintTop_toTopOf="parent"
+            <GridView
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/recyclerdetail"
-                android:id="@+id/recyclerlibprod"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#EDE4E4"
+                android:id="@+id/gridlisteproduit"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:listSelector="@drawable/list_selector"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
-                app:layout_constraintTop_toTopOf="@id/recyclerlibprod"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/recyclerlibprod"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:id="@+id/recyclerdetail"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="#F4F0F0"
-                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

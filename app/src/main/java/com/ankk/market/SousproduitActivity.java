@@ -32,39 +32,20 @@ public class SousproduitActivity extends AppCompatActivity {
 
         setSupportActionBar(binder.toolbarsousproduit);
 
-        /*if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }*/
+        getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
-        binder.recyclerlibprod.setLayoutManager(layoutManager);
-        AdapterListProduit adapter = new AdapterListProduit(this);
-        binder.recyclerlibprod.setAdapter(adapter);
-
-        // Read DATA :
-        String[] donnees = {"Mangue", "Ananas", "Abricot", "Pomme", "Raisin"};
-        Arrays.asList(donnees).forEach(
-                d -> {
-                    adapter.addItems(null);
-                }
-        );
-
-
-        // Detail :
-        /*LinearLayoutManager layoutManagerDetail = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
-        binder.recyclerdetail.setLayoutManager(layoutManagerDetail);
-        AdapterDetailProduit adapterDetailProduit = new AdapterDetailProduit(this);
-        binder.recyclerdetail.setAdapter(adapterDetailProduit);
-
-        // Read DATA :
-        String[] donneesD = {"Mangue", "Ananas", "Abricot", "Pomme", "Raisin"};
-        Arrays.asList(donneesD).forEach(
-                d -> {
-                    adapterDetailProduit.addItems(d);
-                }
-        );*/
+        // Get "EXTRAS" :
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            // Montant  -- IDMAG :
+            /*montant = extras.getInt("montant",0);
+            // Display the amount
+            binder.editmontantcinet.setText(String.valueOf(montant));
+            idmag = extras.getInt("idmag",0);
+            mois = extras.getInt("mois",0);
+            taxeodp = extras.getInt("taxeodp",0);
+            idclj = extras.getInt("idclj",0);*/
+        }
     }
 
 
