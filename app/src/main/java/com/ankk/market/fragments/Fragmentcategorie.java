@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -45,6 +47,7 @@ public class Fragmentcategorie extends Fragment {
     static FragmentproduitViewmodel viewmodel;
     int keepFirstProductId = 0;
     static AdapterDetailProduit adapterDetailProduit;
+    static boolean stopRefresh = true;
 
 
 
@@ -79,9 +82,6 @@ public class Fragmentcategorie extends Fragment {
                 new VMFactory(getActivity().getApplication()))
                 .get(FragmentproduitViewmodel.class);
 
-        //
-        binder.shimmerlibprod.startShimmer();
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         binder.recyclerfraglibprod.setLayoutManager(layoutManager);
@@ -89,13 +89,44 @@ public class Fragmentcategorie extends Fragment {
         binder.recyclerfraglibprod.setAdapter(adapter);
 
         // Read DATA :
+        Produit pd = viewmodel.getAllProduit().get(0);
+        pd.setChoix(1);
+        viewmodel.updateProduit(pd);
 
-        viewmodel.getAll().forEach(
+        /*viewmodel.getAllProduit().forEach(
             d -> {
+                // Set FOCUS on the first ELEMENT :
                 if(keepFirstProductId == 0) keepFirstProductId = d.getIdprd();
                 adapter.addItems(d);
             }
         );
+        */
+
+        // Test LIVE :
+        viewmodel.getAllProduitLive().observe(getActivity(), new Observer<List<Produit>>() {
+            @Override
+            public void onChanged(List<Produit> liste) {
+
+                // Update automatically 'Historic payment' :
+                if(getViewLifecycleOwner().getLifecycle().getCurrentState() == Lifecycle.State.RESUMED){
+                    if (adapter.getItemCount() > 0) {
+                        // Clean :
+                        adapter.clearEverything();
+                    }
+
+                    //
+                    binder.shimmerlibprod.startShimmer();
+                    binder.shimmerlibprod.setVisibility(View.VISIBLE);
+                    binder.recyclerfragdetail.setVisibility(View.GONE);
+
+                    // Update the cached copy of the words in the adapter.
+                    liste.forEach(adapter::addItems);
+                }
+            }
+        });
+
+
+
         /*String[] donnees = {"Mangue", "Ananas", "Abricot", "Pomme", "Raisin"};
         Arrays.asList(donnees).forEach(
                 d -> {
@@ -164,6 +195,11 @@ public class Fragmentcategorie extends Fragment {
         binder.shimmerlibprod.setVisibility(View.GONE);
         binder.recyclerfragdetail.setVisibility(View.VISIBLE);
 
+        // Clear list :
+        if(adapterDetailProduit.getItemCount() > 0){
+            adapterDetailProduit.clearEverything();
+        }
+
         data.forEach(
             d -> {
                 adapterDetailProduit.addItems(d);
@@ -174,5 +210,9 @@ public class Fragmentcategorie extends Fragment {
                 //adapterDetailProduit.addItems(d);
             }
         );*/
+    }
+
+    public static void setStopRefresh(boolean st) {
+        stopRefresh = st;
     }
 }

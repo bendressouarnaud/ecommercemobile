@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.lifecycle.LiveData;
+
 import com.ankk.market.OpenApplication;
 import com.ankk.market.database.DbPool;
 import com.ankk.market.database.ProduitDao;
@@ -30,6 +32,10 @@ public class ProduitRepository {
         produitDao.update(data);
     }
 
+    public void updateAll(Produit[] data){
+        produitDao.updateAll(data);
+    }
+
     // Get user back :
     public Produit getItem(int id){
         return produitDao.getByIdprd(id);
@@ -38,6 +44,10 @@ public class ProduitRepository {
     // Get user :
     public List<Produit> getAll(){
         return produitDao.getAll();
+    }
+
+    public LiveData<List<Produit>> getAllLive(){
+        return produitDao.getAllLive();
     }
 
     // Insert

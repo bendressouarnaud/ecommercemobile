@@ -72,4 +72,10 @@ public class AdapterDetailProduit extends RecyclerView.Adapter<AdapterDetailProd
         donnee.add(data);
         notifyItemInserted(donnee.size() - 1);
     }
+
+    public void clearEverything(){
+        int size = donnee.size();
+        donnee.clear();
+        notifyItemRangeRemoved(0, size);
+    }
 }

@@ -1,5 +1,6 @@
 package com.ankk.market.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -16,6 +17,9 @@ public interface ProduitDao {
     @Query("SELECT * FROM Produit")
     List<Produit> getAll();
 
+    @Query("SELECT * FROM Produit")
+    LiveData<List<Produit>> getAllLive();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Produit data);
 
@@ -24,6 +28,9 @@ public interface ProduitDao {
 
     @Update
     int update(Produit data);
+
+    @Update
+    int updateAll(Produit... data);
 
     @Query("SELECT * FROM Produit where idprd =:id")
     Produit getByIdprd(int id);

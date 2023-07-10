@@ -23,6 +23,7 @@ import com.ankk.market.mesobjets.RetrofitTool;
 import com.ankk.market.models.Produit;
 import com.ankk.market.models.Sousproduit;
 import com.ankk.market.proxies.ApiProxy;
+import com.ankk.market.repositories.ProduitRepository;
 import com.ankk.market.repositories.SousproduitRepository;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -44,6 +45,7 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
     private List<Produit> donnee;
     ApiProxy apiProxy;
     SousproduitRepository repository;
+    ProduitRepository produitRepository;
     OpenApplication app;
 
 
@@ -53,6 +55,7 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
         donnee = new ArrayList<>();
         app = (OpenApplication) context.getApplicationContext();
         repository = new SousproduitRepository(app);
+        produitRepository = new ProduitRepository(app);
     }
 
 
@@ -60,14 +63,32 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
     public void onBindViewHolder(@NonNull ListeViewHolder holder, int position) {
         // Get DATA :
         holder.binder.libproduit.setText(donnee.get(position).getLibelle());
-        if(position == 0) holder.binder.viewproduitname.setVisibility(View.VISIBLE);
-        // Set ACTION :
-        holder.binder.libproduit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getmobileallsousproduits(donnee.get(position).getIdprd());
-            }
-        });
+        if(donnee.get(position).getChoix() == 1){
+            holder.binder.viewproduitname.setVisibility(View.VISIBLE);
+            getmobileallsousproduits(donnee.get(position).getIdprd());
+        }
+        else {
+            // Set ACTION :
+            holder.binder.viewproduitname.setVisibility(View.GONE);
+            holder.binder.libproduit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Update 'CHOIX' column :
+                    int idprd = donnee.get(position).getIdprd();
+                    List<Produit> lte = produitRepository.getAll();
+                    List<Produit> lteUp = new ArrayList<>();
+                    for(Produit pr : lte){
+                        if(pr.getIdprd() == idprd) pr.setChoix(1);
+                        else pr.setChoix(0);
+                        lteUp.add(pr);
+                    }
+                    // Update GLOBALLY :
+                    produitRepository.updateAll(lteUp.toArray(new Produit[0]));
+                    //Toast.makeText(context,"Produit Id : "+String.valueOf(donnee.get(position).getIdprd()),Toast.LENGTH_SHORT).show();
+                    //
+                }
+            });
+        }
     }
 
 
@@ -81,6 +102,7 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
                 parent,
                 false));
     }
+
 
 
     static class ListeViewHolder extends RecyclerView.ViewHolder {
@@ -122,7 +144,7 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
             @Override
             public void onResponse(Call<List<Beancategorie>> call, Response<List<Beancategorie>> response) {
                 // STOP SIMMMER :
-                Toast.makeText(context, "AZERTY : "+String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "AZERTY : "+String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     // Now save it :
 
@@ -137,5 +159,11 @@ public class AdapterListProduit extends RecyclerView.Adapter<AdapterListProduit.
                 Toast.makeText(context, "onFailure", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void clearEverything(){
+        int size = donnee.size();
+        donnee.clear();
+        notifyItemRangeRemoved(0, size);
     }
 }

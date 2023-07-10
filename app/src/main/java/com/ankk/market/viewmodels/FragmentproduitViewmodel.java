@@ -27,8 +27,12 @@ public class FragmentproduitViewmodel extends ViewModel {
     }
 
     // Call DATA from database :
-    public List<Produit> getAll(){
+    public List<Produit> getAllProduit(){
         return produitRepository.getAll();
+    }
+
+    public LiveData<List<Produit>> getAllProduitLive(){
+        return produitRepository.getAllLive();
     }
 
     // Insert
@@ -38,5 +42,10 @@ public class FragmentproduitViewmodel extends ViewModel {
 
     public List<Sousproduit> getAllByIdprd(int id){
         return sousproduitRepository.getAllByIdprd(id);
+    }
+
+    // Update
+    public void updateProduit(Produit p){
+        produitRepository.update(p);
     }
 }
