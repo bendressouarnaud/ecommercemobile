@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgarticle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:scaleType="fitXY"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:src="@drawable/the"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgarticle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Mangues"
+                android:textColor="#000000"
+                android:id="@+id/libellearticle"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:layout_marginTop="7dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/libellearticle"
+                app:layout_constraintStart_toEndOf="@id/imgarticle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="5 000 FCFA"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:id="@+id/prixarticle"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:layout_marginTop="7dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/prixarticle"
+                app:layout_constraintStart_toEndOf="@id/imgarticle"
+                android:text="5 000 FCFA"
+                android:textColor="#605D5D"
+                android:textSize="12sp"
+                android:id="@+id/prixpromotionarticle"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/prixpromotionarticle"
+                app:layout_constraintStart_toEndOf="@id/prixpromotionarticle"
+                android:text="-40%"
+                android:background="#F6F1F0"
+                android:textStyle="bold"
+                android:textColor="#BF3306"
+                android:id="@+id/articlepourcentage"
+                android:textSize="12sp"
+                android:layout_marginStart="10dp"
+                />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintTop_toBottomOf="@id/prixpromotionarticle"
+                app:layout_constraintStart_toEndOf="@id/imgarticle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="7dp"
+                android:id="@+id/articlelinearlayout"
+                >
+
+                <ImageView
+                    android:id="@+id/artstarun"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstardeux"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstartroix"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstarquatre"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstarcinq"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <Button
+                android:id="@+id/articlebut"
+                android:text="Achetez"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF5800"
+                android:textStyle="bold"
+                />
+
+            <Button
+                android:id="@+id/articlebutplus"
+                android:text="+"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
+                app:layout_constraintEnd_toStartOf="@id/articlebut"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF5800"
+                android:textStyle="bold"
+                android:layout_marginEnd="5dp"
+                />
+
+            <TextView
+                android:id="@+id/quantitearticle"
+                android:text="10"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
+                app:layout_constraintEnd_toStartOf="@id/articlebutplus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <Button
+                android:id="@+id/articlebutmoins"
+                android:text="-"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
+                app:layout_constraintEnd_toStartOf="@id/quantitearticle"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF5800"
+                android:textStyle="bold"
+                android:layout_marginEnd="10dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
