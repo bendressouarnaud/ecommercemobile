@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ankk.market.adapters.AdapterDetailProduit;
+import com.ankk.market.adapters.AdapterListArticle;
 import com.ankk.market.adapters.AdapterListProduit;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beancategorie;
@@ -130,7 +131,16 @@ public class SousproduitActivity extends AppCompatActivity {
                     // Now save it :
 
                     // Call ADAPTER
-                    Fragmentcategorie.notifyNewSousProduit(response.body());
+                    AdapterListArticle adapter = new AdapterListArticle(getApplicationContext());
+                    binder.shimarticledetail.stopShimmer();
+                    binder.shimarticledetail.setVisibility(View.GONE);
+                    binder.recyclerarticle.setVisibility(View.VISIBLE);
+                    binder.recyclerarticle.setAdapter(adapter);
+                    response.body().forEach(
+                        d -> {
+                            adapter.addItems(d);
+                        }
+                    );
                 }
                 //else onErreur();
             }
