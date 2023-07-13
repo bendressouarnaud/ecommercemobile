@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgarticleshim"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:scaleType="fitXY"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:background="#B3B3B3"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgarticleshim"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text=""
+                android:textColor="#000000"
+                android:id="@+id/libellearticleshim"
+                android:layout_marginStart="5dp"
+                android:background="#B3B3B3"
+                />
+
+            <TextView
+                android:layout_marginTop="7dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/libellearticleshim"
+                app:layout_constraintStart_toEndOf="@id/imgarticleshim"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text=""
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:id="@+id/prixarticleshim"
+                android:layout_marginStart="5dp"
+                android:background="#B3B3B3"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
