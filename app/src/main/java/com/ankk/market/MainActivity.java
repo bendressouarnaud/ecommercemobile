@@ -8,11 +8,15 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ankk.market.fragments.Fragmentcategorie;
 import com.ankk.market.fragments.Fragmentoffre;
 import com.ankk.market.fragments.Fragmentproduit;
 import com.ankk.market.mesenums.Modes;
+import com.ankk.market.viewmodels.AccueilViewmodel;
+import com.ankk.market.viewmodels.DetailViewmodel;
+import com.ankk.market.viewmodels.VMFactory;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +26,7 @@ import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -41,12 +46,14 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     TextView textCartItemCount;
-    int mCartItemCount = 10;
+    int mCartItemCount = 11;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     Fragmentproduit ft;
     Fragmentcategorie fc;
     int [] images = {R.drawable.ganoderma, R.drawable.lipidcare, R.drawable.pinepollen};
+    AccueilViewmodel viewmodel;
+
 
 
     @Override
@@ -59,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         //binding.appBarMain.appbarlayout.setElevation(0);
         getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+
+        // Set the VIEWMODEL :
+        viewmodel = new ViewModelProvider(this,
+                new VMFactory(getApplication()))
+                .get(AccueilViewmodel.class);
 
         // Set actions on NAVIGATIOn /
         binding.homenavigationview.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -129,8 +141,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-
-        final MenuItem menuItem = menu.findItem(R.id.action_settings);
+        final MenuItem menuItem = menu.findItem(R.id.actionalerte);
 
         View actionView = menuItem.getActionView();
         textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
@@ -149,15 +160,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
+            case R.id.actionbook:
+                Toast.makeText(getApplicationContext(),
+                        "ACTION BOOK",
+                        Toast.LENGTH_SHORT).show();
+                break;
 
-            case 3: {
-                // Do something
-                return true;
-            }
+            case R.id.actionalerte:
+                Toast.makeText(getApplicationContext(),
+                        "ACTION ALERTE",
+                        Toast.LENGTH_SHORT).show();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        //return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void setupBadge() {

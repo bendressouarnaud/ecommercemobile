@@ -1,6 +1,9 @@
 package com.ankk.market;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,13 +18,18 @@ import com.ankk.market.adapters.AdapterDetailProduit;
 import com.ankk.market.adapters.AdapterListArticle;
 import com.ankk.market.adapters.AdapterListProduit;
 import com.ankk.market.beans.Beanarticledetail;
+import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.databinding.ActivityMainBinding;
 import com.ankk.market.databinding.ActivitySousproduitBinding;
 import com.ankk.market.fragments.Fragmentcategorie;
 import com.ankk.market.mesobjets.RetrofitTool;
+import com.ankk.market.models.Achat;
 import com.ankk.market.proxies.ApiProxy;
+import com.ankk.market.repositories.BeanarticledetailRepository;
+import com.ankk.market.viewmodels.DetailViewmodel;
+import com.ankk.market.viewmodels.VMFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +46,8 @@ public class SousproduitActivity extends AppCompatActivity {
     ActivitySousproduitBinding binder;
     ApiProxy apiProxy;
     int iddet = 0, mode =0 ;
+    DetailViewmodel viewmodel;
+    boolean temoin = true;
 
 
     @Override
@@ -46,6 +56,11 @@ public class SousproduitActivity extends AppCompatActivity {
 
         binder = ActivitySousproduitBinding.inflate(getLayoutInflater());
         setContentView(binder.getRoot());
+
+        // Set the VIEWMODEL :
+        viewmodel = new ViewModelProvider(this,
+                new VMFactory(getApplication()))
+                .get(DetailViewmodel.class);
 
         setSupportActionBar(binder.toolbarsousproduit);
 
@@ -62,15 +77,6 @@ public class SousproduitActivity extends AppCompatActivity {
             mode = extras.getInt("mode",0);
             // Call to get DATA :
             getarticlesbasedoniddet(iddet);
-
-            // Montant  -- IDMAG :
-            /*montant = extras.getInt("montant",0);
-            // Display the amount
-            binder.editmontantcinet.setText(String.valueOf(montant));
-            idmag = extras.getInt("idmag",0);
-            mois = extras.getInt("mois",0);
-            taxeodp = extras.getInt("taxeodp",0);
-            idclj = extras.getInt("idclj",0);*/
         }
     }
 
@@ -131,16 +137,22 @@ public class SousproduitActivity extends AppCompatActivity {
                     // Now save it :
 
                     // Call ADAPTER
-                    AdapterListArticle adapter = new AdapterListArticle(getApplicationContext());
+                    //AdapterListArticle adapter = new AdapterListArticle(getApplicationContext());
                     binder.shimarticledetail.stopShimmer();
                     binder.shimarticledetail.setVisibility(View.GONE);
                     binder.recyclerarticle.setVisibility(View.VISIBLE);
-                    binder.recyclerarticle.setAdapter(adapter);
+                    binder.recyclerarticle.setAdapter(viewmodel.getAdapter());
                     response.body().forEach(
                         d -> {
-                            adapter.addItems(d);
+                            // Save each :
+                            viewmodel.insertArticle(d);
+                            //viewmodel.getAdapter().addItems(d);
                         }
                     );
+
+                    // Call
+                    displayArticle();
+                    notifyUser();
                 }
                 //else onErreur();
             }
@@ -151,4 +163,79 @@ public class SousproduitActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    // Display :
+    private void displayArticle(){
+
+        //
+        viewmodel.getAllArticle().forEach(
+            d -> {
+                // Map :
+                Integer idart, prix, reduction, note, articlerestant, articlereserve;
+                String libelle, lienweb;
+                Beanarticlelive be = new Beanarticlelive();
+                be.setIdart(d.getIdart());
+                be.setPrix(d.getPrix());
+                be.setReduction(d.getReduction());
+                be.setNote(d.getNote());
+                be.setArticlerestant(d.getArticlerestant());
+                be.setLibelle(d.getLibelle());
+                be.setLienweb(d.getLienweb());
+                // Article reserve :
+                List<Achat> getAchat = viewmodel.getAllByIdart(d.getIdart());
+                be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
+                viewmodel.getAdapter().addItems(be);
+            }
+        );
+
+        /*viewmodel.getAllArticleLive().observe(this, new Observer<List<Beanarticledetail>>() {
+                    @Override
+                    public void onChanged(List<Beanarticledetail> article) {
+                        if(SousproduitActivity.this.getLifecycle().getCurrentState()
+                                == Lifecycle.State.RESUMED){
+                            if(viewmodel.getAdapter().getItemCount() > 0){
+                                // Clean :
+                                viewmodel.getAdapter().clearEverything();
+                            }
+                            // Update the cached copy of the words in the adapter.
+                            //article.forEach(viewmodel.getAdapter()::addItems);
+                            article.forEach(
+                                d -> {
+                                    // Map :
+                                    Integer idart, prix, reduction, note, articlerestant, articlereserve;
+                                    String libelle, lienweb;
+                                    Beanarticlelive be = new Beanarticlelive();
+                                    be.setIdart(d.getIdart());
+                                    be.setPrix(d.getPrix());
+                                    be.setReduction(d.getReduction());
+                                    be.setNote(d.getNote());
+                                    be.setArticlerestant(d.getArticlerestant());
+                                    be.setLibelle(d.getLibelle());
+                                    be.setLienweb(d.getLienweb());
+                                    // Article reserve :
+                                    List<Achat> getAchat = viewmodel.getAllByIdart(d.getIdart());
+                                    be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
+                                    viewmodel.getAdapter().addItems(be);
+                                }
+                            );
+                        }
+                    }
+                }
+        );*/
+    }
+
+    // Whenever an article is added, notify :
+    public void notifyUser(){
+        viewmodel.getAllAchatLive().observe(this, d->{
+            //
+            if(!temoin) temoin = true;
+            else temoin = false;
+
+            if(temoin) binder.constraintnotify.setVisibility(View.VISIBLE);
+        });
+
+
+    }
+
 }

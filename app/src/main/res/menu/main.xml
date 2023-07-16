@@ -4,13 +4,12 @@
     <item
         android:id="@+id/actionbook"
         android:title="Panier"
-        android:icon="@drawable/ic_shopping"
+        app:actionLayout="@layout/custom_shop_badge"
         app:showAsAction="always"
         />
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:icon="@drawable/ic_notifications"
+        android:id="@+id/actionalerte"
+        android:title="Alerte"
         app:actionLayout="@layout/custom_action_item_layout"
         app:showAsAction="ifRoom|withText" />
 </menu>

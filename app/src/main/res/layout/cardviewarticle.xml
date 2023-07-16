@@ -11,12 +11,15 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         android:layout_margin="5dp"
+
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:padding="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#F4F3F2"
+            >
 
             <ImageView
                 android:id="@+id/imgarticle"
@@ -125,55 +128,68 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <Button
-                android:id="@+id/articlebut"
-                android:text="Achetez"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/imgarticle"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#DD570F"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/articlebutplus"
-                android:text="+"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
-                app:layout_constraintEnd_toStartOf="@id/articlebut"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FF5800"
-                android:textStyle="bold"
-                android:layout_marginEnd="5dp"
-                />
+                <Button
+                    android:id="@+id/articlebut"
+                    android:text="Achetez"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#DD570F"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    />
 
-            <TextView
-                android:id="@+id/quantitearticle"
-                android:text="10"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
-                app:layout_constraintEnd_toStartOf="@id/articlebutplus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/articlebutplus"
+                    android:text="+"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/articlebut"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#DD570F"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="5dp"
+                    android:textColor="#FFFFFF"
+                    />
+
+                <TextView
+                    android:id="@+id/quantitearticle"
+                    android:text="10"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/articlebutplus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
 
-            <Button
-                android:id="@+id/articlebutmoins"
-                android:text="-"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/articlelinearlayout"
-                app:layout_constraintEnd_toStartOf="@id/quantitearticle"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#FF5800"
-                android:textStyle="bold"
-                android:layout_marginEnd="10dp"
-                />
+                <Button
+                    android:id="@+id/articlebutmoins"
+                    android:text="-"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/quantitearticle"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#DD570F"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="#FFFFFF"
+                    />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:text="Article \n indisponible"
@@ -186,6 +202,7 @@
                 android:background="#B8B3B3"
                 android:id="@+id/textalerte"
                 />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

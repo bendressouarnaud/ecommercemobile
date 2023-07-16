@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5df6340a8d10d6281a915dc96e821396",
+    "identityHash": "274c9f6be74648710bb428bd6c9ee72c",
     "entities": [
       {
         "tableName": "Produit",
@@ -79,12 +79,100 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Beanarticledetail",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idart` INTEGER NOT NULL, `prix` INTEGER NOT NULL, `reduction` INTEGER NOT NULL, `note` INTEGER NOT NULL, `articlerestant` INTEGER NOT NULL, `libelle` TEXT, `lienweb` TEXT, PRIMARY KEY(`idart`))",
+        "fields": [
+          {
+            "fieldPath": "idart",
+            "columnName": "idart",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prix",
+            "columnName": "prix",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reduction",
+            "columnName": "reduction",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "articlerestant",
+            "columnName": "articlerestant",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "libelle",
+            "columnName": "libelle",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lienweb",
+            "columnName": "lienweb",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idart"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Achat",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idach` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `idart` INTEGER NOT NULL, `actif` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "idach",
+            "columnName": "idach",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "idart",
+            "columnName": "idart",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actif",
+            "columnName": "actif",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idach"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5df6340a8d10d6281a915dc96e821396')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '274c9f6be74648710bb428bd6c9ee72c')"
     ]
   }
 }

@@ -1,34 +1,11 @@
 package com.ankk.market.beans;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+public class Beanarticlelive {
 
-@Entity
-public class Beanarticledetail {
+    Integer idart, prix, reduction, note, articlerestant, articlereserve;
+    String libelle, lienweb;
 
-    @PrimaryKey
-    int idart;
-
-    @ColumnInfo(name = "prix")
-    int prix;
-
-    @ColumnInfo(name = "reduction")
-    int reduction;
-
-    @ColumnInfo(name = "note")
-    int note;
-
-    @ColumnInfo(name = "articlerestant")
-    int articlerestant;
-
-    @ColumnInfo(name = "libelle")
-    String libelle;
-
-    @ColumnInfo(name = "lienweb")
-    String lienweb;
-
-    public Beanarticledetail() {
+    public Beanarticlelive() {
     }
 
     public Integer getIdart() {
@@ -69,6 +46,14 @@ public class Beanarticledetail {
 
     public void setArticlerestant(Integer articlerestant) {
         this.articlerestant = articlerestant;
+    }
+
+    public Integer getArticlereserve() {
+        return articlereserve;
+    }
+
+    public void setArticlereserve(Integer articlereserve) {
+        this.articlereserve = articlereserve;
     }
 
     public String getLibelle() {
