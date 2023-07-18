@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.fragments.Fragmentcategorie;
 import com.ankk.market.fragments.Fragmentoffre;
 import com.ankk.market.fragments.Fragmentproduit;
 import com.ankk.market.mesenums.Modes;
+import com.ankk.market.models.Achat;
 import com.ankk.market.viewmodels.AccueilViewmodel;
 import com.ankk.market.viewmodels.DetailViewmodel;
 import com.ankk.market.viewmodels.VMFactory;
@@ -26,6 +28,8 @@ import androidx.constraintlayout.helper.widget.Carousel;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    TextView textCartItemCount;
+    TextView textAlerteCount, textShopCount;
     int mCartItemCount = 11;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -141,19 +145,32 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        final MenuItem menuItem = menu.findItem(R.id.actionalerte);
 
-        View actionView = menuItem.getActionView();
-        textCartItemCount = (TextView) actionView.findViewById(R.id.cart_badge);
+        // Alerte :
+        final MenuItem menuAlerte = menu.findItem(R.id.actionalerte);
+        View actionViewAlerte = menuAlerte.getActionView();
+        textAlerteCount = (TextView) actionViewAlerte.findViewById(R.id.cart_badge);
 
-        setupBadge();
+        // Panier :
+        final MenuItem menuPanier = menu.findItem(R.id.actionbook);
+        View actionViewPanier = menuPanier.getActionView();
+        textShopCount = (TextView) actionViewPanier.findViewById(R.id.cart_badge_shop);
 
-        actionView.setOnClickListener(new View.OnClickListener() {
+        //setupBadge();
+        textAlerteCount.setVisibility(View.GONE);
+
+        // Listener :
+        notifyArticle();
+
+        /*actionViewAlerte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
+                onOptionsItemSelected(menuAlerte);
             }
-        });
+        });*/
+
+        actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
+        actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
 
         return true;
     }
@@ -179,15 +196,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupBadge() {
 
-        if (textCartItemCount != null) {
+        if (textAlerteCount != null) {
             if (mCartItemCount == 0) {
-                if (textCartItemCount.getVisibility() != View.GONE) {
-                    textCartItemCount.setVisibility(View.GONE);
+                if (textAlerteCount.getVisibility() != View.GONE) {
+                    textAlerteCount.setVisibility(View.GONE);
                 }
             } else {
-                textCartItemCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-                if (textCartItemCount.getVisibility() != View.VISIBLE) {
-                    textCartItemCount.setVisibility(View.VISIBLE);
+                textAlerteCount.setText(String.valueOf(Math.min(mCartItemCount, 99)));
+                if (textAlerteCount.getVisibility() != View.VISIBLE) {
+                    textAlerteCount.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -230,5 +247,26 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.frameproduit, fragment);
             fragmentTransaction.commit();
         }
+    }
+
+
+    private void notifyArticle(){
+        viewmodel.getAllAchatLive().observe(this, new Observer<List<Achat>>() {
+                    @Override
+                    public void onChanged(List<Achat> article) {
+                        if(MainActivity.this.getLifecycle().getCurrentState()
+                                == Lifecycle.State.RESUMED){
+                            // Update the cached copy of the words in the adapter.
+                            if(article.size() > 0){
+                                textShopCount.setText(String.valueOf(article.size()));
+                                textShopCount.setVisibility(View.VISIBLE);
+                            }
+                            else{
+                                textShopCount.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                }
+        );
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +48,9 @@ public class SousproduitActivity extends AppCompatActivity {
     ApiProxy apiProxy;
     int iddet = 0, mode =0 ;
     DetailViewmodel viewmodel;
-    boolean temoin = true;
+    boolean temoin = false;
+    int cptTimer = 0;
+
 
 
     @Override
@@ -228,14 +231,52 @@ public class SousproduitActivity extends AppCompatActivity {
     // Whenever an article is added, notify :
     public void notifyUser(){
         viewmodel.getAllAchatLive().observe(this, d->{
+
+            //
+            cptTimer = 0;
+
+            if(temoin){
+
+                // Define the HANDLER :
+                Handler handlerAsynchLoad = new Handler();
+                Runnable runAsynchLoad = new Runnable() {
+                    @Override
+                    public void run() {
+                        cptTimer++;
+
+                        if(cptTimer == 1){
+                            binder.constraintnotify.getBackground().setAlpha(200); // int value between 0 and 255
+                            handlerAsynchLoad.postDelayed(this, 1500);
+                        }
+                        else if(cptTimer == 2){
+                            binder.constraintnotify.getBackground().setAlpha(180); // int value between 0 and 255
+                            handlerAsynchLoad.postDelayed(this, 1000);
+                        }
+                        else if(cptTimer == 3){
+                            //
+                            cptTimer = 0;
+                            binder.constraintnotify.setVisibility(View.GONE);
+                            binder.constraintnotify.getBackground().setAlpha(255);
+                            handlerAsynchLoad.removeCallbacks(this);
+                        }
+                    }
+                };
+
+                // Display :
+                binder.constraintnotify.setVisibility(View.VISIBLE);
+
+                //
+                handlerAsynchLoad.postDelayed(runAsynchLoad, 1500);
+            }
+
+
             //
             if(!temoin) temoin = true;
-            else temoin = false;
+            //else temoin = false;
 
-            if(temoin) binder.constraintnotify.setVisibility(View.VISIBLE);
+            // Display the SIZE:
+            //d.size()
         });
-
-
     }
 
 }

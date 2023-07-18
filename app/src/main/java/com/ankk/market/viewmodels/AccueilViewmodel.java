@@ -2,6 +2,7 @@ package com.ankk.market.viewmodels;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ankk.market.adapters.AdapterListArticle;
@@ -25,6 +26,10 @@ public class AccueilViewmodel extends ViewModel {
 
     public List<Achat> getAllByIdart(int idart){
         return achatRepository.getAllByIdart(idart);
+    }
+
+    public LiveData<List<Achat>> getAllAchatLive(){
+        return achatRepository.getAllLive();
     }
 
     public int getTotalCommande() {

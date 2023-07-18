@@ -167,11 +167,23 @@
                     android:id="@+id/quantitearticle"
                     android:text="10"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/articlebutplus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+                <ProgressBar
+                    app:layout_constraintTop_toTopOf="@id/quantitearticle"
+                    app:layout_constraintBottom_toBottomOf="@id/quantitearticle"
+                    app:layout_constraintEnd_toStartOf="@id/articlebutplus"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/progressarticle"
+                    android:indeterminateTint="#DD570F"
+                    android:visibility="gone"
+                    />
 
 
                 <Button
@@ -184,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="#DD570F"
                     android:textStyle="bold"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="20dp"
                     android:textColor="#FFFFFF"
                     />
 
@@ -199,7 +211,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="#FFFFFF"
-                android:background="#B8B3B3"
+                android:background="#9E9999"
                 android:id="@+id/textalerte"
                 />
 
