@@ -2,6 +2,7 @@ package com.ankk.market.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,6 +22,9 @@ public interface AchatDao {
     @Query("SELECT * FROM Achat where idart=:id")
     List<Achat> getAllByIdart(int id);
 
+    @Query("SELECT * FROM Achat where idart=:id and actif=:act order by idach desc")
+    List<Achat> getAllByIdartAndActif(int id, int act);
+
     @Query("SELECT * FROM Achat")
     LiveData<List<Achat>> getAllLive();
 
@@ -38,5 +42,8 @@ public interface AchatDao {
 
     @Query("SELECT * FROM Achat where idach=:id")
     Achat getByIdach(int id);
+
+    @Delete
+    void delete(Achat data);
 
 }

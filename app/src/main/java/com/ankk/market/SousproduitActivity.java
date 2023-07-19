@@ -246,11 +246,11 @@ public class SousproduitActivity extends AppCompatActivity {
 
                         if(cptTimer == 1){
                             binder.constraintnotify.getBackground().setAlpha(200); // int value between 0 and 255
-                            handlerAsynchLoad.postDelayed(this, 1500);
+                            handlerAsynchLoad.postDelayed(this, 1000);
                         }
                         else if(cptTimer == 2){
                             binder.constraintnotify.getBackground().setAlpha(180); // int value between 0 and 255
-                            handlerAsynchLoad.postDelayed(this, 1000);
+                            handlerAsynchLoad.postDelayed(this, 500);
                         }
                         else if(cptTimer == 3){
                             //
@@ -266,7 +266,7 @@ public class SousproduitActivity extends AppCompatActivity {
                 binder.constraintnotify.setVisibility(View.VISIBLE);
 
                 //
-                handlerAsynchLoad.postDelayed(runAsynchLoad, 1500);
+                handlerAsynchLoad.postDelayed(runAsynchLoad, 1000);
             }
 
 
