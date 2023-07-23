@@ -17,6 +17,9 @@ public interface BeanarticledetailDao {
     @Query("SELECT * FROM Beanarticledetail")
     List<Beanarticledetail> getAll();
 
+    @Query("SELECT * FROM Beanarticledetail where iddet=:id")
+    List<Beanarticledetail> getAllByIddet(int id);
+
     @Query("SELECT * FROM Beanarticledetail")
     LiveData<List<Beanarticledetail>> getAllLive();
 

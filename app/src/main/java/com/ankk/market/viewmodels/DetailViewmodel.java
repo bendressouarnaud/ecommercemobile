@@ -38,6 +38,10 @@ public class DetailViewmodel extends ViewModel {
         return beanarticledetailRepository.getAll();
     }
 
+    public List<Beanarticledetail> getAllArticleByIddet(int id){
+        return beanarticledetailRepository.getAllByIddet(id);
+    }
+
     // Get All ACHAT :
     public List<Achat> getAllByIdart(int idart){
         return achatRepository.getAllByIdart(idart);

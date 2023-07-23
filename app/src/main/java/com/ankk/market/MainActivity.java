@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
+        actionViewAlerte.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
         actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
 
         return true;
@@ -179,9 +179,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionbook:
-                Toast.makeText(getApplicationContext(),
-                        "ACTION BOOK",
-                        Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(this, PanierActivity.class);
+                startActivity(it);
                 break;
 
             case R.id.actionalerte:

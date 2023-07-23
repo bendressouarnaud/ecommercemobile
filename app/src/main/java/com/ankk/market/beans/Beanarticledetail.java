@@ -10,6 +10,9 @@ public class Beanarticledetail {
     @PrimaryKey
     int idart;
 
+    @ColumnInfo(name = "iddet")
+    int iddet;
+
     @ColumnInfo(name = "prix")
     int prix;
 
@@ -31,43 +34,51 @@ public class Beanarticledetail {
     public Beanarticledetail() {
     }
 
-    public Integer getIdart() {
+    public int getIdart() {
         return idart;
     }
 
-    public void setIdart(Integer idart) {
+    public void setIdart(int idart) {
         this.idart = idart;
     }
 
-    public Integer getPrix() {
+    public int getIddet() {
+        return iddet;
+    }
+
+    public void setIddet(int iddet) {
+        this.iddet = iddet;
+    }
+
+    public int getPrix() {
         return prix;
     }
 
-    public void setPrix(Integer prix) {
+    public void setPrix(int prix) {
         this.prix = prix;
     }
 
-    public Integer getReduction() {
+    public int getReduction() {
         return reduction;
     }
 
-    public void setReduction(Integer reduction) {
+    public void setReduction(int reduction) {
         this.reduction = reduction;
     }
 
-    public Integer getNote() {
+    public int getNote() {
         return note;
     }
 
-    public void setNote(Integer note) {
+    public void setNote(int note) {
         this.note = note;
     }
 
-    public Integer getArticlerestant() {
+    public int getArticlerestant() {
         return articlerestant;
     }
 
-    public void setArticlerestant(Integer articlerestant) {
+    public void setArticlerestant(int articlerestant) {
         this.articlerestant = articlerestant;
     }
 

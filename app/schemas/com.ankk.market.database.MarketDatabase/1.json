@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "274c9f6be74648710bb428bd6c9ee72c",
+    "identityHash": "2d4f60d7cb8b9fd321d2c4dcdd353c0c",
     "entities": [
       {
         "tableName": "Produit",
@@ -82,11 +82,17 @@
       },
       {
         "tableName": "Beanarticledetail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idart` INTEGER NOT NULL, `prix` INTEGER NOT NULL, `reduction` INTEGER NOT NULL, `note` INTEGER NOT NULL, `articlerestant` INTEGER NOT NULL, `libelle` TEXT, `lienweb` TEXT, PRIMARY KEY(`idart`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idart` INTEGER NOT NULL, `iddet` INTEGER NOT NULL, `prix` INTEGER NOT NULL, `reduction` INTEGER NOT NULL, `note` INTEGER NOT NULL, `articlerestant` INTEGER NOT NULL, `libelle` TEXT, `lienweb` TEXT, PRIMARY KEY(`idart`))",
         "fields": [
           {
             "fieldPath": "idart",
             "columnName": "idart",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iddet",
+            "columnName": "iddet",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -172,7 +178,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '274c9f6be74648710bb428bd6c9ee72c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d4f60d7cb8b9fd321d2c4dcdd353c0c')"
     ]
   }
 }

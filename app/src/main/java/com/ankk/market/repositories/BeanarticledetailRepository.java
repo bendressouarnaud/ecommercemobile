@@ -48,6 +48,11 @@ public class BeanarticledetailRepository {
         return beanarticledetailDao.getAll();
     }
 
+    // Get ARTICLE Based on iddet :
+    public List<Beanarticledetail> getAllByIddet(int id){
+        return beanarticledetailDao.getAllByIddet(id);
+    }
+
     public LiveData<List<Beanarticledetail>> getAllLive(){
         return beanarticledetailDao.getAllLive();
     }

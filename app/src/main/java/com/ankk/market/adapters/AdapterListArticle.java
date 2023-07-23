@@ -24,8 +24,10 @@ import com.ankk.market.repositories.BeanarticledetailRepository;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.ArticleViewHolder> {
 
@@ -61,7 +63,8 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
                 //.placeholder(R.drawable.ic_panier)
                 .into(holder.binder.imgarticle);
         holder.binder.libellearticle.setText(donnee.get(position).getLibelle());
-        holder.binder.prixarticle.setText(String.valueOf(donnee.get(position).getPrix())+" FCFA");
+        holder.binder.prixarticle.setText(
+                NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getPrix())+" FCFA");
         if(donnee.get(position).getReduction() == 0){
             holder.binder.prixpromotionarticle.setVisibility(View.INVISIBLE);
             holder.binder.articlepourcentage.setVisibility(View.INVISIBLE);
@@ -92,57 +95,6 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
 
         // Set Action on 'articlebut' :
         holder.binder.articlebut.setOnClickListener(d -> addarticle(holder, position, 1));
-        /*holder.binder.articlebut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Update field :
-                Beanarticledetail bl = beanarticledetailRepository.getItem(donnee.get(position).getIdart());
-                if(bl != null){
-                    int articleRestant = bl.getArticlerestant();
-                    bl.setArticlerestant(articleRestant - 1);
-                    
-                    // First HIDE texteview : 
-                    holder.binder.quantitearticle.setVisibility(View.GONE);
-                    holder.binder.progressarticle.setVisibility(View.VISIBLE);
-                    
-                    // Pick ARTICLE BOOKED :
-                    List<Achat> lCommande = achatRepository.getAllByIdart(donnee.get(position).getIdart());
-                    nbreCommande = 0;
-                    if(lCommande != null){
-                        nbreCommande = lCommande.size();
-                    }
-                    
-                    // Hit ACHAT :
-                    Achat at = new Achat();
-                    at.setActif(1);
-                    at.setIdart(donnee.get(position).getIdart());
-                    achatRepository.insert(at);
-
-                    // Define the HANDLER :
-                    Handler handlerAsynchLoad = new Handler();
-                    Runnable runAsynchLoad = new Runnable() {
-                        @Override
-                        public void run() {
-                            handlerAsynchLoad.removeCallbacks(this);
-
-                            // Now, display ARTICLE requested :
-                            holder.binder.quantitearticle.setText(String.valueOf(nbreCommande+1 ));
-                            holder.binder.progressarticle.setVisibility(View.GONE);
-                            holder.binder.quantitearticle.setVisibility(View.VISIBLE);
-
-
-                            //holder.binder.articlebutplus.setVisibility(View.VISIBLE);
-                            holder.binder.articlebutmoins.setVisibility(View.VISIBLE);
-                            holder.binder.articlebutplus.setVisibility(View.VISIBLE);
-                            holder.binder.articlebut.setVisibility(View.GONE);
-                        }
-                    };
-
-                    //
-                    handlerAsynchLoad.postDelayed(runAsynchLoad, 2500);
-                }
-            }
-        });*/
     }
 
 
@@ -214,6 +166,7 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
 
                 // Disable but +
                 if(articleRestant == nbreCommande){
+                    holder.binder.textalerte.setVisibility(View.VISIBLE);
                     holder.binder.articlebutplus.setEnabled(false);
                     holder.binder.articlebutmoins.setEnabled(true);
                 }
@@ -224,17 +177,12 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
                 if(nbreCommande == 0){
                     holder.binder.articlebutmoins.setEnabled(false);
                     holder.binder.articlebutplus.setEnabled(true);
+                    holder.binder.textalerte.setVisibility(View.INVISIBLE);
                 }
             }
 
-
             // Update :
-                    /*beanarticledetailRepository.insert(bl);
-
-                    Toast.makeText(context,
-                            "Ajout",
-                            Toast.LENGTH_SHORT).show();*/
-
+            //beanarticledetailRepository.insert(bl);
 
             // Define the HANDLER :
             Handler handlerAsynchLoad = new Handler();
@@ -244,6 +192,11 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
                     handlerAsynchLoad.removeCallbacks(this);
 
                     // Now, display ARTICLE requested :
+                    holder.binder.articlerestant.setText(
+                            String.valueOf(donnee.get(position).getArticlerestant() -
+                                    nbreCommande) +
+                                    " article(s) restant(s)");
+                    // Update
                     holder.binder.quantitearticle.setText(String.valueOf(nbreCommande));
                     holder.binder.progressarticle.setVisibility(View.GONE);
                     holder.binder.quantitearticle.setVisibility(View.VISIBLE);
