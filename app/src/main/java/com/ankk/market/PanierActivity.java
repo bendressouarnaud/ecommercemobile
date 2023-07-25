@@ -3,6 +3,7 @@ package com.ankk.market;
 import android.os.Bundle;
 
 import com.ankk.market.adapters.AdapterListPanier;
+import com.ankk.market.beans.BeanActif;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.models.Achat;
@@ -30,6 +31,7 @@ public class PanierActivity extends AppCompatActivity {
     AdapterListPanier adapter;
     BeanarticledetailRepository beanarticledetailRepository;
     AchatRepository achatRepository;
+    int nbreArticleGobal=0, nbreArticleIdentique=0;
 
 
 
@@ -52,9 +54,9 @@ public class PanierActivity extends AppCompatActivity {
         beanarticledetailRepository = new BeanarticledetailRepository(getApplication());
         achatRepository = new AchatRepository(getApplication());
         // Get ACHAT DATA :
-        achatRepository.getAllLive().observe(this, new Observer<List<Achat>>() {
+        achatRepository.getAllLiveActif().observe(this, new Observer<List<BeanActif>>() {
                     @Override
-                    public void onChanged(List<Achat> achat) {
+                    public void onChanged(List<BeanActif> achat) {
                         if(PanierActivity.this.getLifecycle().getCurrentState()
                                 == Lifecycle.State.RESUMED){
                             if(adapter.getItemCount() > 0){
@@ -77,11 +79,17 @@ public class PanierActivity extends AppCompatActivity {
                                         be.setLibelle(bl.getLibelle());
                                         be.setLienweb(bl.getLienweb());
                                         // Article reserve :
-                                        //List<Achat> getAchat = achatRepository.getAllByIdart(d.getIdart());
-                                        be.setArticlereserve(0);
+                                        List<Achat> getAchat =
+                                                achatRepository.getAllByIdartAndChoix(d.getIdart(), 1);
+                                        be.setArticlereserve(getAchat.size());
                                         adapter.addItems(be);
+                                        //
+                                        nbreArticleGobal++;
                                     }
                             );
+
+                            // Update the field :
+                            binder.layoutpanier.textpanier.setText("PANIER ("+String.valueOf(nbreArticleGobal)+")");
                         }
                     }
                 }

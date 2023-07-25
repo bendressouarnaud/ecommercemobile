@@ -7,6 +7,7 @@ import android.os.Looper;
 import androidx.lifecycle.LiveData;
 
 import com.ankk.market.OpenApplication;
+import com.ankk.market.beans.BeanActif;
 import com.ankk.market.database.AchatDao;
 import com.ankk.market.database.DbPool;
 import com.ankk.market.database.ProduitDao;
@@ -51,12 +52,20 @@ public class AchatRepository {
         return achatDao.getAllByIdart(idart);
     }
 
+    public List<Achat> getAllByIdartAndChoix(int idart, int etat){
+        return achatDao.getAllByIdartAndChoix(idart, etat);
+    }
+
     public List<Achat> getAllByIdartAndActif(int idart, int actif){
         return achatDao.getAllByIdartAndActif(idart, actif);
     }
 
     public LiveData<List<Achat>> getAllLive(){
         return achatDao.getAllLive();
+    }
+
+    public LiveData<List<BeanActif>> getAllLiveActif(){
+        return achatDao.getAllLiveActif();
     }
 
     // Insert

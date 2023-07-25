@@ -59,6 +59,9 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
             holder.binder.articlepourcentage.setVisibility(View.INVISIBLE);
         }
 
+        // Quantité article :
+        holder.binder.quantitearticle.setText( String.valueOf(donnee.get(position).getArticlereserve()) );
+
         // Hide
         holder.binder.textalerte.setVisibility(View.INVISIBLE);
         holder.binder.articlebut.setVisibility(View.GONE);
