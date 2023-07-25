@@ -11,6 +11,9 @@ import com.ankk.market.repositories.BeanarticledetailRepository;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -48,8 +51,44 @@ public class PanierActivity extends AppCompatActivity {
         //
         beanarticledetailRepository = new BeanarticledetailRepository(getApplication());
         achatRepository = new AchatRepository(getApplication());
+        // Get ACHAT DATA :
+        achatRepository.getAllLive().observe(this, new Observer<List<Achat>>() {
+                    @Override
+                    public void onChanged(List<Achat> achat) {
+                        if(PanierActivity.this.getLifecycle().getCurrentState()
+                                == Lifecycle.State.RESUMED){
+                            if(adapter.getItemCount() > 0){
+                                // Clean :
+                                adapter.clearEverything();
+                            }
+                            // Update the cached copy of the words in the adapter.
+                            //article.forEach(viewmodel.getAdapter()::addItems);
+                            achat.forEach(
+                                    d -> {
+                                        //
+                                        Beanarticledetail bl = beanarticledetailRepository.getItem(d.getIdart());
+                                        // Map :
+                                        Beanarticlelive be = new Beanarticlelive();
+                                        be.setIdart(d.getIdart());
+                                        be.setPrix(bl.getPrix());
+                                        be.setReduction(bl.getReduction());
+                                        be.setNote(bl.getNote());
+                                        be.setArticlerestant(bl.getArticlerestant());
+                                        be.setLibelle(bl.getLibelle());
+                                        be.setLienweb(bl.getLienweb());
+                                        // Article reserve :
+                                        //List<Achat> getAchat = achatRepository.getAllByIdart(d.getIdart());
+                                        be.setArticlereserve(0);
+                                        adapter.addItems(be);
+                                    }
+                            );
+                        }
+                    }
+                }
+        );
+
         // Get DATA :
-        beanarticledetailRepository.getAll().forEach(
+        /*beanarticledetailRepository.getAll().forEach(
             d -> {
                 // Map :
                 Beanarticlelive be = new Beanarticlelive();
@@ -65,7 +104,7 @@ public class PanierActivity extends AppCompatActivity {
                 be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
                 adapter.addItems(be);
             }
-        );
+        );*/
     }
 
 }
