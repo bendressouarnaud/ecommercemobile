@@ -15,8 +15,10 @@ import com.ankk.market.databinding.CardviewarticleBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.PanierViewHolder> {
 
@@ -54,6 +56,8 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
                 //.placeholder(R.drawable.ic_panier)
                 .into(holder.binder.imgarticle);
         holder.binder.libellearticle.setText(donnee.get(position).getLibelle());
+        holder.binder.prixarticle.setText(
+                NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getPrix())+" FCFA");
         if(donnee.get(position).getReduction() == 0){
             holder.binder.prixpromotionarticle.setVisibility(View.INVISIBLE);
             holder.binder.articlepourcentage.setVisibility(View.INVISIBLE);

@@ -21,7 +21,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.ankk.market.databinding.ActivityPanierBinding;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class PanierActivity extends AppCompatActivity {
 
@@ -32,6 +34,7 @@ public class PanierActivity extends AppCompatActivity {
     BeanarticledetailRepository beanarticledetailRepository;
     AchatRepository achatRepository;
     int nbreArticleGobal=0, nbreArticleIdentique=0;
+    long prixTotal = 0;
 
 
 
@@ -85,15 +88,28 @@ public class PanierActivity extends AppCompatActivity {
                                         adapter.addItems(be);
                                         //
                                         nbreArticleGobal++;
+
+                                        // Compute PRICE :
+                                        prixTotal = prixTotal + (bl.getPrix() * getAchat.size());
                                     }
                             );
 
                             // Update the field :
                             binder.layoutpanier.textpanier.setText("PANIER ("+String.valueOf(nbreArticleGobal)+")");
+                            binder.layoutpanier.textmontanttotal.setText( NumberFormat.getInstance(Locale.FRENCH).format(prixTotal) + " FCFA");
                         }
                     }
                 }
         );
+
+        // Set ACTION on
+        binder.toolbarpanier.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kill
+                finish();
+            }
+        });
 
         // Get DATA :
         /*beanarticledetailRepository.getAll().forEach(

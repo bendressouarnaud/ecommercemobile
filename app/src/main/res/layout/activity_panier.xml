@@ -29,10 +29,11 @@
             app:titleTextColor="#000000"
             />
 
-  </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-  <include
-      android:id="@+id/layoutpanier"
-      layout="@layout/content_panier"/>
+    <include
+        android:id="@+id/layoutpanier"
+        layout="@layout/content_panier"/>
 
-  </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -85,6 +85,24 @@
         android:layout_height="0dp"
         android:layout_margin="3dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:clipToPadding="false"
+        android:paddingBottom="?actionBarSize"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottompanier"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@drawable/bottom_navigation_item_colors"
+        app:itemRippleColor="@color/color_navigationbottom"
+        android:background="@drawable/roundedbottomnavigation"
+        app:menu="@menu/panier"
+        android:elevation="5dp"
+
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
