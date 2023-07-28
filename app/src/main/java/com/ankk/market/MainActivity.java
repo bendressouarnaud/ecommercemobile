@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.fragments.Fragmentcategorie;
+import com.ankk.market.fragments.Fragmentcompte;
 import com.ankk.market.fragments.Fragmentoffre;
 import com.ankk.market.fragments.Fragmentproduit;
 import com.ankk.market.mesenums.Modes;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     Fragmentproduit ft;
     Fragmentcategorie fc;
+    Fragmentcompte fct;
     int [] images = {R.drawable.ganoderma, R.drawable.lipidcare, R.drawable.pinepollen};
     AccueilViewmodel viewmodel;
 
@@ -100,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
                         Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);*/
                         openFragment(fc);
+                        break;
+
+                    case R.id.menucompte:
+                        if(fct==null) fct = new Fragmentcompte();
+                        openFragment(fct);
                         break;
                 }
                 return true;

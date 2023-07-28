@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_accueil"
         />
 
-    <item android:id="@+id/menucategorie"
+    <item android:id="@+id/menucategoriepanier"
         android:title="Payer"
         android:icon="@drawable/ic_money"
         />
