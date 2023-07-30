@@ -1,33 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CompteActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/imgaccount"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_account"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginStart="10dp"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintcompte"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CompteActivity">
 
-    <TextView
-        app:layout_constraintTop_toBottomOf="@id/imgaccount"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="10dp"
-        android:text="Compte"
-        android:textStyle="bold"
-        android:textSize="40sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#000000"
-        />
+        <ImageView
+            android:id="@+id/imgaccount"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/ic_account"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="10dp"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/imgaccount"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:text="Compte"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:id="@+id/textgestioncompte"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="3dp"
+            app:layout_constraintHorizontal_weight="2"
+            android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/textgestioncompte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/prenomcompte"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nomcompte"
+            android:hint="Nom..."
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nomcompteinput"
+                android:inputType="textCapWords"
+                android:maxLength="20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintHorizontal_weight="2"
+            android:layout_weight="1"
+            app:layout_constraintTop_toTopOf="@id/nomcompte"
+            app:layout_constraintStart_toEndOf="@id/nomcompte"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/prenomcompte"
+            android:hint="Prénom(s)..."
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/prenomcompteinput"
+                android:inputType="textCapWords"
+                android:maxLength="20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintTop_toBottomOf="@id/nomcompte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/emailcompte"
+            android:hint="Email..."
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailcompteinput"
+                android:maxLength="50"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintTop_toBottomOf="@id/emailcompte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/numerocompte"
+            android:hint="Numéro..."
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/numerocompteinput"
+                android:maxLength="50"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintHorizontal_weight="2"
+            android:layout_weight="1"
+            android:hint="Commune"
+            app:layout_constraintTop_toBottomOf="@id/numerocompte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/adressecompte"
+            android:layout_marginTop="10dp"
+            android:id="@+id/villecompte"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            >
+            <AutoCompleteTextView
+                android:id="@+id/villecompteautocomp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:backgroundTint="#FFFFFF"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_marginEnd="5dp"
+            app:layout_constraintHorizontal_weight="2"
+            android:layout_weight="1"
+            android:hint="Adresse"
+            app:layout_constraintTop_toBottomOf="@id/numerocompte"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/villecompte"
+            android:id="@+id/adressecompte"
+            android:layout_marginTop="6dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/adressecompteinput"
+                android:maxLength="30"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:text="Genre"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@id/villecompte"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/genrecompte"/>
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genrecompte"
+            android:orientation="horizontal"
+            android:id="@+id/radiogroupcompte"
+            android:layout_marginStart="10dp"
+            >
+
+            <RadioButton
+                android:id="@+id/radiom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="M"
+                android:textSize="20sp"
+                android:checked="true"
+                android:buttonTint="@color/custombrown"
+                />
+
+            <RadioButton
+                android:id="@+id/radiof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="F"
+                android:textSize="20sp"
+                android:buttonTint="@color/custombrown"
+                android:layout_marginStart="10dp"
+                />
+
+        </RadioGroup>
+
+
+        <Button
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="Enregistrer"
+            android:id="@+id/loginvalider"
+            android:background="@drawable/round_buttons"
+            app:backgroundTint="@color/custombrown"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="15dp"
+            android:text="Retour"
+            android:drawableLeft="@drawable/ic_back_white"
+            android:id="@+id/butchoixpaiement"
+            android:background="@drawable/round_buttons"
+            app:backgroundTint="#044E6A"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2d4f60d7cb8b9fd321d2c4dcdd353c0c",
+    "identityHash": "0735fa2081d312e2e52d2905b1d6b99a",
     "entities": [
       {
         "tableName": "Produit",
@@ -173,12 +173,106 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Client",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idcli` INTEGER NOT NULL, `nom` TEXT, `prenom` TEXT, `email` TEXT, `numero` TEXT, `commune` INTEGER NOT NULL, `adresse` TEXT, `genre` INTEGER NOT NULL, `fcmtoken` TEXT, PRIMARY KEY(`idcli`))",
+        "fields": [
+          {
+            "fieldPath": "idcli",
+            "columnName": "idcli",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nom",
+            "columnName": "nom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "prenom",
+            "columnName": "prenom",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "numero",
+            "columnName": "numero",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "commune",
+            "columnName": "commune",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "adresse",
+            "columnName": "adresse",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "genre",
+            "columnName": "genre",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fcmtoken",
+            "columnName": "fcmtoken",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idcli"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Commune",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idcom` INTEGER NOT NULL, `libelle` TEXT, PRIMARY KEY(`idcom`))",
+        "fields": [
+          {
+            "fieldPath": "idcom",
+            "columnName": "idcom",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "libelle",
+            "columnName": "libelle",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idcom"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d4f60d7cb8b9fd321d2c4dcdd353c0c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0735fa2081d312e2e52d2905b1d6b99a')"
     ]
   }
 }

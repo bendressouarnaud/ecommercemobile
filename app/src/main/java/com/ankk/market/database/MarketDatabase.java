@@ -8,10 +8,13 @@ import androidx.room.RoomDatabase;
 
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.models.Achat;
+import com.ankk.market.models.Client;
+import com.ankk.market.models.Commune;
 import com.ankk.market.models.Produit;
 import com.ankk.market.models.Sousproduit;
 
-@Database(entities = {Produit.class, Sousproduit.class, Beanarticledetail.class, Achat.class},
+@Database(entities = {Produit.class, Sousproduit.class, Beanarticledetail.class, Achat.class, Client.class,
+        Commune.class},
         version = 1, exportSchema = true)
 
 public abstract class MarketDatabase extends RoomDatabase {
@@ -25,6 +28,8 @@ public abstract class MarketDatabase extends RoomDatabase {
     public abstract SousproduitDao sousproduitDao();
     public abstract BeanarticledetailDao beanarticledetailDao();
     public abstract AchatDao achatDao();
+    public abstract ClientDao clientDao();
+    public abstract CommuneDao communeDao();
 
 
     // --- INSTANCE ---
