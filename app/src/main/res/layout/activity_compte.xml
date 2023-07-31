@@ -230,7 +230,7 @@
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:text="Enregistrer"
-            android:id="@+id/loginvalider"
+            android:id="@+id/butenregistrer"
             android:background="@drawable/round_buttons"
             app:backgroundTint="@color/custombrown"
             />
@@ -244,7 +244,7 @@
             android:layout_marginBottom="15dp"
             android:text="Retour"
             android:drawableLeft="@drawable/ic_back_white"
-            android:id="@+id/butchoixpaiement"
+            android:id="@+id/butretour"
             android:background="@drawable/round_buttons"
             app:backgroundTint="#044E6A"
             />

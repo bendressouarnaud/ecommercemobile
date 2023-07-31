@@ -4,6 +4,7 @@ import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.beans.RequeteBean;
+import com.ankk.market.models.Client;
 import com.ankk.market.models.Commune;
 import com.ankk.market.models.Produit;
 import com.ankk.market.models.Sousproduit;
@@ -30,4 +31,8 @@ public interface ApiProxy {
     // Get COMMUNES :
     @GET("backendcommerce/getmobileAllCommunes")
     Call<List<Commune>> getmobileAllCommunes();
+
+    // Send user for CREATION :
+    @POST("backendcommerce/managecustomer")
+    Call<Client> managecustomer(@Body Client data);
 }
