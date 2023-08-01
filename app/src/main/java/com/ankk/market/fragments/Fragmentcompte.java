@@ -33,6 +33,7 @@ import com.ankk.market.models.Commune;
 import com.ankk.market.models.Produit;
 import com.ankk.market.proxies.ApiProxy;
 import com.ankk.market.repositories.CommuneRepository;
+import com.ankk.market.viewmodels.ClientViewmodel;
 import com.ankk.market.viewmodels.FragmentproduitViewmodel;
 import com.ankk.market.viewmodels.VMFactory;
 
@@ -55,6 +56,7 @@ public class Fragmentcompte extends Fragment {
     boolean getCommune = false;
     CommuneRepository communeRepository;
     List<Commune> data ;
+    ClientViewmodel viewmodel;
 
 
     // M e t h o d s :
@@ -86,12 +88,35 @@ public class Fragmentcompte extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewmodel  = new ViewModelProvider(this,
+                new VMFactory(getActivity().getApplication()))
+                .get(ClientViewmodel.class);
+
+        // In case User has already logged in, display CHANGES :
+        if(!viewmodel.getCompte().isEmpty()){
+            binder.butcompte.setText("Compte");
+            binder.textmerci.setText("Gérer vos données");
+        }
+
         // Set action :
         binder.butcompte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //
                 if(!communeRepository.getAll().isEmpty()){
+                    if(viewmodel.getCompte().isEmpty() && !viewmodel.isFlagClientLive()){
+                        viewmodel.setFlagClientLive(true);
+                        // set listener :
+                        viewmodel.getCompteAllLive().observe(getActivity(), d-> {
+                            // User has successfully created his ACCOUNT, change BUTTON and TEXT
+                            binder.butcompte.setText("Compte");
+                            binder.textmerci.setText("Gérer vos données");
+                            // Set New Call if needed :
+                            /*Intent itn = new Intent(getContext(), CompteActivity.class);
+                            itn.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(itn);*/
+                        });
+                    }
                     // Open COMPTE :
                     Intent it = new Intent(getContext(), CompteActivity.class);
                     it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

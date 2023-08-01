@@ -111,6 +111,13 @@ public class PanierActivity extends AppCompatActivity {
             }
         });
 
+        binder.layoutpanier.textpanier.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         // Get DATA :
         /*beanarticledetailRepository.getAll().forEach(
             d -> {

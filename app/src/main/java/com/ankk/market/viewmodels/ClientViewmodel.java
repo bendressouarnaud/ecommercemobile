@@ -2,6 +2,7 @@ package com.ankk.market.viewmodels;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ankk.market.models.Client;
@@ -17,6 +18,7 @@ public class ClientViewmodel extends ViewModel {
     // A t t r i b u t e s :
     ClientRepository clientRepository;
     CommuneRepository communeRepository;
+    boolean flagClientLive = false;
 
     // M e t h o d s  :
     public ClientViewmodel(Application app) {
@@ -34,9 +36,20 @@ public class ClientViewmodel extends ViewModel {
         return clientRepository.getAll();
     }
 
+    public LiveData<List<Client>> getCompteAllLive(){
+        return clientRepository.getAllLive();
+    }
+
     // get ALL COMMUNE
     public List<Commune> getAllCommune(){
         return communeRepository.getAll();
     }
 
+    public boolean isFlagClientLive() {
+        return flagClientLive;
+    }
+
+    public void setFlagClientLive(boolean flagClientLive) {
+        this.flagClientLive = flagClientLive;
+    }
 }
