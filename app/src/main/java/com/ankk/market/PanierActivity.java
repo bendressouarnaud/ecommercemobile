@@ -9,12 +9,16 @@ import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.models.Achat;
 import com.ankk.market.repositories.AchatRepository;
 import com.ankk.market.repositories.BeanarticledetailRepository;
+import com.ankk.market.viewmodels.ClientViewmodel;
+import com.ankk.market.viewmodels.PanierViewmodel;
+import com.ankk.market.viewmodels.VMFactory;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,11 +34,9 @@ public class PanierActivity extends AppCompatActivity {
     // A T T R I B U T E S :
     private AppBarConfiguration appBarConfiguration;
     private ActivityPanierBinding binder;
-    AdapterListPanier adapter;
-    BeanarticledetailRepository beanarticledetailRepository;
-    AchatRepository achatRepository;
     int nbreArticleGobal=0, nbreArticleIdentique=0;
     long prixTotal = 0;
+    PanierViewmodel viewmodel;
 
 
 
@@ -49,29 +51,31 @@ public class PanierActivity extends AppCompatActivity {
 
         getWindow().setStatusBarColor(getResources().getColor(R.color.black));
 
-        //
-        adapter = new AdapterListPanier(getApplicationContext());
-        binder.layoutpanier.recyclerviewpanier.setAdapter(adapter);
+        // Set the VIEWMODEL :
+        viewmodel = new ViewModelProvider(this,
+                new VMFactory(getApplication()))
+                .get(PanierViewmodel.class);
 
         //
-        beanarticledetailRepository = new BeanarticledetailRepository(getApplication());
-        achatRepository = new AchatRepository(getApplication());
+        //adapter = new AdapterListPanier(getApplicationContext());
+        binder.layoutpanier.recyclerviewpanier.setAdapter(viewmodel.getAdapter());
+
         // Get ACHAT DATA :
-        achatRepository.getAllLiveActif().observe(this, new Observer<List<BeanActif>>() {
+        viewmodel.getAllLiveActif().observe(this, new Observer<List<BeanActif>>() {
                     @Override
                     public void onChanged(List<BeanActif> achat) {
                         if(PanierActivity.this.getLifecycle().getCurrentState()
                                 == Lifecycle.State.RESUMED){
-                            if(adapter.getItemCount() > 0){
+                            if(viewmodel.getAdapter().getItemCount() > 0){
                                 // Clean :
-                                adapter.clearEverything();
+                                viewmodel.getAdapter().clearEverything();
                             }
                             // Update the cached copy of the words in the adapter.
                             //article.forEach(viewmodel.getAdapter()::addItems);
                             achat.forEach(
                                     d -> {
                                         //
-                                        Beanarticledetail bl = beanarticledetailRepository.getItem(d.getIdart());
+                                        Beanarticledetail bl = viewmodel.getBeanarticledetailRepository().getItem(d.getIdart());
                                         // Map :
                                         Beanarticlelive be = new Beanarticlelive();
                                         be.setIdart(d.getIdart());
@@ -83,9 +87,9 @@ public class PanierActivity extends AppCompatActivity {
                                         be.setLienweb(bl.getLienweb());
                                         // Article reserve :
                                         List<Achat> getAchat =
-                                                achatRepository.getAllByIdartAndChoix(d.getIdart(), 1);
+                                                viewmodel.getAchatRepository().getAllByIdartAndChoix(d.getIdart(), 1);
                                         be.setArticlereserve(getAchat.size());
-                                        adapter.addItems(be);
+                                        viewmodel.getAdapter().addItems(be);
                                         //
                                         nbreArticleGobal++;
 

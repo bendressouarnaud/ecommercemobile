@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0735fa2081d312e2e52d2905b1d6b99a",
+    "identityHash": "d920f196c7803b22ad00f15b165a788a",
     "entities": [
       {
         "tableName": "Produit",
@@ -176,7 +176,7 @@
       },
       {
         "tableName": "Client",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idcli` INTEGER NOT NULL, `nom` TEXT, `prenom` TEXT, `email` TEXT, `numero` TEXT, `commune` INTEGER NOT NULL, `adresse` TEXT, `genre` INTEGER NOT NULL, `fcmtoken` TEXT, PRIMARY KEY(`idcli`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idcli` INTEGER NOT NULL, `nom` TEXT, `prenom` TEXT, `email` TEXT, `numero` TEXT, `commune` INTEGER NOT NULL, `adresse` TEXT, `genre` INTEGER NOT NULL, `fcmtoken` TEXT, `pwd` TEXT, PRIMARY KEY(`idcli`))",
         "fields": [
           {
             "fieldPath": "idcli",
@@ -231,6 +231,12 @@
             "columnName": "fcmtoken",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "pwd",
+            "columnName": "pwd",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -272,7 +278,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0735fa2081d312e2e52d2905b1d6b99a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd920f196c7803b22ad00f15b165a788a')"
     ]
   }
 }

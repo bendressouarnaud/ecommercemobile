@@ -34,6 +34,9 @@ public class Client {
     @ColumnInfo(name = "fcmtoken")
     String fcmtoken;
 
+    @ColumnInfo(name = "pwd")
+    String pwd;
+
     public Client() {
     }
 
@@ -107,5 +110,13 @@ public class Client {
 
     public void setFcmtoken(String fcmtoken) {
         this.fcmtoken = fcmtoken;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 }

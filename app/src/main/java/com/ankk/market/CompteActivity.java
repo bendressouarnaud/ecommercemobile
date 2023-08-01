@@ -141,6 +141,7 @@ public class CompteActivity extends AppCompatActivity {
         ct.setAdresse(binder.adressecompteinput.getText().toString());
         ct.setGenre(binder.radiof.isChecked() ? 0 : 1);
         if(viewmodel.getCompte().isEmpty()) ct.setFcmtoken("");
+        if(viewmodel.getCompte().isEmpty()) ct.setPwd("");
 
         // Now process :
         processDialog(ct);

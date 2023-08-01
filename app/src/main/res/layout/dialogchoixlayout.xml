@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:id="@+id/sourcefichierradiogroup"
+        >
+
+        <RadioButton
+            android:id="@+id/radiophoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appareil photo"
+            android:textSize="20sp"
+            android:checked="true"
+            />
+
+        <RadioButton
+            android:id="@+id/radioimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mémoire interne"
+            android:textSize="20sp"
+            />
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sourcefichierradiogroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Valider"
+        android:backgroundTint="#AE6A06"
+
+        android:id="@+id/butchoixsourcefichier"
+        android:layout_marginTop="25dp"
+        />
+        <!-- android:drawableLeft="@drawable/ic_attachment_file" -->
+</androidx.constraintlayout.widget.ConstraintLayout>

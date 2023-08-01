@@ -1,11 +1,14 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,6 +78,14 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         // Display :
         holder.binder.imgdeletearticle.setVisibility(View.VISIBLE);
         holder.binder.textsupprimer.setVisibility(View.VISIBLE);
+
+        // Supprimer item :
+        holder.binder.textsupprimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayDialog();
+            }
+        });
     }
 
     static class PanierViewHolder extends RecyclerView.ViewHolder {
@@ -100,5 +111,51 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         int size = donnee.size();
         donnee.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    // Display DIALOGBOX :
+    protected void displayDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        // Set Title and Message:
+        builder.setTitle("Title").setMessage("This is a message");
+
+        //
+        builder.setCancelable(true);
+        builder.setIcon(R.drawable.ic_launcher_background);
+
+        // Create "Positive" button with OnClickListener.
+        builder.setPositiveButton("Positive", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(context,"You choose positive button",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        //builder.setPositiveButtonIcon(positiveIcon);
+
+        // Create "Negative" button with OnClickListener.
+        builder.setNegativeButton("Negative", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(context,"You choose positive button",
+                        Toast.LENGTH_SHORT).show();
+                //  Cancel
+                dialog.cancel();
+            }
+        });
+        //builder.setNegativeButtonIcon(negativeIcon);
+
+        // Create "Neutral" button with OnClickListener.
+        builder.setNeutralButton("Neutral", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //  Action for 'NO' Button
+                Toast.makeText(context,"You choose neutral button",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        //builder.setNeutralButtonIcon(neutralIcon); // Not working!!!
+
+        // Create AlertDialog:
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
