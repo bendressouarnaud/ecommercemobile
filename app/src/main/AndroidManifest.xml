@@ -39,6 +39,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CinetPay"
+            android:exported="false"
+            android:theme="@style/Theme.Market.NoActionBar"
+            />
     </application>
 
 </manifest>

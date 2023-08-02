@@ -104,17 +104,15 @@ public class Fragmentcompte extends Fragment {
             public void onClick(View view) {
                 //
                 if(!communeRepository.getAll().isEmpty()){
-                    if(viewmodel.getCompte().isEmpty() && !viewmodel.isFlagClientLive()){
+                    if(viewmodel.getCompte().isEmpty() && (!viewmodel.isFlagClientLive())){
                         viewmodel.setFlagClientLive(true);
                         // set listener :
                         viewmodel.getCompteAllLive().observe(getActivity(), d-> {
                             // User has successfully created his ACCOUNT, change BUTTON and TEXT
-                            binder.butcompte.setText("Compte");
-                            binder.textmerci.setText("Gérer vos données");
-                            // Set New Call if needed :
-                            /*Intent itn = new Intent(getContext(), CompteActivity.class);
-                            itn.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(itn);*/
+                            if(!d.isEmpty()) {
+                                binder.butcompte.setText("Compte");
+                                binder.textmerci.setText("Gérer vos données");
+                            }
                         });
                     }
                     // Open COMPTE :
@@ -171,6 +169,18 @@ public class Fragmentcompte extends Fragment {
                         // Hide Items :
                         //binder.butcompte.setVisibility(View.INVISIBLE);
                         //binder.textmerci.setVisibility(View.INVISIBLE);
+
+                        if(viewmodel.getCompte().isEmpty() && (!viewmodel.isFlagClientLive())){
+                            viewmodel.setFlagClientLive(true);
+                            // set listener :
+                            viewmodel.getCompteAllLive().observe(getActivity(), d-> {
+                                // User has successfully created his ACCOUNT, change BUTTON and TEXT
+                                if(!d.isEmpty()) {
+                                    binder.butcompte.setText("Compte");
+                                    binder.textmerci.setText("Gérer vos données");
+                                }
+                            });
+                        }
 
                         // Open COMPTE :
                         Intent it = new Intent(getContext(), CompteActivity.class);

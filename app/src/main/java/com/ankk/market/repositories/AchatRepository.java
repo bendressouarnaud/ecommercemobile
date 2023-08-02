@@ -56,6 +56,11 @@ public class AchatRepository {
         return achatDao.getAllByIdartAndChoix(idart, etat);
     }
 
+    //
+    public List<Achat> getAllByActif(int actif){
+        return achatDao.getAllByActif(actif);
+    }
+
     public List<Achat> getAllByIdartAndActif(int idart, int actif){
         return achatDao.getAllByIdartAndActif(idart, actif);
     }
@@ -76,6 +81,10 @@ public class AchatRepository {
     // Deletion :
     public void delete(Achat achat){
         achatDao.delete(achat);
+    }
+
+    public void deleteAll(Achat... achat){
+        achatDao.deleteAll(achat);
     }
 
     // appel :

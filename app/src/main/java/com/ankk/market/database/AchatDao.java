@@ -23,6 +23,9 @@ public interface AchatDao {
     @Query("SELECT * FROM Achat where idart=:id")
     List<Achat> getAllByIdart(int id);
 
+    @Query("SELECT * FROM Achat where actif=:act")
+    List<Achat> getAllByActif(int act);
+
     @Query("SELECT * FROM Achat where idart=:id and actif=:etat")
     List<Achat> getAllByIdartAndChoix(int id, int etat);
 
@@ -52,5 +55,8 @@ public interface AchatDao {
 
     @Delete
     void delete(Achat data);
+
+    @Delete
+    void deleteAll(Achat... data);
 
 }

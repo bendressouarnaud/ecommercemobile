@@ -1,5 +1,6 @@
 package com.ankk.market;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.ankk.market.adapters.AdapterListPanier;
@@ -56,6 +57,9 @@ public class PanierActivity extends AppCompatActivity {
                 new VMFactory(getApplication()))
                 .get(PanierViewmodel.class);
 
+        // Pass Activity :
+        viewmodel.getAdapter().setActivity(this);
+
         //
         //adapter = new AdapterListPanier(getApplicationContext());
         binder.layoutpanier.recyclerviewpanier.setAdapter(viewmodel.getAdapter());
@@ -66,10 +70,20 @@ public class PanierActivity extends AppCompatActivity {
                     public void onChanged(List<BeanActif> achat) {
                         if(PanierActivity.this.getLifecycle().getCurrentState()
                                 == Lifecycle.State.RESUMED){
+
+                            // Kill ACTIVITY :
+                            if(achat.isEmpty()){
+                                finish();
+                            }
+
                             if(viewmodel.getAdapter().getItemCount() > 0){
                                 // Clean :
                                 viewmodel.getAdapter().clearEverything();
                             }
+                            // Reset :
+                            prixTotal= 0;
+                            nbreArticleGobal= 0;
+
                             // Update the cached copy of the words in the adapter.
                             //article.forEach(viewmodel.getAdapter()::addItems);
                             achat.forEach(
@@ -115,10 +129,13 @@ public class PanierActivity extends AppCompatActivity {
             }
         });
 
-        binder.layoutpanier.textpanier.setOnClickListener(new View.OnClickListener() {
+        binder.layoutpanier.textpayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent it = new Intent(PanierActivity.this, CinetPay.class);
+                it.putExtra("montant", prixTotal);
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(it);
             }
         });
 

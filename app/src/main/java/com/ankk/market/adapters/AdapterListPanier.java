@@ -1,5 +1,6 @@
 package com.ankk.market.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -12,9 +13,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.databinding.CardviewarticleBinding;
+import com.ankk.market.models.Achat;
+import com.ankk.market.repositories.AchatRepository;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
@@ -28,12 +32,17 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
     // A t t r i b u t e s   :
     private final Context context;
     private List<Beanarticlelive> donnee;
+    Activity activity;
+    OpenApplication app;
+    AchatRepository achatRepository;
 
 
     // M e t h o d s   :
     public AdapterListPanier(Context context) {
         this.context = context;
         donnee = new ArrayList<>();
+        app = (OpenApplication) context.getApplicationContext();
+        achatRepository = new AchatRepository(app);
     }
 
     @NonNull
@@ -83,7 +92,7 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         holder.binder.textsupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayDialog();
+                displayDialog(donnee.get(position).getIdart());
             }
         });
     }
@@ -114,27 +123,29 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
     }
 
     // Display DIALOGBOX :
-    protected void displayDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    protected void displayDialog(int idart){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         // Set Title and Message:
-        builder.setTitle("Title").setMessage("This is a message");
+        builder.setTitle("Confirmation").setMessage("Souhaitez-vous supprimer cet article ?");
 
         //
         builder.setCancelable(true);
         builder.setIcon(R.drawable.ic_launcher_background);
 
         // Create "Positive" button with OnClickListener.
-        builder.setPositiveButton("Positive", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Toast.makeText(context,"You choose positive button",
-                        Toast.LENGTH_SHORT).show();
+                // Call ALL ACHAT related to this ARTICLE :
+                List<Achat> articlesAchete = achatRepository.getAllByIdart(idart);
+                // Delete ARTICLE :
+                achatRepository.deleteAll(articlesAchete.toArray(new Achat[0]));
             }
         });
         //builder.setPositiveButtonIcon(positiveIcon);
 
         // Create "Negative" button with OnClickListener.
-        builder.setNegativeButton("Negative", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Toast.makeText(context,"You choose positive button",
                         Toast.LENGTH_SHORT).show();
@@ -144,18 +155,16 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         });
         //builder.setNegativeButtonIcon(negativeIcon);
 
-        // Create "Neutral" button with OnClickListener.
-        builder.setNeutralButton("Neutral", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //  Action for 'NO' Button
-                Toast.makeText(context,"You choose neutral button",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-        //builder.setNeutralButtonIcon(neutralIcon); // Not working!!!
-
         // Create AlertDialog:
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 }
