@@ -25,10 +25,10 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://10.1.4.102:8081/"'
-            buildConfigField "String", "API_KEY_CINETPAY", '"13013879545bdc3a5579f458.42836232"'
-            buildConfigField "String", "SITE_ID_CINETPAY", '"448173"'
-            buildConfigField "int", "AGE_LIMIT", '18'
+            buildConfigField "String", "API_BCK_URL", '"http://192.168.16.80:8081/"'
+            buildConfigField "String", "API_KEY_CINETPAY", '"14188340645523ee208a07.43334887"'
+            buildConfigField "String", "SITE_ID_CINETPAY", '"201498"'
+            buildConfigField "int", "AGE_LIMIT", '19'
         }
         release {
             minifyEnabled false

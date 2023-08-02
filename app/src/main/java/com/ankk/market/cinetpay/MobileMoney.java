@@ -4,6 +4,7 @@ import android.content.Context;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
+import com.ankk.market.PanierActivity;
 import com.cinetpay.androidsdk.CinetPayWebAppInterface;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,9 +33,9 @@ public class MobileMoney extends CinetPayWebAppInterface {
                         Toast.LENGTH_SHORT).show();
             }
             else{
-                //Paiementcinetpay.getInstance().setPaiementeffectue(ce);
-                /*Toast.makeText(getContext(), "Succes ",
-                        Toast.LENGTH_SHORT).show();*/
+                PanierActivity.getInstance().setPaiementeffectue();
+                Toast.makeText(getContext(), "Succes ",
+                        Toast.LENGTH_SHORT).show();
             }
         }
         catch (Exception exc){

@@ -1,6 +1,7 @@
 package com.ankk.market.proxies;
 
 import com.ankk.market.beans.Beanarticledetail;
+import com.ankk.market.beans.Beanarticlerequest;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.beans.RequeteBean;
@@ -35,4 +36,7 @@ public interface ApiProxy {
     // Send user for CREATION :
     @POST("backendcommerce/managecustomer")
     Call<Client> managecustomer(@Body Client data);
+
+    @POST("backendcommerce/sendbooking")
+    Call<RequeteBean> sendbooking(@Body Beanarticlerequest data);
 }

@@ -45,6 +45,8 @@ public class CinetPay extends AppCompatActivity {
         //
         app = (OpenApplication)getApplication();
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.black));
+
         // Set the VIEWMODEL :
         viewmodel = new ViewModelProvider(this,
                 new VMFactory(getApplication()))
@@ -86,8 +88,8 @@ public class CinetPay extends AppCompatActivity {
         //
         //         13013879545bdc3a5579f458.42836232    448173
         MobileMoney mm = new MobileMoney(getApplicationContext(),
-                "13013879545bdc3a5579f458.42836232",
-                "448173", transaction_ID, montant,
+                "14188340645523ee208a07.43334887",
+                "201498", transaction_ID, montant,
                 "XOF", "Paiement de la commande");
 
         // Get DATA :

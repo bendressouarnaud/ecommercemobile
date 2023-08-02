@@ -21,6 +21,8 @@ public class PanierViewmodel extends ViewModel {
     AdapterListPanier adapter;
     BeanarticledetailRepository beanarticledetailRepository;
     AchatRepository achatRepository;
+    ClientRepository clientRepository;
+    CommuneRepository communeRepository;
 
 
     //
@@ -28,6 +30,8 @@ public class PanierViewmodel extends ViewModel {
     public PanierViewmodel(Application app) {
         beanarticledetailRepository = new BeanarticledetailRepository(app);
         achatRepository = new AchatRepository(app);
+        clientRepository = new ClientRepository(app);
+        communeRepository = new CommuneRepository(app);
         adapter = new AdapterListPanier(app.getApplicationContext());
     }
 
@@ -80,5 +84,21 @@ public class PanierViewmodel extends ViewModel {
 
     public void setAchatRepository(AchatRepository achatRepository) {
         this.achatRepository = achatRepository;
+    }
+
+    public ClientRepository getClientRepository() {
+        return clientRepository;
+    }
+
+    public void setClientRepository(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
+
+    public CommuneRepository getCommuneRepository() {
+        return communeRepository;
+    }
+
+    public void setCommuneRepository(CommuneRepository communeRepository) {
+        this.communeRepository = communeRepository;
     }
 }
