@@ -14,12 +14,14 @@ public class CinetpayViewmodel extends ViewModel {
     // A t t ri b u t e s :
     AchatRepository achatRepository;
     ClientRepository clientRepository;
+    BeanarticledetailRepository beanarticledetailRepository;
 
 
     // M E T H O D S :
     public CinetpayViewmodel(Application app) {
         achatRepository = new AchatRepository(app);
         clientRepository = new ClientRepository(app);
+        beanarticledetailRepository = new BeanarticledetailRepository(app);
     }
 
     public AchatRepository getAchatRepository() {
@@ -36,5 +38,13 @@ public class CinetpayViewmodel extends ViewModel {
 
     public void setClientRepository(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
+    }
+
+    public BeanarticledetailRepository getBeanarticledetailRepository() {
+        return beanarticledetailRepository;
+    }
+
+    public void setBeanarticledetailRepository(BeanarticledetailRepository beanarticledetailRepository) {
+        this.beanarticledetailRepository = beanarticledetailRepository;
     }
 }

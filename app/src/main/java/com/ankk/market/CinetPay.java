@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.cinetpay.MobileMoney;
 import com.ankk.market.models.Achat;
 import com.ankk.market.models.Client;
@@ -75,6 +76,12 @@ public class CinetPay extends AppCompatActivity {
 
         // Get All ARTICLE MONEY :
         List<Achat> listeAchat = viewmodel.getAchatRepository().getAllByActif(1);
+        listeAchat.forEach(
+            d -> {
+                Beanarticledetail bl = viewmodel.getBeanarticledetailRepository().getItem(d.getIdart());
+                montant += bl.getPrix();
+            }
+        );
 
         //
         //         13013879545bdc3a5579f458.42836232    448173
