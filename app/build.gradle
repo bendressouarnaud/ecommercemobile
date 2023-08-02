@@ -25,7 +25,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://192.168.16.80:8081/"'
+            buildConfigField "String", "API_BCK_URL", '"http://10.1.4.102:8081/"'
             buildConfigField "String", "API_KEY_CINETPAY", '"13013879545bdc3a5579f458.42836232"'
             buildConfigField "String", "SITE_ID_CINETPAY", '"448173"'
             buildConfigField "int", "AGE_LIMIT", '18'
@@ -97,4 +97,7 @@ dependencies {
 
     // Jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+
+    // CinetPay
+    implementation 'com.cinetpay:androidsdk:1.0.0'
 }
