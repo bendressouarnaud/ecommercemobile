@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void notifyArticle(){
-        viewmodel.getAllAchatLive().observe(this, new Observer<List<Achat>>() {
+        viewmodel.getAllLiveCommande().observe(this, new Observer<List<Achat>>() {
                     @Override
                     public void onChanged(List<Achat> article) {
                         if(MainActivity.this.getLifecycle().getCurrentState()

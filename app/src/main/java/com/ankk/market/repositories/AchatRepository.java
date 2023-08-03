@@ -69,6 +69,11 @@ public class AchatRepository {
         return achatDao.getAllLive();
     }
 
+    public LiveData<List<Achat>> getAllLiveCommande(){
+        return achatDao.getAllLiveCommande();
+    }
+
+
     public LiveData<List<BeanActif>> getAllLiveActif(){
         return achatDao.getAllLiveActif();
     }

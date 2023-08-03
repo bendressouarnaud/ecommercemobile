@@ -65,6 +65,7 @@ public class PanierActivity extends AppCompatActivity {
     boolean getCommune = false;
     static PanierActivity instance;
     List<BeanActif> keepArticle;
+    boolean envoiValidation = false;
 
 
 
@@ -287,6 +288,9 @@ public class PanierActivity extends AppCompatActivity {
         bt.setListe(keepArticle);
         bt.setIdcli(viewmodel.getClientRepository().getAll().get(0).getIdcli());
 
+        // Set Flag :
+        envoiValidation = true;
+
         // We can send this :
         apiProxy.sendbooking(bt).enqueue(new Callback<RequeteBean>() {
             @Override
@@ -301,6 +305,8 @@ public class PanierActivity extends AppCompatActivity {
                                     d.setActif(0);
                                 }
                         );
+                        //
+                        envoiValidation = false;
                         // Update and EXIT :
                         viewmodel.getAchatRepository().updateAll(articles.toArray(new Achat[0]));
                     }
@@ -311,5 +317,15 @@ public class PanierActivity extends AppCompatActivity {
             public void onFailure(Call<RequeteBean> call, Throwable t) {
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(envoiValidation){
+            // Display
+            binder.layoutpanier.progresspanier.setVisibility(View.VISIBLE);
+            binder.layoutpanier.textpanierpatienter.setVisibility(View.VISIBLE);
+        }
     }
 }

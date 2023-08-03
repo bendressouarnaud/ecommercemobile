@@ -35,6 +35,9 @@ public interface AchatDao {
     @Query("SELECT * FROM Achat")
     LiveData<List<Achat>> getAllLive();
 
+    @Query("SELECT * FROM Achat where actif=1")
+    LiveData<List<Achat>> getAllLiveCommande();
+
     @Query("SELECT distinct idart, actif FROM Achat where actif=1")
     LiveData<List<BeanActif>> getAllLiveActif();
 

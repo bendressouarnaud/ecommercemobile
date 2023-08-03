@@ -32,6 +32,10 @@ public class AccueilViewmodel extends ViewModel {
         return achatRepository.getAllLive();
     }
 
+    public LiveData<List<Achat>> getAllLiveCommande(){
+        return achatRepository.getAllLiveCommande();
+    }
+
     public int getTotalCommande() {
         return totalCommande;
     }
