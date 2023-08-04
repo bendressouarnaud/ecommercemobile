@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="#E8E5E3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            >
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/histocomlineardate"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:id="@+id/histocomimgdate"
+                    android:src="@drawable/ic_date"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    />
+
+                <TextView
+                    android:id="@+id/histocomtextdate"
+                    android:text="Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textColor="#000000"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/histocomlinearheure"
+                app:layout_constraintTop_toBottomOf="@id/histocomlineardate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:id="@+id/histocomimgheure"
+                    android:src="@drawable/ic_heure"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    />
+
+                <TextView
+                    android:id="@+id/histocomtextheure"
+                    android:text="Heure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:textColor="#000000"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/histocomtextcmd"
+                app:layout_constraintTop_toBottomOf="@id/histocomlinearheure"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="2 articles commandés"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/histocomprixcmd"
+                app:layout_constraintTop_toBottomOf="@id/histocomlinearheure"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="10.000 FCFA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -9,9 +9,11 @@ import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.beans.Beanarticlerequest;
 import com.ankk.market.beans.RequeteBean;
+import com.ankk.market.beans.ResponseBooking;
 import com.ankk.market.mesobjets.BoiteOutil;
 import com.ankk.market.mesobjets.RetrofitTool;
 import com.ankk.market.models.Achat;
+import com.ankk.market.models.Commande;
 import com.ankk.market.models.Commune;
 import com.ankk.market.proxies.ApiProxy;
 import com.ankk.market.repositories.AchatRepository;
@@ -106,6 +108,9 @@ public class PanierActivity extends AppCompatActivity {
 
                             // Kill ACTIVITY :
                             if(achat.isEmpty()){
+                                if(envoiValidation)
+                                    Toast.makeText(PanierActivity.this, "Votre commande a été enregistrée !", Toast.LENGTH_LONG).show();
+                                else Toast.makeText(PanierActivity.this, "Le panier est vide !", Toast.LENGTH_LONG).show();
                                 finish();
                             }
 
@@ -292,21 +297,33 @@ public class PanierActivity extends AppCompatActivity {
         envoiValidation = true;
 
         // We can send this :
-        apiProxy.sendbooking(bt).enqueue(new Callback<RequeteBean>() {
+        apiProxy.sendbooking(bt).enqueue(new Callback<ResponseBooking>() {
             @Override
-            public void onResponse(Call<RequeteBean> call, Response<RequeteBean> response) {
+            public void onResponse(Call<ResponseBooking> call, Response<ResponseBooking> response) {
                 if (response.code() == 200) {
                     // Close the DOORS :
-                    if(response.body().getIdprd() == 1){
+                    if(response.body().getEtat() == 1){
                         // Set ARTICLE 'actif' to '0'
                         List<Achat> articles = viewmodel.getAchatRepository().getAllByActif(1);
                         articles.forEach(
                                 d -> {
                                     d.setActif(0);
+
+                                    // From there, hit Commande table :
+                                    Commande ce = new Commande();
+                                    ce.setIdart(d.getIdart());
+                                    ce.setDates(response.body().getDates());
+                                    ce.setHeure(response.body().getHeure());
+                                    Beanarticledetail bl = viewmodel.getBeanarticledetailRepository().getItem(d.getIdart());
+                                    ce.setPrix(bl.getPrix());
+                                    ce.setIdcde(0);
+                                    ce.setTraite(0);
+                                    // Save :
+                                    viewmodel.getCommandeRepository().insert(ce);
                                 }
                         );
-                        //
-                        envoiValidation = false;
+
+                        //envoiValidation = false;
                         // Update and EXIT :
                         viewmodel.getAchatRepository().updateAll(articles.toArray(new Achat[0]));
                     }
@@ -314,7 +331,7 @@ public class PanierActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RequeteBean> call, Throwable t) {
+            public void onFailure(Call<ResponseBooking> call, Throwable t) {
             }
         });
     }

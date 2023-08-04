@@ -51,6 +51,11 @@ public class DetailViewmodel extends ViewModel {
         return achatRepository.getAllLive();
     }
 
+    //
+    public LiveData<List<Achat>> getAllLiveCommande(){
+        return achatRepository.getAllLiveCommande();
+    }
+
     public LiveData<List<Beanarticledetail>> getAllArticleLive(){
         return beanarticledetailRepository.getAllLive();
     }

@@ -5,6 +5,7 @@ import com.ankk.market.beans.Beanarticlerequest;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.beans.RequeteBean;
+import com.ankk.market.beans.ResponseBooking;
 import com.ankk.market.models.Client;
 import com.ankk.market.models.Commune;
 import com.ankk.market.models.Produit;
@@ -38,5 +39,5 @@ public interface ApiProxy {
     Call<Client> managecustomer(@Body Client data);
 
     @POST("backendcommerce/sendbooking")
-    Call<RequeteBean> sendbooking(@Body Beanarticlerequest data);
+    Call<ResponseBooking> sendbooking(@Body Beanarticlerequest data);
 }

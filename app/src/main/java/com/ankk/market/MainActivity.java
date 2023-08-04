@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ankk.market.beans.Beanarticlelive;
+import com.ankk.market.fragments.FragmentCommande;
 import com.ankk.market.fragments.Fragmentcategorie;
 import com.ankk.market.fragments.Fragmentcompte;
 import com.ankk.market.fragments.Fragmentoffre;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     Fragmentproduit ft;
     Fragmentcategorie fc;
     Fragmentcompte fct;
+    FragmentCommande fcm;
     int [] images = {R.drawable.ganoderma, R.drawable.lipidcare, R.drawable.pinepollen};
     AccueilViewmodel viewmodel;
 
@@ -102,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
 
                         Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);*/
                         openFragment(fc);
+                        break;
+
+                    case R.id.menucommande:
+                        if(!viewmodel.getCommandeRepository().getAll().isEmpty()) {
+                            if (fcm == null) fcm = new FragmentCommande();
+                            openFragment(fcm);
+                        }
+                        else Toast.makeText(getApplicationContext(),
+                                "Aucune commande effectuée !",
+                                Toast.LENGTH_SHORT).show();
                         break;
 
                     case R.id.menucompte:

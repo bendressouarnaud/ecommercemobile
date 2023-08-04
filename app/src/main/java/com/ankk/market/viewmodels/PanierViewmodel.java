@@ -12,6 +12,7 @@ import com.ankk.market.models.Achat;
 import com.ankk.market.repositories.AchatRepository;
 import com.ankk.market.repositories.BeanarticledetailRepository;
 import com.ankk.market.repositories.ClientRepository;
+import com.ankk.market.repositories.CommandeRepository;
 import com.ankk.market.repositories.CommuneRepository;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PanierViewmodel extends ViewModel {
     AchatRepository achatRepository;
     ClientRepository clientRepository;
     CommuneRepository communeRepository;
+    CommandeRepository commandeRepository;
 
 
     //
@@ -32,6 +34,7 @@ public class PanierViewmodel extends ViewModel {
         achatRepository = new AchatRepository(app);
         clientRepository = new ClientRepository(app);
         communeRepository = new CommuneRepository(app);
+        commandeRepository = new CommandeRepository(app);
         adapter = new AdapterListPanier(app.getApplicationContext());
     }
 
@@ -100,5 +103,9 @@ public class PanierViewmodel extends ViewModel {
 
     public void setCommuneRepository(CommuneRepository communeRepository) {
         this.communeRepository = communeRepository;
+    }
+
+    public CommandeRepository getCommandeRepository() {
+        return commandeRepository;
     }
 }

@@ -230,7 +230,7 @@ public class SousproduitActivity extends AppCompatActivity {
 
     // Whenever an article is added, notify :
     public void notifyUser(){
-        viewmodel.getAllAchatLive().observe(this, d->{
+        viewmodel.getAllLiveCommande().observe(this, d->{
 
             // Display SIZE :
             textPanierCount.setText(String.valueOf(d.size()));

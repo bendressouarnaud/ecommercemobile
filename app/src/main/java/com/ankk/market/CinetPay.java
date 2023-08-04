@@ -85,6 +85,9 @@ public class CinetPay extends AppCompatActivity {
             }
         );
 
+        // Set Montant :
+        montant = 100;
+
         //
         //         13013879545bdc3a5579f458.42836232    448173
         MobileMoney mm = new MobileMoney(getApplicationContext(),
