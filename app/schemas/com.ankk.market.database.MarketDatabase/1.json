@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d920f196c7803b22ad00f15b165a788a",
+    "identityHash": "886c4f2645c315944883fda10572c872",
     "entities": [
       {
         "tableName": "Produit",
@@ -273,12 +273,62 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Commande",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idcde` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `idart` INTEGER NOT NULL, `dates` TEXT, `heure` TEXT, `prix` INTEGER NOT NULL, `traite` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "idcde",
+            "columnName": "idcde",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "idart",
+            "columnName": "idart",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dates",
+            "columnName": "dates",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "heure",
+            "columnName": "heure",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "prix",
+            "columnName": "prix",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "traite",
+            "columnName": "traite",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idcde"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd920f196c7803b22ad00f15b165a788a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '886c4f2645c315944883fda10572c872')"
     ]
   }
 }

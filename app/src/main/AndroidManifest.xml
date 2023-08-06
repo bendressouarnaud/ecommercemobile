@@ -17,6 +17,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ProduitActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Market.NoActionBar"/>
+        <activity
             android:name=".CompteActivity"
             android:exported="false" />
         <activity
@@ -42,8 +46,7 @@
         <activity
             android:name=".CinetPay"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar"
-            />
+            android:theme="@style/Theme.Market.NoActionBar" />
     </application>
 
 </manifest>

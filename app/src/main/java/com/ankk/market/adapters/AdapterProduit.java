@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ankk.market.ProduitActivity;
 import com.ankk.market.R;
 import com.ankk.market.SousproduitActivity;
 import com.ankk.market.databinding.CardviewoffreBinding;
@@ -51,7 +52,10 @@ public class AdapterProduit extends RecyclerView.Adapter<
         holder.binder.cardviewoffremain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,"Position : "+String.valueOf(position), Toast.LENGTH_SHORT).show();
+                Intent it = new Intent(context, ProduitActivity.class);
+                it.putExtra("idprd", donnee.get(position).getIdprd());
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(it);
             }
         });
 
