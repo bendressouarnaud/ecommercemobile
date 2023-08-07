@@ -38,6 +38,8 @@ public class AdapterDisplayProduit extends RecyclerView.Adapter<AdapterDisplayPr
         // Get DATA :
         holder.binder.textdisplayproduit.setText(donnee.get(position).getDetail());
         // Work on GRIDVIEW :
+        if(donnee.get(position).getListe().size() > 3)
+            holder.binder.gridviewdisplaysousproduit.getLayoutParams().height = (int)context.getResources().getDimension(R.dimen.artcleproduitgrid);
         holder.binder.gridviewdisplaysousproduit.setAdapter(
                 new AdapterGridViewResumeArticle(context, donnee.get(position).getListe()));
     }
