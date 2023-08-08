@@ -1,6 +1,7 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.beans.Detail;
+import com.ankk.market.databinding.CardviewdisplayarticleBinding;
 import com.ankk.market.databinding.CardviewdisplaysousproduitBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -38,13 +41,14 @@ public class AdapterDetailHorizontal extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull AdapterDetailHorizontal.ViewHolder holder,
                                  int position) {
         // Set code here :
-        holder.binder.cardviewdisplaysousprod.setOnClickListener(new View.OnClickListener() {
+        holder.binder.cardviewdisplaydets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent it = new Intent(context, ProduitActivity.class);
-                it.putExtra("idprd", donnee.get(position).getIdprd());
+                Intent it = new Intent(context, SousproduitActivity.class);
+                //it.putExtra("id", detail);
+                it.putExtra("id", donnee.get(position).getIddet());
                 it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(it);*/
+                context.startActivity(it);
             }
         });
 
@@ -56,8 +60,8 @@ public class AdapterDetailHorizontal extends RecyclerView.Adapter<
                 .onlyRetrieveFromCache(false)
                 .transition(DrawableTransitionOptions.withCrossFade(1000))
                 .placeholder(R.drawable.ic_panier)
-                .into(holder.binder.imgdisplayproduit);
-        holder.binder.textlibproduit.setText(donnee.get(position).getLibelle());
+                .into(holder.binder.imgdisplaydetails);
+        holder.binder.textlibdetail.setText(donnee.get(position).getLibelle());
     }
 
 
@@ -67,7 +71,7 @@ public class AdapterDetailHorizontal extends RecyclerView.Adapter<
                                                                        int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         return new AdapterDetailHorizontal.ViewHolder(DataBindingUtil.inflate(inflater,
-                R.layout.cardviewdisplaysousproduit,
+                R.layout.cardviewdisplayarticle,
                 parent,
                 false));
     }
@@ -75,9 +79,9 @@ public class AdapterDetailHorizontal extends RecyclerView.Adapter<
 
     // our ViewHolder :
     static class ViewHolder extends RecyclerView.ViewHolder {
-        CardviewdisplaysousproduitBinding binder;
+        CardviewdisplayarticleBinding binder;
 
-        public ViewHolder(CardviewdisplaysousproduitBinding binder) {
+        public ViewHolder(CardviewdisplayarticleBinding binder) {
             super(binder.getRoot());
             this.binder = binder;
         }

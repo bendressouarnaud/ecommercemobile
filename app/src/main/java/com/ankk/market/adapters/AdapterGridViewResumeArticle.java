@@ -68,8 +68,8 @@ public class AdapterGridViewResumeArticle extends BaseAdapter {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imggriditemdisplay);
 
-        //holder.libgriditem.setOnClickListener(d -> openInterface(detail.getIddet()));
-        //holder.imggriditem.setOnClickListener(d -> openInterface(detail.getIddet()));
+        holder.libgriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
+        holder.imggriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
 
         return convertView;
     }

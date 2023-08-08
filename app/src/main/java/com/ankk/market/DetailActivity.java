@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ankk.market.beans.Beansousproduit;
+import com.ankk.market.beans.Beansousproduitarticle;
 import com.ankk.market.beans.Detail;
 import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.databinding.ActivityDetailBinding;
@@ -57,15 +58,17 @@ public class DetailActivity extends AppCompatActivity {
         if (extras != null) {
             // Get EveryTHING :
             idspr = extras.getInt("idspr",0);
+            //
+            binder.toolbardetailactivity.setTitle(extras.getString("libelle", "---"));
         }
 
         // Display 'Sous-Produit'
-        /*binder.toolbardisplayproduit.setTitle(
-                viewmodel.getProduitRepository().getItem(idprd).getLibelle());*/
+        /**/
 
         //
         binder.shimmerdetailactivity.startShimmer();
         getmobilealldetailsbyidspr(idspr);
+        getmobilealldetailsarticles(idspr);
     }
 
 
@@ -87,7 +90,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Detail>> call, Response<List<Detail>> response) {
                 // STOP SIMMMER :
-                Toast.makeText(getApplicationContext(), "AZERTY : "+String.valueOf(response.code()), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "AZERTY : "+String.valueOf(response.body().size()), Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
                     // Now save it :
                     binder.shimmerdetailactivity.stopShimmer();
@@ -99,18 +102,56 @@ public class DetailActivity extends AppCompatActivity {
                     binder.recyclerdetailactivity.setVisibility(View.VISIBLE);
 
                     // Feed
-                    response.body().forEach(
-                            d -> {
-                                //
-                                viewmodel.getAdapter().addItems(d);
-                            }
-                    );
+                    try {
+                        response.body().forEach(
+                                d -> {
+                                    //
+                                    viewmodel.getAdapter().addItems(d);
+                                }
+                        );
+                    }
+                    catch (Exception exc){
+                        Toast.makeText(getApplicationContext(), "exc : "+
+                                exc.toString(), Toast.LENGTH_LONG).show();
+                    }
                 }
                 //else onErreur();
             }
 
             @Override
             public void onFailure(Call<List<Detail>> call, Throwable t) {
+                //Toast.makeText(context, "onFailure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void getmobilealldetailsarticles(int idspr){
+        if(apiProxy ==null) initProxy();
+        // Set Object :
+        RequeteBean rn = new RequeteBean();
+        rn.setIdprd(idspr);
+
+        apiProxy.getmobilealldetailsarticles(rn).enqueue(new Callback<List<Beansousproduitarticle>>() {
+            @Override
+            public void onResponse(Call<List<Beansousproduitarticle>> call, Response<List<Beansousproduitarticle>> response) {
+                // STOP SIMMMER :
+                if (response.code() == 200) {
+                    // Now save it :
+                    binder.recyclerdisplayarticles.setAdapter(viewmodel.getAdapterDisplayDetail());
+                    binder.recyclerdisplayarticles.setVisibility(View.VISIBLE);
+                    // Feed
+                    response.body().forEach(
+                            d -> {
+                                //
+                                viewmodel.getAdapterDisplayDetail().addItems(d);
+                            }
+                    );
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Beansousproduitarticle>> call, Throwable t) {
                 //Toast.makeText(context, "onFailure", Toast.LENGTH_SHORT).show();
             }
         });

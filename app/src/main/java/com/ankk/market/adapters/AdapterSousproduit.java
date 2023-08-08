@@ -49,7 +49,8 @@ public class AdapterSousproduit extends RecyclerView.Adapter<
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(context, DetailActivity.class);
-                it.putExtra("idprd", donnee.get(position).getIdspr());
+                it.putExtra("idspr", donnee.get(position).getIdspr());
+                it.putExtra("libelle", donnee.get(position).getLibelle());
                 it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(it);
             }

@@ -42,6 +42,10 @@ public interface ApiProxy {
     @POST("backendcommerce/getmobileallsousproduitsarticles")
     Call<List<Beansousproduitarticle>> getmobileallsousproduitsarticles(@Body RequeteBean rn);
 
+    //
+    @POST("backendcommerce/getmobilealldetailsarticles")
+    Call<List<Beansousproduitarticle>> getmobilealldetailsarticles(@Body RequeteBean rn);
+
     // Get COMMUNES :
     @GET("backendcommerce/getmobileAllCommunes")
     Call<List<Commune>> getmobileAllCommunes();
