@@ -77,6 +77,18 @@
             android:visibility="gone"
             />
 
+        <!-- RecyclerView for 'Articles' -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerdisplayarticles"
+            app:layout_constraintTop_toBottomOf="@id/recyclerdetailactivity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

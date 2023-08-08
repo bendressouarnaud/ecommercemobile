@@ -5,6 +5,7 @@ import com.ankk.market.beans.Beanarticlerequest;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.beans.Beansousproduitarticle;
+import com.ankk.market.beans.Detail;
 import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.beans.ResponseBooking;
 import com.ankk.market.models.Client;
@@ -27,6 +28,9 @@ public interface ApiProxy {
     //
     @POST("backendcommerce/getmobileallsousproduits")
     Call<List<Beancategorie>> getmobileallsousproduits(@Body RequeteBean rn);
+
+    @POST("backendcommerce/getmobilealldetailsbyidspr")
+    Call<List<Detail>> getmobilealldetailsbyidspr(@Body RequeteBean rn);
 
     @POST("backendcommerce/getmobileallsousproduitsbyidprd")
     Call<List<Beansousproduit>> getmobileallsousproduitsbyidprd(@Body RequeteBean rn);
