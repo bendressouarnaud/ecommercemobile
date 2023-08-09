@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintarticle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ArticleActivity"
+        android:background="#E6E1E1"
+        >
+
+        <!-- Afficher les ARTICLES -->
+        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+            android:layout_marginTop="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/carouselarticle"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:showTopShadow="true"
+            app:showBottomShadow="true"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            app:layout_constraintTop_toBottomOf="@id/carouselarticle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:id="@+id/constraintsecarticle"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="5dp"
+            >
+
+            <TextView
+                android:id="@+id/textarticle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ganoderma Plus Capsule"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                />
+
+            <TextView
+                android:id="@+id/libentreprisearticle"
+                app:layout_constraintTop_toBottomOf="@id/textarticle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marque :"
+                android:textColor="#000000"
+                android:layout_marginTop="20dp"
+                />
+
+            <TextView
+                android:id="@+id/nomentreprisearticle"
+                app:layout_constraintTop_toBottomOf="@id/textarticle"
+                app:layout_constraintStart_toEndOf="@id/libentreprisearticle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Green World"
+                android:textColor="#074CB1"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:id="@+id/prixarticle"
+                app:layout_constraintTop_toBottomOf="@id/nomentreprisearticle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 120 FCFA"
+                android:textColor="#000000"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/prixreductionaticle"
+                app:layout_constraintTop_toTopOf="@id/prixarticle"
+                app:layout_constraintStart_toEndOf="@id/prixarticle"
+                app:layout_constraintBottom_toBottomOf="@id/prixarticle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 120 FCFA"
+                android:textColor="#807A7A"
+                android:textSize="16sp"
+                android:layout_marginStart="20dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/prixarticle"
+                app:layout_constraintStart_toEndOf="@id/prixreductionaticle"
+                app:layout_constraintBottom_toBottomOf="@id/prixarticle"
+                android:text="-40%"
+                android:background="#F6F1F0"
+                android:textStyle="bold"
+                android:textColor="#EA582A"
+                android:id="@+id/textarticlepourcentage"
+                android:layout_marginStart="20dp"
+                />
+
+            <ImageView
+                android:id="@+id/imgalertearticle"
+                app:layout_constraintTop_toBottomOf="@id/prixarticle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="7dp"
+                android:src="@drawable/ic_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/imgalertearticle"
+                app:layout_constraintStart_toEndOf="@id/imgalertearticle"
+                app:layout_constraintBottom_toBottomOf="@id/imgalertearticle"
+                android:text="2 articles seulement"
+                android:textColor="#CD0C12"
+                android:id="@+id/textarticlerestant"
+                android:layout_marginStart="10dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
