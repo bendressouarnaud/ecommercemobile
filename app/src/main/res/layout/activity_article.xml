@@ -5,254 +5,387 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintarticle"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ArticleActivity"
-        android:background="#E6E1E1"
-        >
-
-        <!-- Afficher les ARTICLES -->
-        <org.imaginativeworld.whynotimagecarousel.ImageCarousel
-            android:layout_marginTop="2dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/carouselarticle"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:showTopShadow="true"
-            app:showBottomShadow="true"
-            />
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            app:layout_constraintTop_toBottomOf="@id/carouselarticle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/constraintarticle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:id="@+id/constraintsecarticle"
-            android:paddingStart="7dp"
-            android:paddingEnd="7dp"
-            android:paddingTop="5dp"
-            >
+            android:layout_height="match_parent"
+            tools:context=".ArticleActivity"
+            android:background="#DFDCDC">
 
-            <TextView
-                android:id="@+id/textarticle"
+            <!-- Afficher les ARTICLES -->
+            <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+                android:layout_marginTop="2dp"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/carouselarticle"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:showTopShadow="true"
+                app:showBottomShadow="true"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/carouselarticle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ganoderma Plus Capsule"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                />
-
-            <TextView
-                android:id="@+id/libentreprisearticle"
-                app:layout_constraintTop_toBottomOf="@id/textarticle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Marque :"
-                android:textColor="#000000"
-                android:layout_marginTop="20dp"
-                />
-
-            <TextView
-                android:id="@+id/nomentreprisearticle"
-                app:layout_constraintTop_toBottomOf="@id/textarticle"
-                app:layout_constraintStart_toEndOf="@id/libentreprisearticle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Green World"
-                android:textColor="#074CB1"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="5dp"
-                />
-
-            <TextView
-                android:id="@+id/prixarticle"
-                app:layout_constraintTop_toBottomOf="@id/nomentreprisearticle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5 120 FCFA"
-                android:textColor="#000000"
-                android:layout_marginTop="20dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:id="@+id/prixreductionaticle"
-                app:layout_constraintTop_toTopOf="@id/prixarticle"
-                app:layout_constraintStart_toEndOf="@id/prixarticle"
-                app:layout_constraintBottom_toBottomOf="@id/prixarticle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5 120 FCFA"
-                android:textColor="#807A7A"
-                android:textSize="16sp"
-                android:layout_marginStart="20dp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/prixarticle"
-                app:layout_constraintStart_toEndOf="@id/prixreductionaticle"
-                app:layout_constraintBottom_toBottomOf="@id/prixarticle"
-                android:text="-40%"
-                android:background="#F6F1F0"
-                android:textStyle="bold"
-                android:textColor="#EA582A"
-                android:id="@+id/textarticlepourcentage"
-                android:layout_marginStart="20dp"
-                />
-
-            <ImageView
-                android:id="@+id/imgalertearticle"
-                app:layout_constraintTop_toBottomOf="@id/prixarticle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="7dp"
-                android:src="@drawable/ic_error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/imgalertearticle"
-                app:layout_constraintStart_toEndOf="@id/imgalertearticle"
-                app:layout_constraintBottom_toBottomOf="@id/imgalertearticle"
-                android:text="2 articles seulement"
-                android:textColor="#CD0C12"
-                android:id="@+id/textarticlerestant"
-                android:layout_marginStart="10dp"
-                />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                app:layout_constraintTop_toBottomOf="@id/imgalertearticle"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="7dp"
-                android:id="@+id/articlelinearlayout"
+                android:background="#FFFFFF"
+                android:id="@+id/constraintsecarticle"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="5dp"
                 >
 
-                <ImageView
-                    android:id="@+id/artstarun"
-                    android:src="@drawable/ic_star_full_gray"
+                <TextView
+                    android:id="@+id/textarticle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ganoderma Plus Capsule"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    />
+
+                <TextView
+                    android:id="@+id/libentreprisearticle"
+                    app:layout_constraintTop_toBottomOf="@id/textarticle"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="Marque :"
+                    android:textColor="#000000"
+                    android:layout_marginTop="20dp"
+                    />
+
+                <TextView
+                    android:id="@+id/nomentreprisearticle"
+                    app:layout_constraintTop_toBottomOf="@id/textarticle"
+                    app:layout_constraintStart_toEndOf="@id/libentreprisearticle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Green World"
+                    android:textColor="#074CB1"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="5dp"
+                    />
+
+                <TextView
+                    android:id="@+id/prixarticle"
+                    app:layout_constraintTop_toBottomOf="@id/nomentreprisearticle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5 120 FCFA"
+                    android:textColor="#000000"
+                    android:layout_marginTop="20dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/prixreductionaticle"
+                    app:layout_constraintTop_toTopOf="@id/prixarticle"
+                    app:layout_constraintStart_toEndOf="@id/prixarticle"
+                    app:layout_constraintBottom_toBottomOf="@id/prixarticle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5 120 FCFA"
+                    android:textColor="#807A7A"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/prixarticle"
+                    app:layout_constraintStart_toEndOf="@id/prixreductionaticle"
+                    app:layout_constraintBottom_toBottomOf="@id/prixarticle"
+                    android:text="-40%"
+                    android:background="#F6F1F0"
+                    android:textStyle="bold"
+                    android:textColor="#EA582A"
+                    android:id="@+id/textarticlepourcentage"
+                    android:layout_marginStart="20dp"
+                    />
 
                 <ImageView
-                    android:id="@+id/artstardeux"
-                    android:src="@drawable/ic_star_full_gray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
-                    android:id="@+id/artstartroix"
-                    android:src="@drawable/ic_star_full_gray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
-                    android:id="@+id/artstarquatre"
-                    android:src="@drawable/ic_star_full_gray"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
-                    android:id="@+id/artstarcinq"
-                    android:src="@drawable/ic_star_full_gray"
+                    android:id="@+id/imgalertearticle"
+                    app:layout_constraintTop_toBottomOf="@id/prixarticle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="7dp"
+                    android:src="@drawable/ic_error"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
-                    android:id="@+id/nbrecommentairearticle"
-                    android:layout_margin="3dp"
-                    android:text="(0)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/imgalertearticle"
+                    app:layout_constraintStart_toEndOf="@id/imgalertearticle"
+                    app:layout_constraintBottom_toBottomOf="@id/imgalertearticle"
+                    android:text="2 articles seulement"
+                    android:textColor="#CD0C12"
+                    android:id="@+id/textarticlerestant"
+                    android:layout_marginStart="10dp"
+                    />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    app:layout_constraintTop_toBottomOf="@id/imgalertearticle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="7dp"
+                    android:id="@+id/articlelinearlayout"
+                    >
+
+                    <ImageView
+                        android:id="@+id/artstarun"
+                        android:src="@drawable/ic_star_full_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/artstardeux"
+                        android:src="@drawable/ic_star_full_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/artstartroix"
+                        android:src="@drawable/ic_star_full_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/artstarquatre"
+                        android:src="@drawable/ic_star_full_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/artstarcinq"
+                        android:src="@drawable/ic_star_full_gray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/nbrecommentairearticle"
+                        android:layout_margin="3dp"
+                        android:text="(0)"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!-- LIVRAISONS  -->
+            <TextView
+                android:id="@+id/titreinforetour"
+                app:layout_constraintTop_toBottomOf="@id/constraintsecarticle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="INFORMATIONS  DE  RETOUR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="7dp"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/titreinforetour"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:id="@+id/constraintsectionretour"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="5dp"
+                android:layout_marginTop="7dp">
+
+                <ImageView
+                    android:id="@+id/imgretourmodalite"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/ic_retour_article"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="7dp"
+                    />
+
+                <TextView
+                    android:id="@+id/titremodaliteretour"
+                    android:text="Modalités de retour"
+                    app:layout_constraintTop_toTopOf="@id/imgretourmodalite"
+                    app:layout_constraintStart_toEndOf="@id/imgretourmodalite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:id="@+id/contenumodaliteretour"
+                    android:text="Retour gratuit sur 10 jours"
+                    app:layout_constraintTop_toBottomOf="@id/titremodaliteretour"
+                    app:layout_constraintStart_toEndOf="@id/imgretourmodalite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- PRODUIT  -->
+            <TextView
+                android:id="@+id/titredetailproduit"
+                app:layout_constraintTop_toBottomOf="@id/constraintsectionretour"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="DETAILS DU PRODUIT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="7dp"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/titredetailproduit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:id="@+id/constraintsectiondetailproduit"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="5dp"
+                android:layout_marginTop="7dp">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/textdescription"
+                    android:text="Description"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <View
+                    android:id="@+id/viewdetailproduit"
+                    app:layout_constraintTop_toBottomOf="@id/textdescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="2dp"
+                    android:background="#A39E9E"
+                    />
 
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/viewdetailproduit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/textcontenudetail"
+                    android:text="Contyenu nrornji vv orvnv ovrv rvrpov, vrpv,rp hfiorhf fruhnff rifr fonr frnrfr frnrfr foirnrriof rfnrofn"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <!-- PRODUIT  -->
+            <TextView
+                android:id="@+id/titreevalutionproduit"
+                app:layout_constraintTop_toBottomOf="@id/constraintsectiondetailproduit"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="20dp"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="EVALUATION DU PRODUIT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="7dp"
+                />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/titreevalutionproduit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:id="@+id/constraintsectionevaluationproduit"
+                android:paddingStart="7dp"
+                android:paddingEnd="7dp"
+                android:paddingTop="5dp"
+                android:layout_marginTop="7dp">
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/textevaluation"
+                    android:text="Note"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintTop_toBottomOf="@id/textevaluation"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/noteevaluation"
+                    android:text="4.5/5"
+                    android:textColor="#EA7107"
+                    android:background="@drawable/notevaluationborder"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                
+                <TextView
+                    app:layout_constraintTop_toTopOf="@id/noteevaluation"
+                    app:layout_constraintBottom_toBottomOf="@id/noteevaluation"
+                    app:layout_constraintStart_toEndOf="@id/noteevaluation"
+                    android:layout_marginStart="5dp"
+                    android:text="(118 Avis clients)"
+                    android:textColor="#000000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                
+                <ImageView
+                    android:layout_width=""
+                    android:layout_height=""
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <!-- LIVRAISONS  -->
-        <TextView
-            android:id="@+id/titreinforetour"
-            app:layout_constraintTop_toBottomOf="@id/constraintsecarticle"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="20dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="INFORMATIONS  DE  RETOUR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="7dp"
-            />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintTop_toBottomOf="@id/titreinforetour"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:id="@+id/constraintsectionretour"
-        android:paddingStart="7dp"
-        android:paddingEnd="7dp"
-        android:paddingTop="5dp"
-        >
-
-        <ImageView
-            android:id="@+id/imgretourmodalite"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/ic_retour_article"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="7dp"
-            />
-
-        <TextView
-            android:id="@+id/titremodaliteretour"
-            android:text="Modalités de retour"
-            app:layout_constraintTop_toTopOf="@id/imgretourmodalite"
-            app:layout_constraintStart_toEndOf="@id/imgretourmodalite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/contenumodaliteretour"
-            android:text="Retour gratuit sur 10 jours"
-            app:layout_constraintTop_toBottomOf="@id/titremodaliteretour"
-            app:layout_constraintStart_toEndOf="@id/imgretourmodalite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="3dp"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>
