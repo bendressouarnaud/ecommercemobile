@@ -136,7 +136,122 @@
                 android:layout_marginStart="10dp"
                 />
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintTop_toBottomOf="@id/imgalertearticle"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp"
+                android:id="@+id/articlelinearlayout"
+                >
+
+                <ImageView
+                    android:id="@+id/artstarun"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstardeux"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstartroix"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstarquatre"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/artstarcinq"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/nbrecommentairearticle"
+                    android:layout_margin="3dp"
+                    android:text="(0)"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!-- LIVRAISONS  -->
+        <TextView
+            android:id="@+id/titreinforetour"
+            app:layout_constraintTop_toBottomOf="@id/constraintsecarticle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="INFORMATIONS  DE  RETOUR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="7dp"
+            />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@id/titreinforetour"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:id="@+id/constraintsectionretour"
+        android:paddingStart="7dp"
+        android:paddingEnd="7dp"
+        android:paddingTop="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/imgretourmodalite"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_retour_article"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="7dp"
+            />
+
+        <TextView
+            android:id="@+id/titremodaliteretour"
+            android:text="Modalités de retour"
+            app:layout_constraintTop_toTopOf="@id/imgretourmodalite"
+            app:layout_constraintStart_toEndOf="@id/imgretourmodalite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/contenumodaliteretour"
+            android:text="Retour gratuit sur 10 jours"
+            app:layout_constraintTop_toBottomOf="@id/titremodaliteretour"
+            app:layout_constraintStart_toEndOf="@id/imgretourmodalite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
