@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        android:clickable="true"
+        android:id="@+id/cardviewbodyarticleresume">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintmaincomment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            >
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:id="@+id/commentlinearlayout"
+                >
+
+                <ImageView
+                    android:id="@+id/cmtun"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/cmtdeux"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/cmttroix"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/cmtquatre"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:id="@+id/cmtcinq"
+                    android:src="@drawable/ic_star_full_gray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <TextView
+                android:id="@+id/textdatecomment"
+                app:layout_constraintTop_toTopOf="@id/commentlinearlayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/commentlinearlayout"
+                android:text="08-08-2023"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/textappreciationcomment"
+                app:layout_constraintTop_toBottomOf="@id/commentlinearlayout"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Excellents produits"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/textcontenucomment"
+                app:layout_constraintTop_toBottomOf="@id/textappreciationcomment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Je confirme que ce produit est excellent dans tous les points possibles"
+                android:textColor="#000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_marginTop="12dp"
+                android:id="@+id/textclientcomment"
+                app:layout_constraintTop_toBottomOf="@id/textcontenucomment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="3dp"
+                android:text="Par N'Guessan Yao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/textachatverifiecomment"
+                app:layout_constraintTop_toTopOf="@id/textclientcomment"
+                app:layout_constraintBottom_toBottomOf="@id/textclientcomment"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Achat vérifié"
+                android:textColor="#3BA307"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                app:layout_constraintTop_toTopOf="@id/textachatverifiecomment"
+                app:layout_constraintEnd_toStartOf="@id/textachatverifiecomment"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_validate_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

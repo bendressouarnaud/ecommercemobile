@@ -1,5 +1,6 @@
 package com.ankk.market.proxies;
 
+import com.ankk.market.beans.Beanarticledatahistory;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlerequest;
 import com.ankk.market.beans.Beancategorie;
@@ -56,4 +57,7 @@ public interface ApiProxy {
 
     @POST("backendcommerce/sendbooking")
     Call<ResponseBooking> sendbooking(@Body Beanarticlerequest data);
+
+    @POST("backendcommerce/getmobilearticleinformationbyidart")
+    Call<Beanarticledatahistory> getmobilearticleinformationbyidart(@Body RequeteBean data);
 }

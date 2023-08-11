@@ -33,6 +33,7 @@
                 android:background="@drawable/backgroundrawable"
                 app:popupTheme="@style/Theme.Market.PopupOverlay"
                 app:titleTextColor="@color/color_desire_front"
+                app:navigationIcon="@drawable/ic_back"
                 />
 
         </com.google.android.material.appbar.AppBarLayout>

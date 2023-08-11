@@ -12,6 +12,7 @@
         app:cardCornerRadius="10dp"
         android:layout_margin="5dp"
         android:clickable="true"
+        android:id="@+id/cardviewbodyarticleresume"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +21,7 @@
             android:layout_height="wrap_content"
             android:background="#F4F3F2"
             android:clickable="true"
+            android:id="@+id/constraintmainarticleresume"
             >
 
             <ImageView

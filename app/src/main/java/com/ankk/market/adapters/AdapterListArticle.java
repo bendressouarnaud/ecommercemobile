@@ -1,6 +1,7 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ankk.market.ArticleActivity;
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.beans.Beancategorie;
@@ -54,6 +57,18 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
     @Override
     public void onBindViewHolder(@NonNull AdapterListArticle.ArticleViewHolder holder,
                                  int position) {
+
+        // Set code here :
+        holder.binder.constraintmainarticleresume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(context, ArticleActivity.class);
+                it.putExtra("idart", donnee.get(position).getIdart());
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(it);
+            }
+        });
+
         // Get DATA :
         Glide.with(context)
                 .load("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/"+
