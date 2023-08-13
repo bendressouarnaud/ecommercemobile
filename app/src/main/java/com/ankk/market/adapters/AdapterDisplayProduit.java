@@ -1,7 +1,9 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.Beansousproduitarticle;
 import com.ankk.market.databinding.CardviewdetailsousproduitBinding;
@@ -37,6 +40,20 @@ public class AdapterDisplayProduit extends RecyclerView.Adapter<AdapterDisplayPr
                                  int position) {
         // Get DATA :
         holder.binder.textdisplayproduit.setText(donnee.get(position).getDetail());
+
+        // Set ACTION on 'VOIR TOUT' :
+        holder.binder.textproduittout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(context, SousproduitActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // Set Mode : 2 -> SOUS-PRODUIT
+                it.putExtra("mode",2);
+                it.putExtra("lib", donnee.get(position).getDetail());
+                context.startActivity(it);
+            }
+        });
+
         // Work on GRIDVIEW :
         if(donnee.get(position).getListe().size() > 3)
             holder.binder.gridviewdisplaysousproduit.getLayoutParams().height = (int)context.getResources().getDimension(R.dimen.artcleproduitgrid);

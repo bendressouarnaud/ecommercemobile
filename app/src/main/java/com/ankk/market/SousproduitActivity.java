@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
+import com.ankk.market.beans.RequestBean;
 import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.databinding.ActivitySousproduitBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
@@ -37,6 +38,7 @@ public class SousproduitActivity extends AppCompatActivity {
     ActivitySousproduitBinding binder;
     ApiProxy apiProxy;
     int iddet = 0, mode =0 ;
+    String libSousProduit = "";
     DetailViewmodel viewmodel;
     boolean temoin = false;
     int cptTimer = 0;
@@ -67,10 +69,29 @@ public class SousproduitActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             // iddet :
-            iddet = extras.getInt("id",0);
             mode = extras.getInt("mode",0);
-            // Call to get DATA :
-            getarticlesbasedoniddet(iddet);
+            //Toast.makeText(SousproduitActivity.this, "mode : "+String.valueOf(mode), Toast.LENGTH_SHORT).show();
+            switch (mode){
+                case 2:
+                    // SOUS-PRODUIT :
+                    libSousProduit = extras.getString("lib");
+                    getarticlesBasedonLib();
+                    break;
+
+                case 3:
+                    // DETAIL
+                    iddet = extras.getInt("id", 0);
+                    // Call to get DATA :
+                    getarticlesbasedoniddet(iddet);
+                    break;
+
+                default:
+                    // DETAIL
+                    iddet = extras.getInt("id", 0);
+                    // Call to get DATA :
+                    getarticlesbasedoniddet(iddet);
+                    break;
+            }
         }
     }
 
@@ -149,6 +170,62 @@ public class SousproduitActivity extends AppCompatActivity {
                             be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
                             viewmodel.getAdapter().addItems(be);
                         }
+                    );
+
+                    // Call
+                    notifyUser();
+                }
+                //else onErreur();
+            }
+
+            @Override
+            public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
+                Toast.makeText(SousproduitActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void getarticlesBasedonLib(){
+        if(apiProxy ==null) initProxy();
+        // Set Object :
+        RequestBean rn = new RequestBean();
+        rn.setId(0);
+        rn.setLib(libSousProduit);
+
+        apiProxy.getmobilearticlesBasedonLib(rn).enqueue(new Callback<List<Beanarticledetail>>() {
+            @Override
+            public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
+                // STOP SIMMMER :
+
+                if (response.code() == 200) {
+                    // Now save it :
+
+                    // Call ADAPTER
+                    //AdapterListArticle adapter = new AdapterListArticle(getApplicationContext());
+                    binder.shimarticledetail.stopShimmer();
+                    binder.shimarticledetail.setVisibility(View.GONE);
+                    binder.recyclerarticle.setVisibility(View.VISIBLE);
+                    binder.recyclerarticle.setAdapter(viewmodel.getAdapter());
+                    response.body().forEach(
+                            d -> {
+                                // Save each :
+                                viewmodel.insertArticle(d);
+
+                                //
+                                Beanarticlelive be = new Beanarticlelive();
+                                be.setIdart(d.getIdart());
+                                be.setPrix(d.getPrix());
+                                be.setReduction(d.getReduction());
+                                be.setNote(d.getNote());
+                                be.setArticlerestant(d.getArticlerestant());
+                                be.setLibelle(d.getLibelle());
+                                be.setLienweb(d.getLienweb());
+                                // Article reserve :
+                                List<Achat> getAchat = viewmodel.getAllByIdart(d.getIdart());
+                                be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
+                                viewmodel.getAdapter().addItems(be);
+                            }
                     );
 
                     // Call

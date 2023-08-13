@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ankk.market.ArticleActivity;
 import com.ankk.market.R;
 import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.Beanresumearticle;
@@ -90,11 +91,12 @@ public class AdapterGridViewResumeArticle extends BaseAdapter {
 
     // Open INTERFACE :
     private void openInterface(int detail) {
-        Intent it = new Intent(context, SousproduitActivity.class);
+        Intent it = new Intent(context, ArticleActivity.class);
         it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // Set Mode : 3 -> DETAIL
-        it.putExtra("mode", 3);
-        it.putExtra("id", detail);
+        /*it.putExtra("mode", 3);
+        it.putExtra("id", detail);*/
+        it.putExtra("idart", detail);
         context.startActivity(it);
     }
 }
