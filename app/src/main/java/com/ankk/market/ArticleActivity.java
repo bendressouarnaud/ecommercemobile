@@ -2,6 +2,7 @@ package com.ankk.market;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -104,10 +105,32 @@ public class ArticleActivity extends AppCompatActivity {
 
                     binder.textarticle.setText(response.body().getArticle());
                     binder.nomentreprisearticle.setText(response.body().getEntreprise());
-                    binder.prixarticle.setText(NumberFormat.getInstance(Locale.FRENCH).format(response.body().getPrix()) + " FCFA");
+
+                    // Get PRICE :
+                    if(response.body().getReduction() > 0){
+                        binder.prixreductionaticle.setText(
+                                NumberFormat.getInstance(Locale.FRENCH).format(response.body().getPrix())+" FCFA"
+                        );
+                        binder.prixreductionaticle.setPaintFlags(
+                                binder.prixreductionaticle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG
+                        );
+
+                        binder.textarticlepourcentage.setText("-"+String.valueOf(response.body().getReduction())+"%");
+                        // Compute PRICE :
+                        float tpPrice = ((response.body().getPrix() * response.body().getReduction()) / 100);
+                        binder.prixarticle.setText(
+                                NumberFormat.getInstance(Locale.FRENCH).format(response.body().getPrix() - tpPrice)+" FCFA");
+                    }
+                    else {
+                        binder.prixreductionaticle.setVisibility(View.GONE);
+                        binder.textarticlepourcentage.setVisibility(View.GONE);
+                        binder.prixarticle.setText(NumberFormat.getInstance(Locale.FRENCH).format(response.body().getPrix()) + " FCFA");
+                    }
                     if(response.body().getNombrearticle() > 5){
                         // Hide :
-                        binder.imgalertearticle.setVisibility(View.INVISIBLE);
+                        //binder.imgalertearticle.setVisibility(View.INVISIBLE);
+                        binder.imgalertearticle.setImageDrawable(
+                                getResources().getDrawable(R.drawable.ic_article_restant, null));
                         // Change COLOR :
                         binder.textarticlerestant.setTextColor(getResources().getColor(R.color.color_green, null));
                     }
@@ -115,6 +138,9 @@ public class ArticleActivity extends AppCompatActivity {
 
                     // Contenu du TEXT :
                     binder.textcontenudetail.setText(response.body().getDescriptionproduit());
+
+                    // Modalité :
+                    binder.contenumodaliteretour.setText(response.body().getModaliteretour());
 
 
                     /*binder.recyclerarticle.setAdapter(viewmodel.getAdapter());

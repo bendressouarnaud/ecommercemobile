@@ -59,7 +59,8 @@ public class Fragmentoffre extends Fragment {
         //
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = getView().findViewById(m == Modes.OFFRES ? R.id.recycleroffre : R.id.recyclerproduit);
+        //RecyclerView recyclerView = getView().findViewById(m == Modes.OFFRES ? R.id.recycleroffre : R.id.recyclerproduit);
+        RecyclerView recyclerView = getView().findViewById(R.id.recyclerproduit);
         recyclerView.setLayoutManager(layoutManager);
 
         //

@@ -2,6 +2,7 @@ package com.ankk.market.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,20 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
             holder.binder.prixpromotionarticle.setVisibility(View.INVISIBLE);
             holder.binder.articlepourcentage.setVisibility(View.INVISIBLE);
         }
+        else{
+            holder.binder.prixpromotionarticle.setText(
+                    NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getPrix())+" FCFA"
+            );
+            holder.binder.prixpromotionarticle.setPaintFlags(
+                    holder.binder.prixpromotionarticle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG
+            );
+            holder.binder.articlepourcentage.setText("-"+String.valueOf(donnee.get(position).getReduction())+"%");
+            // Compute PRICE :
+            float tpPrice = ((donnee.get(position).getPrix() * donnee.get(position).getReduction()) / 100);
+            holder.binder.prixarticle.setText(
+                    NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getPrix() - tpPrice)+" FCFA");
+        }
+
         // STAR Appreciation
         //holder.binder.articlelinearlayout.setVisibility(View.GONE);
 

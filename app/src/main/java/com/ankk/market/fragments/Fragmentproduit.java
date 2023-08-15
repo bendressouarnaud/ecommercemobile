@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,8 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.ankk.market.BuildConfig;
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
+import com.ankk.market.adapters.AdapterGridViewPromotionArticle;
+import com.ankk.market.adapters.AdapterGridViewResumeArticle;
 import com.ankk.market.adapters.AdapterOffre;
 import com.ankk.market.adapters.AdapterProduit;
+import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.databinding.FragmentproduitBinding;
 import com.ankk.market.mesenums.Modes;
@@ -126,7 +130,7 @@ public class Fragmentproduit extends Fragment {
         getmobileAllProduits();
 
         // Meilleures offres :
-        adapterOff = new AdapterOffre(getContext(), m);
+        /*adapterOff = new AdapterOffre(getContext(), m);
         LinearLayoutManager layoutManagerOffre = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         binder.recycleroffre.setLayoutManager(layoutManagerOffre);
@@ -137,7 +141,8 @@ public class Fragmentproduit extends Fragment {
                 d -> {
                     adapterOff.addItems(d);
                 }
-        );
+        );*/
+        getpromotedarticles();
 
     }
 
@@ -182,6 +187,31 @@ public class Fragmentproduit extends Fragment {
             }
         });
     }
+
+    // getpromotedarticles
+    public void getpromotedarticles(){
+        if(apiProxy ==null) initProxy();
+        apiProxy.getpromotedarticles().enqueue(new Callback<List<Beanarticledetail>>() {
+            @Override
+            public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
+                //binder.shimmerproduit.stopShimmer();
+                if (response.code() == 200) {
+                    // Now save it :
+                    binder.gridviewdisplayproduit.setAdapter(
+                            new AdapterGridViewPromotionArticle(getContext(),
+                                    response.body()));
+                }
+                //else onErreur();
+            }
+
+            @Override
+            public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
+                binder.shimmerproduit.stopShimmer();
+                onErreur();
+            }
+        });
+    }
+
 
     // On error
     public void onErreur(){

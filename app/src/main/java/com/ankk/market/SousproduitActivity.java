@@ -70,7 +70,7 @@ public class SousproduitActivity extends AppCompatActivity {
         if (extras != null) {
             // iddet :
             mode = extras.getInt("mode",0);
-            //Toast.makeText(SousproduitActivity.this, "mode : "+String.valueOf(mode), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SousproduitActivity.this, "mode : "+String.valueOf(mode), Toast.LENGTH_SHORT).show();
             switch (mode){
                 case 2:
                     // SOUS-PRODUIT :
