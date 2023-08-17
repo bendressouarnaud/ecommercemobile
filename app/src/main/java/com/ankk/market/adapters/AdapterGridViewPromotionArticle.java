@@ -49,35 +49,35 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         AdapterGridViewPromotionArticle.ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.cardviewoffre, null);
+            convertView = layoutInflater.inflate(R.layout.cardviewarticlepromotion, null);
             holder = new AdapterGridViewPromotionArticle.ViewHolder();
-            holder.imgoffre = (ImageView) convertView.findViewById(R.id.imgoffre);
-            holder.liboffre = (TextView) convertView.findViewById(R.id.liboffre);
-            holder.prixoffre = (TextView) convertView.findViewById(R.id.prixoffre);
-            holder.itemrestantoffre = (TextView) convertView.findViewById(R.id.itemrestantoffre);
-            holder.textpourcentage = (TextView) convertView.findViewById(R.id.textpourcentage);
-            holder.baroffre = (ProgressBar) convertView.findViewById(R.id.baroffre);
+            holder.imgpromart = (ImageView) convertView.findViewById(R.id.imgpromart);
+            holder.libpromart = (TextView) convertView.findViewById(R.id.libpromart);
+            holder.prixpromart = (TextView) convertView.findViewById(R.id.prixpromart);
+            holder.itempromrestart = (TextView) convertView.findViewById(R.id.itempromrestart);
+            holder.textprompourcentage = (TextView) convertView.findViewById(R.id.textprompourcentage);
+            holder.barpromart = (ProgressBar) convertView.findViewById(R.id.barpromart);
             convertView.setTag(holder);
         } else {
             holder = (AdapterGridViewPromotionArticle.ViewHolder) convertView.getTag();
         }
 
         Beanarticledetail detail = this.listData.get(position);
-        holder.liboffre.setText(detail.getLibelle());
-        holder.itemrestantoffre.setText(String.valueOf(detail.getArticlerestant())+" article(s) restant(s)");
-        holder.prixoffre.setText(String.valueOf(detail.getPrix()) +" FCFA");
+        holder.libpromart.setText(detail.getLibelle());
+        holder.itempromrestart.setText(String.valueOf(detail.getArticlerestant())+" article(s) restant(s)");
+        holder.prixpromart.setText(String.valueOf(detail.getPrix()) +" FCFA");
         if(detail.getReduction() > 0){
-            holder.textpourcentage.setText("-"+String.valueOf(detail.getReduction())+"%");
+            holder.textprompourcentage.setText("-"+String.valueOf(detail.getReduction())+"%");
         }
         else{
-            holder.textpourcentage.setVisibility(View.INVISIBLE);
+            holder.textprompourcentage.setVisibility(View.INVISIBLE);
         }
         Glide.with(context)
                 .load("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/" +
                         detail.getLienweb() + "?alt=media")
                 .onlyRetrieveFromCache(false)
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.imgoffre);
+                .into(holder.imgpromart);
 
         //holder.libgriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
         //holder.imggriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
@@ -95,9 +95,9 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
     }
 
     static class ViewHolder {
-        ImageView imgoffre;
-        TextView liboffre, prixoffre, itemrestantoffre, textpourcentage;
-        ProgressBar baroffre;
+        ImageView imgpromart;
+        TextView libpromart, prixpromart, itempromrestart, textprompourcentage;
+        ProgressBar barpromart;
     }
 
     // Open INTERFACE :
