@@ -197,6 +197,8 @@ public class Fragmentproduit extends Fragment {
                 //binder.shimmerproduit.stopShimmer();
                 if (response.code() == 200) {
                     // Now save it :
+                    if(response.body().size() > 3)
+                        binder.gridviewdisplayproduit.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
                     binder.gridviewdisplayproduit.setAdapter(
                             new AdapterGridViewPromotionArticle(getContext(),
                                     response.body()));

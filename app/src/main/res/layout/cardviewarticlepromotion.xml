@@ -15,8 +15,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:padding="5dp"
-            android:layout_width="165dp"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F4F1F1"
+            >
 
             <ImageView
                 android:id="@+id/imgpromart"
