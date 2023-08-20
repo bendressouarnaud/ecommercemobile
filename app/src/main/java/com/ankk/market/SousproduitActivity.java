@@ -70,7 +70,7 @@ public class SousproduitActivity extends AppCompatActivity {
         if (extras != null) {
             // iddet :
             mode = extras.getInt("mode",0);
-            Toast.makeText(SousproduitActivity.this, "mode : "+String.valueOf(mode), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(SousproduitActivity.this, "mode : "+String.valueOf(mode), Toast.LENGTH_SHORT).show();
             switch (mode){
                 case 2:
                     // SOUS-PRODUIT :
@@ -83,6 +83,11 @@ public class SousproduitActivity extends AppCompatActivity {
                     iddet = extras.getInt("id", 0);
                     // Call to get DATA :
                     getarticlesbasedoniddet(iddet);
+                    break;
+
+                case 4:
+                    // Display All PROMOTED ARTICLE
+                    getpromotedarticles();
                     break;
 
                 default:
@@ -170,6 +175,61 @@ public class SousproduitActivity extends AppCompatActivity {
                             be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
                             viewmodel.getAdapter().addItems(be);
                         }
+                    );
+
+                    // Call
+                    notifyUser();
+                }
+                //else onErreur();
+            }
+
+            @Override
+            public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
+                Toast.makeText(SousproduitActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public void getpromotedarticles(){
+        if(apiProxy ==null) initProxy();
+        // Set Object :
+        RequeteBean rn = new RequeteBean();
+        rn.setIdprd(1);
+
+        apiProxy.getpromotedarticles(rn).enqueue(new Callback<List<Beanarticledetail>>() {
+            @Override
+            public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
+                // STOP SIMMMER :
+
+                if (response.code() == 200) {
+                    // Now save it :
+
+                    // Call ADAPTER
+                    //AdapterListArticle adapter = new AdapterListArticle(getApplicationContext());
+                    binder.shimarticledetail.stopShimmer();
+                    binder.shimarticledetail.setVisibility(View.GONE);
+                    binder.recyclerarticle.setVisibility(View.VISIBLE);
+                    binder.recyclerarticle.setAdapter(viewmodel.getAdapter());
+                    response.body().forEach(
+                            d -> {
+                                // Save each :
+                                viewmodel.insertArticle(d);
+
+                                //
+                                Beanarticlelive be = new Beanarticlelive();
+                                be.setIdart(d.getIdart());
+                                be.setPrix(d.getPrix());
+                                be.setReduction(d.getReduction());
+                                be.setNote(d.getNote());
+                                be.setArticlerestant(d.getArticlerestant());
+                                be.setLibelle(d.getLibelle());
+                                be.setLienweb(d.getLienweb());
+                                // Article reserve :
+                                List<Achat> getAchat = viewmodel.getAllByIdart(d.getIdart());
+                                be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
+                                viewmodel.getAdapter().addItems(be);
+                            }
                     );
 
                     // Call

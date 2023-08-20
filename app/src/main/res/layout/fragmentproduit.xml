@@ -59,7 +59,7 @@
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textColor="@color/black"
-                    android:text="VOIR TOUT"
+                    android:text="..."
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
@@ -117,9 +117,79 @@
 
             </com.facebook.shimmer.ShimmerFrameLayout>
 
-            <!-- OFFRE -->
+
+
+
+            <!-- Produits récemment ajouté -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 app:layout_constraintTop_toBottomOf="@id/shimmerproduit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/accconstajout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#8DBFD3"
+                android:layout_marginTop="2dp"
+                >
+
+                <TextView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:text="Produits récemmnt ajoutés"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/acctextajout"
+                    android:layout_marginStart="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/textajouttout"
+                    app:layout_constraintTop_toTopOf="@id/acctextajout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:text="..."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <TextView
+                    app:layout_constraintTop_toBottomOf="@id/acctextajout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:id="@+id/accinfoajoutpourcent"
+                    android:textSize="14sp"
+                    android:text="Six derniers produits"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <GridView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/accconstajout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:id="@+id/gridviewdisplayproduitrecent"
+                android:listSelector="@drawable/list_selector"
+                android:horizontalSpacing="10dp"
+                android:verticalSpacing="10dp"
+                android:layout_margin="3dp"
+                />
+
+
+            <!-- OFFRE -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:layout_constraintTop_toBottomOf="@id/gridviewdisplayproduitrecent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/accbestoffer"
@@ -188,70 +258,10 @@
                 android:listSelector="@drawable/list_selector"
                 android:horizontalSpacing="10dp"
                 android:verticalSpacing="10dp"
-                android:layout_margin="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp"
                 />
-
-
-            <!-- Produits récemment ajouté -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                app:layout_constraintTop_toBottomOf="@id/gridviewdisplayproduit"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/accconstajout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#8DBFD3"
-                android:layout_marginTop="2dp"
-                >
-
-                <TextView
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:text="Produits récemmnt ajoutés"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/acctextajout"
-                    android:layout_marginStart="10dp"
-                    />
-
-                <TextView
-                    android:id="@+id/textajouttout"
-                    app:layout_constraintTop_toTopOf="@id/acctextajout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:text="VOIR TOUT"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    />
-
-                <TextView
-                    app:layout_constraintTop_toBottomOf="@id/acctextajout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:id="@+id/accinfoajoutpourcent"
-                    android:textSize="14sp"
-                    android:text="Jusqu'à -20%"
-                    android:layout_marginStart="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                app:layout_constraintTop_toBottomOf="@id/accconstajout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/recyclerajout"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"/>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

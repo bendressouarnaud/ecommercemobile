@@ -25,6 +25,7 @@ public class PanierViewmodel extends ViewModel {
     ClientRepository clientRepository;
     CommuneRepository communeRepository;
     CommandeRepository commandeRepository;
+    int modePaiement;
 
 
     //
@@ -107,5 +108,13 @@ public class PanierViewmodel extends ViewModel {
 
     public CommandeRepository getCommandeRepository() {
         return commandeRepository;
+    }
+
+    public int getModePaiement() {
+        return modePaiement;
+    }
+
+    public void setModePaiement(int modePaiement) {
+        this.modePaiement = modePaiement;
     }
 }

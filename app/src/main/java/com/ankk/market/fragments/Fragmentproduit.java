@@ -1,5 +1,6 @@
 package com.ankk.market.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +14,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.ankk.market.ArticleActivity;
 import com.ankk.market.BuildConfig;
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.adapters.AdapterGridViewPromotionArticle;
 import com.ankk.market.adapters.AdapterGridViewResumeArticle;
 import com.ankk.market.adapters.AdapterOffre;
 import com.ankk.market.adapters.AdapterProduit;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beansousproduit;
+import com.ankk.market.beans.RequestBean;
+import com.ankk.market.beans.RequeteBean;
 import com.ankk.market.databinding.FragmentproduitBinding;
 import com.ankk.market.mesenums.Modes;
 import com.ankk.market.mesobjets.RetrofitTool;
@@ -35,7 +40,10 @@ import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -143,7 +151,7 @@ public class Fragmentproduit extends Fragment {
                 }
         );*/
         getpromotedarticles();
-
+        getrecentarticles();
     }
 
     // Set API :
@@ -191,15 +199,70 @@ public class Fragmentproduit extends Fragment {
     // getpromotedarticles
     public void getpromotedarticles(){
         if(apiProxy ==null) initProxy();
-        apiProxy.getpromotedarticles().enqueue(new Callback<List<Beanarticledetail>>() {
+
+        RequeteBean rn = new RequeteBean();
+        rn.setIdprd(0);
+
+        apiProxy.getpromotedarticles(rn).enqueue(new Callback<List<Beanarticledetail>>() {
+            @Override
+            public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
+                //binder.shimmerproduit.stopShimmer();
+                if (response.code() == 200) {
+                    if(response.body().size() > 0) {
+
+                        // get the Maximum REDUCTION value :
+                        Optional<Beanarticledetail> tpBl = response.body().stream()
+                            .sorted(Comparator.comparing(Beanarticledetail::getReduction).reversed()).findFirst();
+                        binder.accinfopffrepourcent.setText("Jusqu'à -"+
+                                String.valueOf(tpBl.get().getReduction())+"%");
+
+                        // Set ACTIONS on 'VOIR TOUT :
+                        binder.textoffretout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent it = new Intent(getContext(), SousproduitActivity.class);
+                                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                it.putExtra("mode", 4);
+                                getContext().startActivity(it);
+                            }
+                        });
+
+                        // Now save it :
+                        if (response.body().size() > 3)
+                            binder.gridviewdisplayproduit.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
+                        binder.gridviewdisplayproduit.setAdapter(
+                                new AdapterGridViewPromotionArticle(getContext(),
+                                        response.body()));
+                    }
+                    else{
+                        // HIDE OBJECTS :
+                        binder.accbestoffer.setVisibility(View.GONE);
+                        binder.gridviewdisplayproduit.setVisibility(View.GONE);
+                    }
+                }
+                //else onErreur();
+            }
+
+            @Override
+            public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
+                binder.shimmerproduit.stopShimmer();
+                onErreur();
+            }
+        });
+    }
+
+    // get articles RECENT
+    public void getrecentarticles(){
+        if(apiProxy ==null) initProxy();
+        apiProxy.getrecentarticles().enqueue(new Callback<List<Beanarticledetail>>() {
             @Override
             public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
                 //binder.shimmerproduit.stopShimmer();
                 if (response.code() == 200) {
                     // Now save it :
                     if(response.body().size() > 3)
-                        binder.gridviewdisplayproduit.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
-                    binder.gridviewdisplayproduit.setAdapter(
+                        binder.gridviewdisplayproduitrecent.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
+                    binder.gridviewdisplayproduitrecent.setAdapter(
                             new AdapterGridViewPromotionArticle(getContext(),
                                     response.body()));
                 }

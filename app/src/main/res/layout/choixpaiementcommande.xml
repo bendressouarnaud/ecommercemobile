@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:id="@+id/paiementradiogroup"
+        >
+
+        <RadioButton
+            android:id="@+id/radiolivraison"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="À la livraison"
+            android:textSize="20sp"
+            android:checked="true"
+            />
+
+        <RadioButton
+            android:id="@+id/radioliquide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mobile Money"
+            android:textSize="20sp"
+            />
+
+    </RadioGroup>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/paiementradiogroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Valider"
+        android:backgroundTint="#AE6A06"
+        android:id="@+id/butpaiementway"
+        android:layout_marginTop="25dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

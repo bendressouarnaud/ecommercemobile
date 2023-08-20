@@ -24,6 +24,7 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
     private List<Beanarticledetail> listData;
     private LayoutInflater layoutInflater;
     private Context context;
+    final int limitProduitName = 10;
 
     public AdapterGridViewPromotionArticle(Context aContext, List<Beanarticledetail> listData) {
         this.context = aContext;
@@ -63,7 +64,8 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
         }
 
         Beanarticledetail detail = this.listData.get(position);
-        holder.libpromart.setText(detail.getLibelle());
+        holder.libpromart.setText(detail.getLibelle().length() <= limitProduitName ?
+                detail.getLibelle() : (detail.getLibelle().substring(0, (limitProduitName-1)) + "...") );
         holder.itempromrestart.setText(String.valueOf(detail.getArticlerestant())+" article(s) restant(s)");
         holder.prixpromart.setText(String.valueOf(detail.getPrix()) +" FCFA");
         if(detail.getReduction() > 0){
@@ -79,8 +81,9 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(holder.imgpromart);
 
-        //holder.libgriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
-        //holder.imggriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
+        holder.imgpromart.setOnClickListener(d -> openInterface(detail.getIdart()));
+        holder.libpromart.setOnClickListener(d -> openInterface(detail.getIdart()));
+        holder.prixpromart.setOnClickListener(d -> openInterface(detail.getIdart()));
 
         return convertView;
     }

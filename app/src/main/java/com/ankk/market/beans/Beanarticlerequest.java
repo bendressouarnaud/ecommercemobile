@@ -6,7 +6,7 @@ import java.util.List;
 public class Beanarticlerequest {
 
     //
-    int idcli;
+    int idcli, choixpaiement;
     List<BeanActif> liste;
 
     public Beanarticlerequest() {
@@ -27,5 +27,13 @@ public class Beanarticlerequest {
 
     public void setListe(List<BeanActif> liste) {
         this.liste = liste;
+    }
+
+    public int getChoixpaiement() {
+        return choixpaiement;
+    }
+
+    public void setChoixpaiement(int choixpaiement) {
+        this.choixpaiement = choixpaiement;
     }
 }

@@ -124,6 +124,7 @@
             android:id="@+id/progresspanier"
             android:indeterminateTint="#000000"
             android:visibility="invisible"
+            android:layout_marginStart="3dp"
             />
 
         <TextView

@@ -27,9 +27,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +65,7 @@ public class PanierActivity extends AppCompatActivity {
     long prixTotal = 0;
     PanierViewmodel viewmodel;
     ApiProxy apiProxy;
-    AlertDialog alertDialogLoadPicture;
+    AlertDialog alertDialogLoadPicture, alerdialogMoyenPaiement;
     List<Commune> data ;
     boolean getCommune = false;
     static PanierActivity instance;
@@ -174,28 +177,8 @@ public class PanierActivity extends AppCompatActivity {
         binder.layoutpanier.textpayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!viewmodel.getClientRepository().getAll().isEmpty()) {
-                    Intent it = new Intent(PanierActivity.this, CinetPay.class);
-                    it.putExtra("montant", prixTotal);
-                    //it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(it);
-                }
-                else {
-                    if(viewmodel.getCommuneRepository().getAll().isEmpty()){
-                        if (BoiteOutil.checkInternet(getApplicationContext())) {
-                            // Get DATA from
-                            processDialog();
-                        } else {
-                            Toast.makeText(PanierActivity.this,
-                                    "Connexion Internet requise !", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        // Call to register USER's account :
-                        Intent it = new Intent(PanierActivity.this, CompteActivity.class);
-                        startActivity(it);
-                    }
-                }
+                //
+                displayWayToPay();
             }
         });
     }
@@ -292,6 +275,7 @@ public class PanierActivity extends AppCompatActivity {
         Beanarticlerequest bt = new Beanarticlerequest();
         bt.setListe(keepArticle);
         bt.setIdcli(viewmodel.getClientRepository().getAll().get(0).getIdcli());
+        bt.setChoixpaiement(viewmodel.getModePaiement());
 
         // Set Flag :
         envoiValidation = true;
@@ -300,6 +284,11 @@ public class PanierActivity extends AppCompatActivity {
         apiProxy.sendbooking(bt).enqueue(new Callback<ResponseBooking>() {
             @Override
             public void onResponse(Call<ResponseBooking> call, Response<ResponseBooking> response) {
+
+                //
+                binder.layoutpanier.progresspanier.setVisibility(View.INVISIBLE);
+                binder.layoutpanier.textpanierpatienter.setVisibility(View.INVISIBLE);
+
                 if (response.code() == 200) {
                     // Close the DOORS :
                     if(response.body().getEtat() == 1){
@@ -332,6 +321,9 @@ public class PanierActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBooking> call, Throwable t) {
+                //
+                binder.layoutpanier.progresspanier.setVisibility(View.INVISIBLE);
+                binder.layoutpanier.textpanierpatienter.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -344,5 +336,107 @@ public class PanierActivity extends AppCompatActivity {
             binder.layoutpanier.progresspanier.setVisibility(View.VISIBLE);
             binder.layoutpanier.textpanierpatienter.setVisibility(View.VISIBLE);
         }
+    }
+
+    //
+    // Show progressBar
+    void displayWayToPay(){
+
+        // We can launch the appropriate METHOD to send the DATA :
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+        View vRapport = inflater.inflate(R.layout.choixpaiementcommande, null);
+
+        // Get OBjects :
+        RadioButton radiolivraison = vRapport.findViewById(R.id.radiolivraison);
+        RadioButton radioliquide = vRapport.findViewById(R.id.radioliquide);
+        Button butpaiementway = vRapport.findViewById(R.id.butpaiementway);
+        // Set Action
+        butpaiementway.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alerdialogMoyenPaiement.cancel();
+
+                // PAIEMENT à la LIVRAISON :
+                if(radiolivraison.isChecked()){
+                    //
+                    if(!viewmodel.getClientRepository().getAll().isEmpty()) {
+                        // Send ALL COMMANDS :
+                        if (BoiteOutil.checkInternet(getApplicationContext())) {
+                            // Get DATA from
+                            binder.layoutpanier.progresspanier.setVisibility(View.VISIBLE);
+                            binder.layoutpanier.textpanierpatienter.setVisibility(View.VISIBLE);
+                            viewmodel.setModePaiement(2);
+                            setPaiementeffectue();
+                        } else {
+                            Toast.makeText(PanierActivity.this,
+                                    "Connexion Internet requise !", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        if(viewmodel.getCommuneRepository().getAll().isEmpty()){
+                            if (BoiteOutil.checkInternet(getApplicationContext())) {
+                                // Get DATA from
+                                processDialog();
+                            } else {
+                                Toast.makeText(PanierActivity.this,
+                                        "Connexion Internet requise !", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            // Call to register USER's account :
+                            Intent it = new Intent(PanierActivity.this, CompteActivity.class);
+                            startActivity(it);
+                        }
+                    }
+                }
+
+                // PAIEMENT MOBILE MONEY :
+                if(radioliquide.isChecked()){
+                    if(!viewmodel.getClientRepository().getAll().isEmpty()) {
+                        Intent it = new Intent(PanierActivity.this, CinetPay.class);
+                        it.putExtra("montant", prixTotal);
+                        //it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        viewmodel.setModePaiement(1);
+                        startActivity(it);
+                    }
+                    else {
+                        if(viewmodel.getCommuneRepository().getAll().isEmpty()){
+                            if (BoiteOutil.checkInternet(getApplicationContext())) {
+                                // Get DATA from
+                                processDialog();
+                            } else {
+                                Toast.makeText(PanierActivity.this,
+                                        "Connexion Internet requise !", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else {
+                            // Call to register USER's account :
+                            Intent it = new Intent(PanierActivity.this, CompteActivity.class);
+                            startActivity(it);
+                        }
+                    }
+                }
+
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Sélectionnez un moyen de paiement");
+
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setView(vRapport);
+        //builder.setCancelable(false);
+        alerdialogMoyenPaiement = builder.create();
+        alerdialogMoyenPaiement.show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(binder.layoutpanier.progresspanier.getVisibility() == View.VISIBLE){
+            // Display :
+            Toast.makeText(this,"Veuillez Patienter, une opération est en cours ...",
+                    Toast.LENGTH_LONG).show();
+        }
+        else super.onBackPressed();
     }
 }

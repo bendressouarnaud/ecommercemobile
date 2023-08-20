@@ -28,8 +28,11 @@ public interface ApiProxy {
     Call<List<Produit>> getmobileAllProduits();
 
     //
-    @GET("backendcommerce/getmobilepromotedarticles")
-    Call<List<Beanarticledetail>> getpromotedarticles();
+    @POST("backendcommerce/getmobilepromotedarticles")
+    Call<List<Beanarticledetail>> getpromotedarticles(@Body RequeteBean rn);
+
+    @GET("backendcommerce/getmobilerecentarticles")
+    Call<List<Beanarticledetail>> getrecentarticles();
 
     //
     @POST("backendcommerce/getmobileallsousproduits")
