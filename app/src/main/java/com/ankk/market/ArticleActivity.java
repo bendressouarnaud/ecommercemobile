@@ -1,12 +1,15 @@
 package com.ankk.market;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ankk.market.adapters.AdapterListArticle;
 import com.ankk.market.beans.Beanarticledatahistory;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
@@ -16,6 +19,9 @@ import com.ankk.market.databinding.ActivitySousproduitBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
 import com.ankk.market.models.Achat;
 import com.ankk.market.proxies.ApiProxy;
+import com.ankk.market.viewmodels.AccueilViewmodel;
+import com.ankk.market.viewmodels.ArticleViewmodel;
+import com.ankk.market.viewmodels.VMFactory;
 
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
@@ -35,6 +41,9 @@ public class ArticleActivity extends AppCompatActivity {
     // A t t r i b u t e s :
     ActivityArticleBinding binder;
     ApiProxy apiProxy;
+    ArticleViewmodel viewmodel;
+    int nbreCommande = 0;
+
 
 
     // M e t h o d s :
@@ -49,11 +58,38 @@ public class ArticleActivity extends AppCompatActivity {
         setSupportActionBar(binder.toolbararticle);
         getWindow().setStatusBarColor(getResources().getColor(R.color.black, null));
 
+        // Set the VIEWMODEL :
+        viewmodel = new ViewModelProvider(this,
+                new VMFactory(getApplication()))
+                .get(ArticleViewmodel.class);
+
         // Get "EXTRAS" :
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            int idart = extras.getInt("idart",0);
+
+            // In case the ARTICLE has been already BOOKED, take it into account :
+            Achat act = viewmodel.getAchatRepository().getAllByIdartAndActif(idart, 1).stream().findFirst().orElse(null);
+            if(act != null){
+                // Hide articlebutart :
+                binder.articlebutart.setVisibility(View.GONE);
+                // Update the number of ARTICLES :
+                binder.quantitearticleart.setText(String.valueOf(viewmodel.getAchatRepository().getAllByIdartAndActif(idart, 1).size()));
+            }
+            else{
+                // Hide BUTTONS - & + and TEXT
+                binder.articlebutplusart.setVisibility(View.INVISIBLE);
+                binder.articlebutmoinsart.setVisibility(View.INVISIBLE);
+                binder.quantitearticleart.setVisibility(View.INVISIBLE);
+            }
+
+            // Add actions :
+            binder.articlebutart.setOnClickListener( d -> addarticle(idart, 1));
+            binder.articlebutplusart.setOnClickListener( d -> addarticle(idart, 1));
+            binder.articlebutmoinsart.setOnClickListener( d -> addarticle(idart, -1));
+
             // idart :
-            getmobilearticleinformationbyidart(extras.getInt("idart",0));
+            getmobilearticleinformationbyidart(idart);
         }
     }
 
@@ -126,6 +162,9 @@ public class ArticleActivity extends AppCompatActivity {
                         binder.textarticlepourcentage.setVisibility(View.GONE);
                         binder.prixarticle.setText(NumberFormat.getInstance(Locale.FRENCH).format(response.body().getPrix()) + " FCFA");
                     }
+
+                    // Article restant :
+                    viewmodel.setArticleRestant(response.body().getNombrearticle());
                     if(response.body().getNombrearticle() > 5){
                         // Hide :
                         //binder.imgalertearticle.setVisibility(View.INVISIBLE);
@@ -179,4 +218,82 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
 
+    private void addarticle(int idart, int nbreElement){
+        // Update field :
+        int articleRestant = viewmodel.getArticleRestant();
+        viewmodel.setArticleRestant(articleRestant - 1);
+
+        // First HIDE texteview :
+        binder.quantitearticleart.setVisibility(View.GONE);
+        binder.progressarticlesingle.setVisibility(View.VISIBLE);
+
+        // Pick ARTICLE BOOKED :
+        List<Achat> lCommande = viewmodel.getAchatRepository().getAllByIdartAndActif(idart, 1);
+        nbreCommande = 0;
+        if(lCommande != null){
+            nbreCommande = lCommande.size();
+        }
+
+        // Set :
+        if(nbreElement == 1) nbreCommande++;
+        else nbreCommande--;
+
+        // Hit ACHAT :
+        if(nbreElement == 1) {
+            Achat at = new Achat();
+            at.setActif(1);
+            at.setIdart(idart);
+            viewmodel.getAchatRepository().insert(at);
+
+            // Disable but +
+            if(articleRestant == nbreCommande){
+                binder.articlebutplusart.setEnabled(false);
+                binder.articlebutmoinsart.setEnabled(true);
+            }
+        }
+        else{
+            // Delete the last ACHATS :
+            viewmodel.getAchatRepository().delete(lCommande.get(0));
+            if(nbreCommande == 0){
+                binder.articlebutmoinsart.setEnabled(false);
+                binder.articlebutplusart.setEnabled(true);
+            }
+        }
+
+        // Update :
+        //beanarticledetailRepository.insert(bl);
+
+        // Define the HANDLER :
+        Handler handlerAsynchLoad = new Handler();
+        Runnable runAsynchLoad = new Runnable() {
+            @Override
+            public void run() {
+                handlerAsynchLoad.removeCallbacks(this);
+
+                // Now, display ARTICLE requested :
+                binder.textarticlerestant.setText(
+                        String.valueOf(viewmodel.getArticleRestant() -
+                                nbreCommande) +
+                                " article(s) restant(s)");
+                // Update
+                binder.quantitearticleart.setText(String.valueOf(nbreCommande));
+                binder.progressarticlesingle.setVisibility(View.GONE);
+                binder.quantitearticleart.setVisibility(View.VISIBLE);
+
+                //holder.binder.articlebutplus.setVisibility(View.VISIBLE);
+                binder.articlebutmoinsart.setVisibility(View.VISIBLE);
+                binder.articlebutplusart.setVisibility(View.VISIBLE);
+                binder.articlebutart.setVisibility(View.GONE);
+
+                // Hide :
+                binder.constraintnotifyarticlenew.setVisibility(View.INVISIBLE);
+            }
+        };
+
+        // Display :
+        binder.constraintnotifyarticlenew.setVisibility(View.VISIBLE);
+
+        //
+        handlerAsynchLoad.postDelayed(runAsynchLoad, 2500);
+    }
 }
