@@ -38,7 +38,7 @@ public interface AchatDao {
     @Query("SELECT * FROM Achat where actif=1")
     LiveData<List<Achat>> getAllLiveCommande();
 
-    @Query("SELECT distinct idart, actif FROM Achat where actif=1")
+    @Query("SELECT distinct idart, actif,count(idach) as total FROM Achat where actif=1 group by idart, actif")
     LiveData<List<BeanActif>> getAllLiveActif();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
