@@ -67,6 +67,14 @@ public class ProduitActivity extends AppCompatActivity {
         binder.toolbardisplayproduit.setTitle(
                 viewmodel.getProduitRepository().getItem(idprd).getLibelle());
 
+        binder.toolbardisplayproduit.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kill
+                finish();
+            }
+        });
+
         //
         binder.shimmerdisplayproduit.startShimmer();
         getmobileallsousproduitsbyidprd();

@@ -58,4 +58,12 @@ public class AccueilViewmodel extends ViewModel {
     public CommandeRepository getCommandeRepository() {
         return commandeRepository;
     }
+
+    public AchatRepository getAchatRepository() {
+        return achatRepository;
+    }
+
+    public void setAchatRepository(AchatRepository achatRepository) {
+        this.achatRepository = achatRepository;
+    }
 }

@@ -1,5 +1,6 @@
 package com.ankk.market.proxies;
 
+import com.ankk.market.beans.BeanCommandeProjection;
 import com.ankk.market.beans.Beanarticledatahistory;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlerequest;
@@ -72,4 +73,7 @@ public interface ApiProxy {
 
     @POST("backendcommerce/getmobilearticleinformationbyidart")
     Call<Beanarticledatahistory> getmobilearticleinformationbyidart(@Body RequeteBean data);
+
+    @POST("backendcommerce/getmobilehistoricalcommande")
+    Call<List<BeanCommandeProjection>> getmobilehistoricalcommande(@Body RequeteBean data);
 }

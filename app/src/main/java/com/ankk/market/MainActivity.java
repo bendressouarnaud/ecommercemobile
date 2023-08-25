@@ -87,75 +87,36 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (item.getItemId()){
                     case R.id.menuaccueil:
-                        //Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);
-                        /*fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frameproduit, ft);
-                        fragmentTransaction.commit();*/
+                        ft = new Fragmentproduit(Modes.PRODUITS);
                         openFragment(ft);
                         break;
 
                     case R.id.menucategorie:
-                        /*Intent it = new Intent(MainActivity.this, SousproduitActivity.class);
-                        startActivity(it);*/
-                        if(fc==null) fc = new Fragmentcategorie();
-                        /*fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.frameproduit, fc);
-                        fragmentTransaction.commit();
-
-                        Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);*/
+                        fc = new Fragmentcategorie();
                         openFragment(fc);
                         break;
 
                     case R.id.menucommande:
-                        if(!viewmodel.getCommandeRepository().getAll().isEmpty()) {
+                        fcm = new FragmentCommande();
+                        openFragment(fcm);
+                        /*if(!viewmodel.getCommandeRepository().getAll().isEmpty()) {
                             if (fcm == null) fcm = new FragmentCommande();
                             openFragment(fcm);
                         }
                         else Toast.makeText(getApplicationContext(),
                                 "Aucune commande effectuée !",
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show();*/
                         break;
 
                     case R.id.menucompte:
-                        if(fct==null) fct = new Fragmentcompte();
+                        //if(fct==null) fct = new Fragmentcompte();
+                        fct = new Fragmentcompte();
                         openFragment(fct);
                         break;
                 }
                 return true;
             }
         });
-
-        // Register lifecycle. For activity this will be lifecycle/getLifecycle() and for fragments it will be viewLifecycleOwner/getViewLifecycleOwner().
-        /*binding.maincontent.carousel.registerLifecycle(getLifecycle());
-        List<CarouselItem> list = new ArrayList<>();
-        // Image URL with caption
-        list.add(
-                new CarouselItem(
-                        "https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/aac9f071-40b1-4ff1-942b-890458699b07.jpg?alt=media",
-                        "Mangue"
-                )
-        );
-        list.add(
-                new CarouselItem(
-                        "https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/9ff56413-5f05-4c65-aacf-56f68ea3e689.jpg?alt=media",
-                        "Ananas"
-                )
-        );
-
-
-        binding.maincontent.carousel.setData(list);
-        // See kotlin code for details.
-        binding.maincontent.carousel.setAutoPlay(true);
-        binding.maincontent.carousel.setAutoPlayDelay(5000); // Milliseconds
-        */
-
-        /*binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         displayData();
     }
@@ -198,8 +159,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionbook:
-                Intent it = new Intent(this, PanierActivity.class);
-                startActivity(it);
+                if(!viewmodel.getAchatRepository().getAllByActif(1).isEmpty()) {
+                    Intent it = new Intent(this, PanierActivity.class);
+                    startActivity(it);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),
+                            "Aucune commande en cours ...",
+                            Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.actionalerte:
@@ -240,31 +208,26 @@ public class MainActivity extends AppCompatActivity {
     // Display data :
     private void displayData(){
         // Default Fragment
-
-
-        /*
-        // Display products
-        Fragmentproduit ft = new Fragmentproduit(Modes.PRODUITS);
-        fragmentTransaction.replace(R.id.frameproduit, ft);
-        fragmentTransaction.commit();*/
         ft = new Fragmentproduit(Modes.PRODUITS);
         openFragment(ft);
     }
 
     private void openFragment(Fragment fragment) {
-        String fragmentTag = fragment.getClass().getName();
-
         fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.frameproduit, fragment);
+        fragmentTransaction.commit();
 
+        /*String fragmentTag = fragment.getClass().getName();
+        fragmentManager = getSupportFragmentManager();
         boolean fragmentPopped = fragmentManager
                 .popBackStackImmediate(fragmentTag , 0);
-
         if (!fragmentPopped && fragmentManager.findFragmentByTag(fragmentTag) == null) {
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(fragment.getClass().getName()); //getSimpleName());
             fragmentTransaction.add(R.id.frameproduit, fragment);
             fragmentTransaction.commit();
-        }
+        }*/
     }
 
 

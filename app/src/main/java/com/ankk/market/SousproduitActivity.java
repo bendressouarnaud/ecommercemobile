@@ -1,6 +1,8 @@
 package com.ankk.market;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -65,6 +67,14 @@ public class SousproduitActivity extends AppCompatActivity {
         //
         binder.shimarticledetail.startShimmer();
 
+        binder.toolbarsousproduit.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kill
+                finish();
+            }
+        });
+
         // Get "EXTRAS" :
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -109,6 +119,9 @@ public class SousproduitActivity extends AppCompatActivity {
         View actionViewPanier = menuItemPanier.getActionView();
         textPanierCount = (TextView) actionViewPanier.findViewById(R.id.cart_badge_shop);
 
+        // Hide :
+        textPanierCount.setVisibility(View.GONE);
+
         actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuItemPanier));
 
         return true;
@@ -118,8 +131,14 @@ public class SousproduitActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionbookssp:
-                Intent it = new Intent(this, PanierActivity.class);
-                startActivity(it);
+                if(!viewmodel.getAchatRepository().getAllByActif(1).isEmpty()) {
+                    // Set FLAG
+                    viewmodel.setValideCommande(true);
+                    Intent it = new Intent(this, PanierActivity.class);
+                    startActivity(it);
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "Aucune commande en cours ...", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
@@ -328,49 +347,20 @@ public class SousproduitActivity extends AppCompatActivity {
                 viewmodel.getAdapter().addItems(be);
             }
         );
-
-        /*viewmodel.getAllArticleLive().observe(this, new Observer<List<Beanarticledetail>>() {
-                    @Override
-                    public void onChanged(List<Beanarticledetail> article) {
-                        if(SousproduitActivity.this.getLifecycle().getCurrentState()
-                                == Lifecycle.State.RESUMED){
-                            if(viewmodel.getAdapter().getItemCount() > 0){
-                                // Clean :
-                                viewmodel.getAdapter().clearEverything();
-                            }
-                            // Update the cached copy of the words in the adapter.
-                            //article.forEach(viewmodel.getAdapter()::addItems);
-                            article.forEach(
-                                d -> {
-                                    // Map :
-                                    Integer idart, prix, reduction, note, articlerestant, articlereserve;
-                                    String libelle, lienweb;
-                                    Beanarticlelive be = new Beanarticlelive();
-                                    be.setIdart(d.getIdart());
-                                    be.setPrix(d.getPrix());
-                                    be.setReduction(d.getReduction());
-                                    be.setNote(d.getNote());
-                                    be.setArticlerestant(d.getArticlerestant());
-                                    be.setLibelle(d.getLibelle());
-                                    be.setLienweb(d.getLienweb());
-                                    // Article reserve :
-                                    List<Achat> getAchat = viewmodel.getAllByIdart(d.getIdart());
-                                    be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
-                                    viewmodel.getAdapter().addItems(be);
-                                }
-                            );
-                        }
-                    }
-                }
-        );*/
     }
 
     // Whenever an article is added, notify :
     public void notifyUser(){
+
         viewmodel.getAllLiveCommande().observe(this, d->{
 
             // Display SIZE :
             textPanierCount.setText(String.valueOf(d.size()));
+
+            if(d.isEmpty() && viewmodel.isValideCommande()){
+                // Close the DOORS, meaning PANIER is 'empty' :
+                finish();
+            }
 
             //
             cptTimer = 0;
@@ -405,17 +395,20 @@ public class SousproduitActivity extends AppCompatActivity {
                 // Display :
                 binder.constraintnotify.setVisibility(View.VISIBLE);
 
+                // Display :
+                if((!d.isEmpty()) && (textPanierCount.getVisibility() == View.GONE)) {
+                    textPanierCount.setVisibility(View.VISIBLE);
+                }
+                else{
+                    textPanierCount.setVisibility(View.GONE);
+                }
+
                 //
                 handlerAsynchLoad.postDelayed(runAsynchLoad, 1000);
             }
 
-
             //
             if(!temoin) temoin = true;
-            //else temoin = false;
-
-            // Display the SIZE:
-            //d.size()
         });
     }
 

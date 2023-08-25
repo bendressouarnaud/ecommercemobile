@@ -101,6 +101,7 @@ public class Fragmentproduit extends Fragment {
                 .get(FragmentproduitViewmodel.class);
 
         //
+        binder.shimmaccueilproduit.startShimmer();
         binder.shimmerproduit.startShimmer();
 
         // Carousel :
@@ -169,6 +170,11 @@ public class Fragmentproduit extends Fragment {
             @Override
             public void onResponse(Call<List<Produit>> call, Response<List<Produit>> response) {
                 binder.shimmerproduit.stopShimmer();
+                binder.shimmaccueilproduit.stopShimmer();
+                //
+                binder.shimmaccueilproduit.setVisibility(View.GONE);
+                binder.constraintfragmentfullaccueil.setVisibility(View.VISIBLE);
+
                 if (response.code() == 200) {
                     // Now save it :
                     response.body().forEach(p -> {
@@ -246,7 +252,7 @@ public class Fragmentproduit extends Fragment {
             @Override
             public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
                 binder.shimmerproduit.stopShimmer();
-                onErreur();
+                //onErreur();
             }
         });
     }
@@ -271,8 +277,8 @@ public class Fragmentproduit extends Fragment {
 
             @Override
             public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
-                binder.shimmerproduit.stopShimmer();
-                onErreur();
+                //binder.shimmerproduit.stopShimmer();
+                //onErreur();
             }
         });
     }

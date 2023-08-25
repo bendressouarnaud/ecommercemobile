@@ -24,6 +24,7 @@ public class DetailViewmodel extends ViewModel {
     AchatRepository achatRepository;
     AdapterListArticle adapter;
     List<Produit> produits;
+    boolean valideCommande = false;
 
 
     // M e t h o d s  :
@@ -81,5 +82,17 @@ public class DetailViewmodel extends ViewModel {
 
     public void setAdapter(AdapterListArticle adapter) {
         this.adapter = adapter;
+    }
+
+    public AchatRepository getAchatRepository() {
+        return achatRepository;
+    }
+
+    public boolean isValideCommande() {
+        return valideCommande;
+    }
+
+    public void setValideCommande(boolean valideCommande) {
+        this.valideCommande = valideCommande;
     }
 }

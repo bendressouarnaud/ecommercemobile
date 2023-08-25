@@ -63,6 +63,14 @@ public class ArticleActivity extends AppCompatActivity {
                 new VMFactory(getApplication()))
                 .get(ArticleViewmodel.class);
 
+        binder.toolbararticle.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kill
+                finish();
+            }
+        });
+
         // Get "EXTRAS" :
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

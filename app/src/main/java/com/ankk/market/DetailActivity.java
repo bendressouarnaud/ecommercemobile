@@ -62,6 +62,14 @@ public class DetailActivity extends AppCompatActivity {
             binder.toolbardetailactivity.setTitle(extras.getString("libelle", "---"));
         }
 
+        binder.toolbardetailactivity.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kill
+                finish();
+            }
+        });
+
         // Display 'Sous-Produit'
         /**/
 

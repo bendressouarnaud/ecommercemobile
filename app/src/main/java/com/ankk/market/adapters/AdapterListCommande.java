@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
 import com.ankk.market.beans.BeanCommande;
+import com.ankk.market.beans.BeanCommandeProjection;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.databinding.CardviewarticleBinding;
 import com.ankk.market.databinding.CardviewhistoriquecommandeBinding;
@@ -33,7 +34,7 @@ public class AdapterListCommande extends RecyclerView.Adapter<AdapterListCommand
 
     // A t t r i b u t e s   :
     private final Context context;
-    private List<BeanCommande> donnee;
+    private List<BeanCommandeProjection> donnee;
     OpenApplication app;
 
 
@@ -60,7 +61,7 @@ public class AdapterListCommande extends RecyclerView.Adapter<AdapterListCommand
         // Hide
         holder.binder.histocomtextdate.setText(donnee.get(position).getDates());
         holder.binder.histocomtextheure.setText(donnee.get(position).getHeure());
-        holder.binder.histocomtextcmd.setText( String.valueOf(donnee.get(position).getTot()) + " article(s) commandé(s)");
+        holder.binder.histocomtextcmd.setText( String.valueOf(donnee.get(position).getNbrearticle()) + " article(s) commandé(s)");
         holder.binder.histocomprixcmd.setText( NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getMontant()) + " FCFA");
     }
 
@@ -78,7 +79,7 @@ public class AdapterListCommande extends RecyclerView.Adapter<AdapterListCommand
         return donnee.size();
     }
 
-    public void addItems(BeanCommande data) {
+    public void addItems(BeanCommandeProjection data) {
         donnee.add(data);
         notifyItemInserted(donnee.size() - 1);
     }
