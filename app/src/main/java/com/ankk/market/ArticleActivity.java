@@ -3,7 +3,9 @@ package com.ankk.market;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -189,31 +191,17 @@ public class ArticleActivity extends AppCompatActivity {
                     // Modalité :
                     binder.contenumodaliteretour.setText(response.body().getModaliteretour());
 
+                    // Define ACTION on TELEPHONE Icon :
+                    binder.articleimgcall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Uri number = Uri.parse("tel:"+response.body().getContact());
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                            startActivity(callIntent);
+                        }
+                    });
 
-                    /*binder.recyclerarticle.setAdapter(viewmodel.getAdapter());
-                    response.body().forEach(
-                            d -> {
-                                // Save each :
-                                viewmodel.insertArticle(d);
 
-                                //
-                                Beanarticlelive be = new Beanarticlelive();
-                                be.setIdart(d.getIdart());
-                                be.setPrix(d.getPrix());
-                                be.setReduction(d.getReduction());
-                                be.setNote(d.getNote());
-                                be.setArticlerestant(d.getArticlerestant());
-                                be.setLibelle(d.getLibelle());
-                                be.setLienweb(d.getLienweb());
-                                // Article reserve :
-                                List<Achat> getAchat = viewmodel.getAllByIdart(d.getIdart());
-                                be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
-                                viewmodel.getAdapter().addItems(be);
-                            }
-                    );
-
-                    // Call
-                    notifyUser();*/
                 }
                 //else onErreur();
             }

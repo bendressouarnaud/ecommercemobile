@@ -9,6 +9,7 @@ import com.ankk.market.adapters.AdapterListArticle;
 import com.ankk.market.models.Achat;
 import com.ankk.market.repositories.AchatRepository;
 import com.ankk.market.repositories.BeanarticledetailRepository;
+import com.ankk.market.repositories.ClientRepository;
 import com.ankk.market.repositories.CommandeRepository;
 
 import java.util.List;
@@ -19,12 +20,14 @@ public class AccueilViewmodel extends ViewModel {
     int totalCommande, alerte;
     AchatRepository achatRepository;
     CommandeRepository commandeRepository;
+    ClientRepository clientRepository;
 
 
     // M e t h o d s  :
     public AccueilViewmodel(Application app) {
         commandeRepository = new CommandeRepository(app);
         achatRepository = new AchatRepository(app);
+        clientRepository = new ClientRepository(app);
     }
 
     public List<Achat> getAllByIdart(int idart){
@@ -65,5 +68,9 @@ public class AccueilViewmodel extends ViewModel {
 
     public void setAchatRepository(AchatRepository achatRepository) {
         this.achatRepository = achatRepository;
+    }
+
+    public ClientRepository getClientRepository() {
+        return clientRepository;
     }
 }

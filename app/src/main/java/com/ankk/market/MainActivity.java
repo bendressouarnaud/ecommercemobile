@@ -97,8 +97,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.menucommande:
-                        fcm = new FragmentCommande();
-                        openFragment(fcm);
+                        if(viewmodel.getClientRepository().getAll().isEmpty()){
+                            Toast.makeText(getApplicationContext(),
+                                    "Veuillez créer un compte !",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            fcm = new FragmentCommande();
+                            openFragment(fcm);
+                        }
                         /*if(!viewmodel.getCommandeRepository().getAll().isEmpty()) {
                             if (fcm == null) fcm = new FragmentCommande();
                             openFragment(fcm);

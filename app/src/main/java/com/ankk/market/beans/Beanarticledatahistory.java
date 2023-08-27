@@ -8,7 +8,7 @@ public class Beanarticledatahistory {
 
     List<Imagesupplement> images;
     List<Commentaire> comments;
-    String article, entreprise, modaliteretour, descriptionproduit;
+    String article, entreprise, modaliteretour, descriptionproduit, contact;
     int prix, reduction, nombrearticle;
 
     public Beanarticledatahistory() {
@@ -84,5 +84,13 @@ public class Beanarticledatahistory {
 
     public void setNombrearticle(int nombrearticle) {
         this.nombrearticle = nombrearticle;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }
