@@ -212,7 +212,7 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
             }
 
             // Update :
-            //beanarticledetailRepository.insert(bl);
+            beanarticledetailRepository.insert(bl);
 
             // Define the HANDLER :
             Handler handlerAsynchLoad = new Handler();
