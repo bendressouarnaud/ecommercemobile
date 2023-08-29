@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //
         displayData();
     }
 
@@ -153,13 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Listener :
         notifyArticle();
-
-        /*actionViewAlerte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOptionsItemSelected(menuAlerte);
-            }
-        });*/
 
         actionViewAlerte.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
         actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
@@ -297,5 +291,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

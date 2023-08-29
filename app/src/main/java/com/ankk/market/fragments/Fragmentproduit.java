@@ -297,4 +297,7 @@ public class Fragmentproduit extends Fragment {
         binder.shimmerproduit.setVisibility(View.GONE);
         binder.recyclerproduit.setVisibility(View.VISIBLE);
     }
+
+
+
 }

@@ -97,6 +97,28 @@ public class CompteActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // In case we HAVE already DATA :
+        if(!viewmodel.getCompte().isEmpty()){
+            // Display :
+            Client ct = viewmodel.getCompte().get(0);
+            binder.nomcompteinput.setText(ct.getNom());
+            binder.prenomcompteinput.setText(ct.getPrenom());
+            binder.emailcompteinput.setText(ct.getEmail());
+            binder.numerocompteinput.setText(ct.getNumero());
+            binder.adressecompteinput.setText(ct.getAdresse());
+            if(ct.getGenre() == 0) binder.radiof.setChecked(true);
+            else binder.radiom.setChecked(true);
+            //
+            List<Commune> lteC = viewmodel.getAllCommune();
+            for (int j=0; j < lteC.size(); j++){
+                if(ct.getCommune() == lteC.get(j).getIdcom()){
+                    binder.villecompteautocomp.setText(adapterCommune.getItem(j).toString(), false);
+                    i_commune = j;
+                    break;
+                }
+            }
+        }
     }
 
     protected void checkFields(){

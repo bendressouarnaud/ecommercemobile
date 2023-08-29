@@ -57,14 +57,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 if(remoteMessage.getData().size() > 0){
                     Map<String, String> donnee = remoteMessage.getData();
 
+                    //
+                    String dte = "";
+                    String heu = "";
+                    String resume ="";
+                    String contenu ="";
+
                     // based on the objet, process :
                     switch (Integer.parseInt(donnee.get("objet"))){
                         case 1:
                             // COMMANDE en cours de traiement : Integer.parseInt(donnee.get("activite"))
-                            String dte = donnee.get("dates");
-                            String heu = donnee.get("heure");
-                            String resume = "Validation de votre commande";
-                            String contenu = "Votre commande du "+dte+" ("+heu+") a été validée. \n " +
+                            dte = donnee.get("dates");
+                            heu = donnee.get("heure");
+                            resume = "Validation de votre commande";
+                            contenu = "Votre commande du "+dte+" ("+heu+") a été validée. \n " +
                                     "Elle vous sera sous peu expédiée !";
                             displayNotification("Notification Commande",
                                     resume, contenu, Integer.parseInt(heu.replaceAll(":", "")));
@@ -72,12 +78,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
                         case 2:
-                            // Magasin :
-
+                            // COMMANDE en cours de LIVRAISON :
+                            dte = donnee.get("dates");
+                            heu = donnee.get("heure");
+                            resume = "Livraison de votre commande encours";
+                            contenu = "Votre commande du "+dte+" ("+heu+") est en cours de livraison. \n " +
+                                    "Vous la recevrez dans peu de temps !";
+                            displayNotification("Notification Commande",
+                                    resume, contenu, Integer.parseInt(heu.replaceAll(":", "")));
                             break;
 
                         case 3:
-                            // ClientJournalier :
+                            // COMMANDE LIVREE :
 
                             break;
 
