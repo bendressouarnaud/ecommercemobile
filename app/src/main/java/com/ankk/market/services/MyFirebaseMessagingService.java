@@ -90,7 +90,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                         case 3:
                             // COMMANDE LIVREE :
-
+                            dte = donnee.get("dates");
+                            heu = donnee.get("heure");
+                            resume = "Commande livrée";
+                            contenu = "Votre commande du "+dte+" ("+heu+") vous a été livrée. \n " +
+                                    "Nous vous remercions pour votre confiance !";
+                            displayNotification("Notification Commande",
+                                    resume, contenu, Integer.parseInt(heu.replaceAll(":", "")));
                             break;
 
                         case 4:
