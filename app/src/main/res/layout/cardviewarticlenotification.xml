@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="5dp"
+        android:id="@+id/cardviewnotification"
+        android:clickable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F4F3F2"
+            android:id="@+id/constraintmainnotif">
+
+            <ImageView
+                android:id="@+id/imgnotif"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:scaleType="fitXY"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/the"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgnotif"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Mangues"
+                android:textColor="#000000"
+                android:id="@+id/libellenotif"
+                android:layout_marginStart="5dp"
+                />
+
+            <TextView
+                android:layout_marginTop="7dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/libellenotif"
+                app:layout_constraintStart_toEndOf="@id/imgnotif"
+                android:text="5 000 FCFA"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:id="@+id/prixnotif"
+                android:layout_marginStart="5dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

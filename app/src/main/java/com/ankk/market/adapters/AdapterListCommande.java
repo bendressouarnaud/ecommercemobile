@@ -3,6 +3,7 @@ package com.ankk.market.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ankk.market.HistoriqueCommande;
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.BeanCommande;
 import com.ankk.market.beans.BeanCommandeProjection;
 import com.ankk.market.beans.Beanarticlelive;
@@ -58,11 +61,28 @@ public class AdapterListCommande extends RecyclerView.Adapter<AdapterListCommand
     @Override
     public void onBindViewHolder(@NonNull AdapterListCommande.CommandeViewHolder holder,
                                  int position) {
+        holder.binder.cardhistocommande.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(context, HistoriqueCommande.class);
+                it.putExtra("dates", donnee.get(position).getDates());
+                it.putExtra("heure", donnee.get(position).getHeure());
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(it);
+            }
+        });
+
         // Hide
         holder.binder.histocomtextdate.setText(donnee.get(position).getDates());
         holder.binder.histocomtextheure.setText(donnee.get(position).getHeure());
         holder.binder.histocomtextcmd.setText( String.valueOf(donnee.get(position).getNbrearticle()) + " article(s) commandé(s)");
         holder.binder.histocomprixcmd.setText( NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getMontant()) + " FCFA");
+
+        // Display 'STATUS':
+        if(donnee.get(position).getTraites() == 1) holder.binder.textstatutcommande.setText("Validée");
+        else holder.binder.textstatutcommande.setText("En attente");
+        if(donnee.get(position).getEmissions() == 1) holder.binder.textstatutcommande.setText("Livraison en cours ...");
+        if(donnee.get(position).getLivres() == 1) holder.binder.textstatutcommande.setText("Livrée");
     }
 
     static class CommandeViewHolder extends RecyclerView.ViewHolder {

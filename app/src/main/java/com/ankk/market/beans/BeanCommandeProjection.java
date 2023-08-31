@@ -2,7 +2,7 @@ package com.ankk.market.beans;
 
 public class BeanCommandeProjection {
 
-    int iduser, nbrearticle, traites, demandeconfirme, demandeorigine, montant;
+    int iduser, nbrearticle, traites, demandeconfirme, demandeorigine, montant, emissions, livres;
     String dates, heure;
 
     public BeanCommandeProjection() {
@@ -70,5 +70,21 @@ public class BeanCommandeProjection {
 
     public void setMontant(int montant) {
         this.montant = montant;
+    }
+
+    public int getEmissions() {
+        return emissions;
+    }
+
+    public void setEmissions(int emissions) {
+        this.emissions = emissions;
+    }
+
+    public int getLivres() {
+        return livres;
+    }
+
+    public void setLivres(int livres) {
+        this.livres = livres;
     }
 }
