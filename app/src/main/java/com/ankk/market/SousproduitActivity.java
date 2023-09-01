@@ -355,7 +355,13 @@ public class SousproduitActivity extends AppCompatActivity {
         viewmodel.getAllLiveCommande().observe(this, d->{
 
             // Display SIZE :
-            textPanierCount.setText(String.valueOf(d.size()));
+            if( d.size() > 0){
+                textPanierCount.setText(String.valueOf(d.size()));
+                if(textPanierCount.getVisibility() != View.VISIBLE){
+                    textPanierCount.setVisibility(View.VISIBLE);
+                }
+            }
+            else textPanierCount.setVisibility(View.INVISIBLE);
 
             if(d.isEmpty() && viewmodel.isValideCommande()){
                 // Close the DOORS, meaning PANIER is 'empty' :
@@ -396,12 +402,12 @@ public class SousproduitActivity extends AppCompatActivity {
                 binder.constraintnotify.setVisibility(View.VISIBLE);
 
                 // Display :
-                if((!d.isEmpty()) && (textPanierCount.getVisibility() == View.GONE)) {
+                /*if((!d.isEmpty()) && (textPanierCount.getVisibility() == View.GONE)) {
                     textPanierCount.setVisibility(View.VISIBLE);
                 }
                 else{
                     textPanierCount.setVisibility(View.GONE);
-                }
+                }*/
 
                 //
                 handlerAsynchLoad.postDelayed(runAsynchLoad, 1000);

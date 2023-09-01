@@ -109,22 +109,34 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
         if(donnee.get(position).getArticlereserve() >= donnee.get(position).getArticlerestant()){
             holder.binder.textalerte.setVisibility(View.VISIBLE);
             // So DISABLE button :
-            //holder.binder.articlebut.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             holder.binder.articlebut.setText("ÉPUISÉ");
-            //holder.binder.articlebut.setEnabled(false);
         }
-        else holder.binder.textalerte.setVisibility(View.GONE);
+        else{
+            holder.binder.textalerte.setVisibility(View.GONE);
+            // Set Action on 'articlebut' :
+            holder.binder.articlebut.setOnClickListener(d -> addarticle(holder, position, 1));
+        }
 
-        holder.binder.articlebutmoins.setVisibility(View.GONE);
-        holder.binder.quantitearticle.setVisibility(View.GONE);
-        holder.binder.articlebutplus.setVisibility(View.GONE);
+        // If this ARTICLE has been already BOOKED, please DISPLAY '+' and '-' buttons if needed :
+        if(!achatRepository.getAllByIdartAndActif(donnee.get(position).getIdart(), 1).isEmpty()){
+            // Display BUTTONS :
+            holder.binder.articlebutmoins.setVisibility(View.VISIBLE);
+            holder.binder.articlebutplus.setVisibility(View.VISIBLE);
+            nbreCommande = achatRepository.getAllByIdartAndActif(donnee.get(position).getIdart(), 1).size();
+            holder.binder.quantitearticle.setText(String.valueOf(nbreCommande));
+            holder.binder.quantitearticle.setVisibility(View.VISIBLE);
+            holder.binder.articlebut.setVisibility(View.GONE);
+        }
+        else {
+            holder.binder.articlebutmoins.setVisibility(View.GONE);
+            holder.binder.quantitearticle.setVisibility(View.GONE);
+            holder.binder.articlebutplus.setVisibility(View.GONE);
+        }
 
         // Button PLUS :
         holder.binder.articlebutplus.setOnClickListener(d -> addarticle(holder, position, 1));
         holder.binder.articlebutmoins.setOnClickListener(d -> addarticle(holder, position, -1));
 
-        // Set Action on 'articlebut' :
-        holder.binder.articlebut.setOnClickListener(d -> addarticle(holder, position, 1));
     }
 
 
@@ -170,10 +182,11 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
         Beanarticledetail bl = beanarticledetailRepository.getItem(donnee.get(position).getIdart());
         if(bl != null){
             int articleRestant = bl.getArticlerestant();
-            bl.setArticlerestant(articleRestant - 1);
+            bl.setArticlerestant(articleRestant - nbreElement);
+            beanarticledetailRepository.update(bl);
 
             // First HIDE texteview :
-            holder.binder.quantitearticle.setVisibility(View.GONE);
+            //holder.binder.quantitearticle.setVisibility(View.GONE);
             holder.binder.progressarticle.setVisibility(View.VISIBLE);
 
             // Pick ARTICLE BOOKED :
@@ -189,30 +202,37 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
 
             // Hit ACHAT :
             if(nbreElement == 1) {
+                // Disable but +
+                if(articleRestant == nbreCommande){
+                    holder.binder.textalerte.setVisibility(View.VISIBLE);
+                    holder.binder.articlebutplus.setEnabled(false);
+                }
+
                 Achat at = new Achat();
                 at.setActif(1);
                 at.setIdart(donnee.get(position).getIdart());
                 achatRepository.insert(at);
 
-                // Disable but +
-                if(articleRestant == nbreCommande){
-                    holder.binder.textalerte.setVisibility(View.VISIBLE);
-                    holder.binder.articlebutplus.setEnabled(false);
-                    holder.binder.articlebutmoins.setEnabled(true);
-                }
+                // Check in case '-' button was disabled :
+                if(!holder.binder.articlebutmoins.isEnabled()) holder.binder.articlebutmoins.setEnabled(true);
             }
             else{
                 // Delete the last ACHATS :
+                if(holder.binder.textalerte.getVisibility() == View.VISIBLE)
+                    holder.binder.textalerte.setVisibility(View.INVISIBLE);
+
+                // Check in case '-' button was disabled :
+                if(!holder.binder.articlebutplus.isEnabled()) holder.binder.articlebutplus.setEnabled(true);
+
                 achatRepository.delete(lCommande.get(0));
-                if(nbreCommande == 0){
+                /*if(nbreCommande == 0){
                     holder.binder.articlebutmoins.setEnabled(false);
                     holder.binder.articlebutplus.setEnabled(true);
-                    holder.binder.textalerte.setVisibility(View.INVISIBLE);
-                }
+                }*/
             }
 
             // Update :
-            beanarticledetailRepository.insert(bl);
+            //beanarticledetailRepository.insert(bl);
 
             // Define the HANDLER :
             Handler handlerAsynchLoad = new Handler();
@@ -229,12 +249,21 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
                     // Update
                     holder.binder.quantitearticle.setText(String.valueOf(nbreCommande));
                     holder.binder.progressarticle.setVisibility(View.GONE);
-                    holder.binder.quantitearticle.setVisibility(View.VISIBLE);
+                    if(holder.binder.quantitearticle.getVisibility() != View.VISIBLE)
+                        holder.binder.quantitearticle.setVisibility(View.VISIBLE);
 
-                    //holder.binder.articlebutplus.setVisibility(View.VISIBLE);
-                    holder.binder.articlebutmoins.setVisibility(View.VISIBLE);
-                    holder.binder.articlebutplus.setVisibility(View.VISIBLE);
-                    holder.binder.articlebut.setVisibility(View.GONE);
+                    if(nbreCommande == 0){
+                        holder.binder.articlebut.setVisibility(View.VISIBLE);
+                        //
+                        holder.binder.articlebutmoins.setVisibility(View.GONE);
+                        holder.binder.articlebutplus.setVisibility(View.GONE);
+                        holder.binder.quantitearticle.setVisibility(View.GONE);
+                    }
+                    else {
+                        holder.binder.articlebutmoins.setVisibility(View.VISIBLE);
+                        holder.binder.articlebutplus.setVisibility(View.VISIBLE);
+                        holder.binder.articlebut.setVisibility(View.GONE);
+                    }
                 }
             };
 

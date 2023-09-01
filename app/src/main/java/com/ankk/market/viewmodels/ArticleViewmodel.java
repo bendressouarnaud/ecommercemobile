@@ -14,6 +14,9 @@ public class ArticleViewmodel extends ViewModel {
     BeanarticledetailRepository beanarticledetailRepository;
     AchatRepository achatRepository;
     int articleRestant;
+    boolean valideCommande = false;
+    int idart = 0;
+
 
 
     // M e t h o d s  :
@@ -36,5 +39,21 @@ public class ArticleViewmodel extends ViewModel {
 
     public AchatRepository getAchatRepository() {
         return achatRepository;
+    }
+
+    public boolean isValideCommande() {
+        return valideCommande;
+    }
+
+    public void setValideCommande(boolean valideCommande) {
+        this.valideCommande = valideCommande;
+    }
+
+    public int getIdart() {
+        return idart;
+    }
+
+    public void setIdart(int idart) {
+        this.idart = idart;
     }
 }

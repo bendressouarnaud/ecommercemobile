@@ -8,7 +8,10 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ankk.market.adapters.AdapterListArticle;
@@ -45,6 +48,7 @@ public class ArticleActivity extends AppCompatActivity {
     ApiProxy apiProxy;
     ArticleViewmodel viewmodel;
     int nbreCommande = 0;
+    TextView textPanierCount;
 
 
 
@@ -77,6 +81,7 @@ public class ArticleActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int idart = extras.getInt("idart",0);
+            viewmodel.setIdart(idart);
 
             // In case the ARTICLE has been already BOOKED, take it into account :
             Achat act = viewmodel.getAchatRepository().getAllByIdartAndActif(idart, 1).stream().findFirst().orElse(null);
@@ -101,6 +106,41 @@ public class ArticleActivity extends AppCompatActivity {
             // idart :
             getmobilearticleinformationbyidart(idart);
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.article, menu);
+        final MenuItem menuItemPanier = menu.findItem(R.id.articlebookicon);
+        View actionViewPanier = menuItemPanier.getActionView();
+        textPanierCount = (TextView) actionViewPanier.findViewById(R.id.cart_badge_shop);
+
+        // Hide :
+        textPanierCount.setVisibility(View.GONE);
+
+        actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuItemPanier));
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.articlebookicon:
+                if(!viewmodel.getAchatRepository().getAllByActif(1).isEmpty()) {
+                    // Set FLAG
+                    viewmodel.setValideCommande(true);
+                    Intent it = new Intent(this, PanierActivity.class);
+                    startActivity(it);
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "Aucune commande en cours ...", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 
 
@@ -202,6 +242,8 @@ public class ArticleActivity extends AppCompatActivity {
                     });
 
 
+                    // Notify :
+                    notifyUser();
                 }
                 //else onErreur();
             }
@@ -216,80 +258,120 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void addarticle(int idart, int nbreElement){
         // Update field :
-        int articleRestant = viewmodel.getArticleRestant();
-        viewmodel.setArticleRestant(articleRestant - 1);
+        Beanarticledetail bl = viewmodel.getBeanarticledetailRepository().getItem(viewmodel.getIdart());
+        if(bl != null) {
+            int articleRestant = bl.getArticlerestant();
+            bl.setArticlerestant(articleRestant - nbreElement);
+            viewmodel.getBeanarticledetailRepository().update(bl);
+            viewmodel.setArticleRestant(articleRestant - nbreElement);
 
-        // First HIDE texteview :
-        binder.quantitearticleart.setVisibility(View.GONE);
-        binder.progressarticlesingle.setVisibility(View.VISIBLE);
+            // First HIDE texteview :
+            //binder.quantitearticleart.setVisibility(View.GONE);
+            binder.progressarticlesingle.setVisibility(View.VISIBLE);
 
-        // Pick ARTICLE BOOKED :
-        List<Achat> lCommande = viewmodel.getAchatRepository().getAllByIdartAndActif(idart, 1);
-        nbreCommande = 0;
-        if(lCommande != null){
-            nbreCommande = lCommande.size();
-        }
-
-        // Set :
-        if(nbreElement == 1) nbreCommande++;
-        else nbreCommande--;
-
-        // Hit ACHAT :
-        if(nbreElement == 1) {
-            Achat at = new Achat();
-            at.setActif(1);
-            at.setIdart(idart);
-            viewmodel.getAchatRepository().insert(at);
-
-            // Disable but +
-            if(articleRestant == nbreCommande){
-                binder.articlebutplusart.setEnabled(false);
-                binder.articlebutmoinsart.setEnabled(true);
+            // Pick ARTICLE BOOKED :
+            List<Achat> lCommande = viewmodel.getAchatRepository().getAllByIdartAndActif(idart, 1);
+            nbreCommande = 0;
+            if (lCommande != null) {
+                nbreCommande = lCommande.size();
             }
-        }
-        else{
-            // Delete the last ACHATS :
-            viewmodel.getAchatRepository().delete(lCommande.get(0));
-            if(nbreCommande == 0){
-                binder.articlebutmoinsart.setEnabled(false);
-                binder.articlebutplusart.setEnabled(true);
+
+            // Set :
+            if (nbreElement == 1) nbreCommande++;
+            else nbreCommande--;
+
+            // Hit ACHAT :
+            if (nbreElement == 1) {
+
+                // Disable but +
+                if(articleRestant == nbreCommande){
+                    binder.articlebutplusart.setEnabled(false);
+                    binder.articlebutmoinsart.setEnabled(true);
+                }
+
+                Achat at = new Achat();
+                at.setActif(1);
+                at.setIdart(idart);
+                viewmodel.getAchatRepository().insert(at);
+
+                // Check in case '-' button was disabled :
+                if(!binder.articlebutmoinsart.isEnabled()) binder.articlebutmoinsart.setEnabled(true);
+            } else {
+
+                // Check in case '-' button was disabled :
+                if(!binder.articlebutplusart.isEnabled()) binder.articlebutplusart.setEnabled(true);
+
+                // Delete the last ACHATS :
+                viewmodel.getAchatRepository().delete(lCommande.get(0));
+                /*if (nbreCommande == 0) {
+                    binder.articlebutmoinsart.setEnabled(false);
+                    binder.articlebutplusart.setEnabled(true);
+                }*/
             }
+
+            // Update :
+            //beanarticledetailRepository.insert(bl);
+
+            // Define the HANDLER :
+            Handler handlerAsynchLoad = new Handler();
+            Runnable runAsynchLoad = new Runnable() {
+                @Override
+                public void run() {
+                    handlerAsynchLoad.removeCallbacks(this);
+
+                    // Now, display ARTICLE requested :
+                    binder.textarticlerestant.setText(
+                            String.valueOf(viewmodel.getArticleRestant() -
+                                    nbreCommande) +
+                                    " article(s) restant(s)");
+                    // Update
+                    binder.quantitearticleart.setText(String.valueOf(nbreCommande));
+                    binder.progressarticlesingle.setVisibility(View.GONE);
+                    if(binder.quantitearticleart.getVisibility() != View.VISIBLE)
+                        binder.quantitearticleart.setVisibility(View.VISIBLE);
+
+                    if(nbreCommande == 0){
+                        binder.articlebutart.setVisibility(View.VISIBLE);
+
+                        binder.articlebutmoinsart.setVisibility(View.GONE);
+                        binder.articlebutplusart.setVisibility(View.GONE);
+                        binder.quantitearticleart.setVisibility(View.GONE);
+                    }
+                    else {
+                        binder.articlebutmoinsart.setVisibility(View.VISIBLE);
+                        binder.articlebutplusart.setVisibility(View.VISIBLE);
+                        binder.articlebutart.setVisibility(View.GONE);
+                    }
+
+                    // Hide :
+                    binder.constraintnotifyarticlenew.setVisibility(View.INVISIBLE);
+                }
+            };
+
+            // Display :
+            binder.constraintnotifyarticlenew.setVisibility(View.VISIBLE);
+
+            //
+            handlerAsynchLoad.postDelayed(runAsynchLoad, 2500);
         }
+    }
 
-        // Update :
-        //beanarticledetailRepository.insert(bl);
 
-        // Define the HANDLER :
-        Handler handlerAsynchLoad = new Handler();
-        Runnable runAsynchLoad = new Runnable() {
-            @Override
-            public void run() {
-                handlerAsynchLoad.removeCallbacks(this);
-
-                // Now, display ARTICLE requested :
-                binder.textarticlerestant.setText(
-                        String.valueOf(viewmodel.getArticleRestant() -
-                                nbreCommande) +
-                                " article(s) restant(s)");
-                // Update
-                binder.quantitearticleart.setText(String.valueOf(nbreCommande));
-                binder.progressarticlesingle.setVisibility(View.GONE);
-                binder.quantitearticleart.setVisibility(View.VISIBLE);
-
-                //holder.binder.articlebutplus.setVisibility(View.VISIBLE);
-                binder.articlebutmoinsart.setVisibility(View.VISIBLE);
-                binder.articlebutplusart.setVisibility(View.VISIBLE);
-                binder.articlebutart.setVisibility(View.GONE);
-
-                // Hide :
-                binder.constraintnotifyarticlenew.setVisibility(View.INVISIBLE);
+    public void notifyUser(){
+        viewmodel.getAchatRepository().getAllLiveCommande().observe(this, d->{
+            // Display SIZE :
+            if( d.size() > 0){
+                textPanierCount.setText(String.valueOf(d.size()));
+                if(textPanierCount.getVisibility() != View.VISIBLE){
+                    textPanierCount.setVisibility(View.VISIBLE);
+                }
             }
-        };
+            else textPanierCount.setVisibility(View.INVISIBLE);
 
-        // Display :
-        binder.constraintnotifyarticlenew.setVisibility(View.VISIBLE);
-
-        //
-        handlerAsynchLoad.postDelayed(runAsynchLoad, 2500);
+            if(d.isEmpty() && viewmodel.isValideCommande()){
+                // Close the DOORS, meaning PANIER is 'empty' :
+                finish();
+            }
+        });
     }
 }

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CommentaireActivity"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/imgcomment"
+            android:src="@drawable/ic_comment"
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+
+        <TextView
+            android:id="@+id/textnotecomment"
+            android:text="Note"
+            android:textColor="#000000"
+            app:layout_constraintTop_toBottomOf="@id/imgcomment"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            app:layout_constraintTop_toTopOf="@id/textnotecomment"
+            app:layout_constraintStart_toEndOf="@id/textnotecomment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/commentlinearlayout"
+            android:layout_marginStart="25dp">
+
+            <ImageView
+                android:id="@+id/cmtunnote"
+                android:src="@drawable/ic_star_empty"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <ImageView
+                android:layout_marginStart="15dp"
+                android:id="@+id/cmtdeuxnote"
+                android:src="@drawable/ic_star_empty"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <ImageView
+                android:layout_marginStart="15dp"
+                android:id="@+id/cmttroixnote"
+                android:src="@drawable/ic_star_empty"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <ImageView
+                android:layout_marginStart="15dp"
+                android:id="@+id/cmtquatrenote"
+                android:src="@drawable/ic_star_empty"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+            <ImageView
+                android:layout_marginStart="15dp"
+                android:id="@+id/cmtcinqnote"
+                android:src="@drawable/ic_star_empty"
+                android:layout_width="40dp"
+                android:layout_height="40dp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:layout_constraintTop_toBottomOf="@id/commentlinearlayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textinputcomment"
+            android:hint="Ajouter votre commentaire"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginTop="10dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/commentedit"
+                android:lines="7"
+                android:minLines="6"
+                android:gravity="top|left"
+                android:maxLines="8"
+                android:scrollbars="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            app:layout_constraintTop_toBottomOf="@id/textinputcomment"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="Enregistrer"
+            android:id="@+id/butenregistrercmt"
+            android:background="@drawable/round_buttons"
+            app:backgroundTint="@color/custombrown"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

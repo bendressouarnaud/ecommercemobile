@@ -18,10 +18,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".CommentaireActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Market.NoActionBar"/>
+        <activity
             android:name=".HistoriqueCommande"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar"
-            />
+            android:theme="@style/Theme.Market.NoActionBar" />
         <activity
             android:name=".ArticleActivity"
             android:exported="false"
