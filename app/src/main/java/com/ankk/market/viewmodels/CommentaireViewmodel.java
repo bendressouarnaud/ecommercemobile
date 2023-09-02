@@ -12,6 +12,7 @@ public class CommentaireViewmodel extends ViewModel {
     // A t t r i b u t e s :
     int idart, note;
     ClientRepository clientRepository;
+    int flag = 0;
 
 
     // M e t h o d s  :
@@ -37,5 +38,13 @@ public class CommentaireViewmodel extends ViewModel {
 
     public void setNote(int note) {
         this.note = note;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }

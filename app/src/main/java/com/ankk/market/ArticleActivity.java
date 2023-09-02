@@ -19,10 +19,12 @@ import com.ankk.market.beans.Beanarticledatahistory;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.beans.RequeteBean;
+import com.ankk.market.beans.RequeteBeanArticle;
 import com.ankk.market.databinding.ActivityArticleBinding;
 import com.ankk.market.databinding.ActivitySousproduitBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
 import com.ankk.market.models.Achat;
+import com.ankk.market.models.Client;
 import com.ankk.market.proxies.ApiProxy;
 import com.ankk.market.viewmodels.AccueilViewmodel;
 import com.ankk.market.viewmodels.ArticleViewmodel;
@@ -103,6 +105,16 @@ public class ArticleActivity extends AppCompatActivity {
             binder.articlebutplusart.setOnClickListener( d -> addarticle(idart, 1));
             binder.articlebutmoinsart.setOnClickListener( d -> addarticle(idart, -1));
 
+            //
+            binder.butaddcomment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent it = new Intent(ArticleActivity.this, CommentaireActivity.class);
+                    it.putExtra("idart", idart);
+                    startActivity(it);
+                }
+            });
+
             // idart :
             getmobilearticleinformationbyidart(idart);
         }
@@ -156,8 +168,10 @@ public class ArticleActivity extends AppCompatActivity {
     public void getmobilearticleinformationbyidart(int idprd){
         if(apiProxy ==null) initProxy();
         // Set Object :
-        RequeteBean rn = new RequeteBean();
-        rn.setIdprd(idprd);
+        RequeteBeanArticle rn = new RequeteBeanArticle();
+        rn.setIdart(idprd);
+        Client ct = viewmodel.getClientRepository().getAll().stream().findFirst().orElse(null);
+        rn.setIduser(ct != null ? ct.getIdcli() : 0);
 
         apiProxy.getmobilearticleinformationbyidart(rn).enqueue(new Callback<Beanarticledatahistory>() {
             @Override
@@ -241,6 +255,26 @@ public class ArticleActivity extends AppCompatActivity {
                         }
                     });
 
+                    // Display BUTTON if 'needed' :
+                    if((response.body().getAutorisecommentaire() == 1) &&
+                            (response.body().getCommentaireexiste() == 0))
+                        binder.butaddcomment.setVisibility(View.VISIBLE);
+                    else binder.butaddcomment.setVisibility(View.GONE);
+
+                    // Now process the LIST of COMMENTS :
+                    if(!response.body().getComments().isEmpty()){
+                        binder.recyclerviewarticle.setAdapter(viewmodel.getAdapterCommentaireArticle());
+                        response.body().getComments().forEach(
+                                d -> {
+                                    viewmodel.getAdapterCommentaireArticle().addItems(d);
+                                }
+                        );
+
+                        // Now hide :
+                        binder.constraintnocomment.setVisibility(View.GONE);
+                        // Display :
+                        binder.recyclerviewarticle.setVisibility(View.VISIBLE);
+                    }
 
                     // Notify :
                     notifyUser();

@@ -7,9 +7,9 @@ import java.util.List;
 public class Beanarticledatahistory {
 
     List<Imagesupplement> images;
-    List<Commentaire> comments;
+    List<BeanCommentaireContenu> comments;
     String article, entreprise, modaliteretour, descriptionproduit, contact;
-    int prix, reduction, nombrearticle;
+    int prix, reduction, nombrearticle, autorisecommentaire, commentaireexiste;
 
     public Beanarticledatahistory() {
     }
@@ -20,14 +20,6 @@ public class Beanarticledatahistory {
 
     public void setImages(List<Imagesupplement> images) {
         this.images = images;
-    }
-
-    public List<Commentaire> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Commentaire> comments) {
-        this.comments = comments;
     }
 
     public String getArticle() {
@@ -92,5 +84,29 @@ public class Beanarticledatahistory {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public int getAutorisecommentaire() {
+        return autorisecommentaire;
+    }
+
+    public void setAutorisecommentaire(int autorisecommentaire) {
+        this.autorisecommentaire = autorisecommentaire;
+    }
+
+    public int getCommentaireexiste() {
+        return commentaireexiste;
+    }
+
+    public void setCommentaireexiste(int commentaireexiste) {
+        this.commentaireexiste = commentaireexiste;
+    }
+
+    public List<BeanCommentaireContenu> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<BeanCommentaireContenu> comments) {
+        this.comments = comments;
     }
 }

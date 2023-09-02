@@ -2,6 +2,7 @@ package com.ankk.market.proxies;
 
 import com.ankk.market.beans.BeanArticleHistoCommande;
 import com.ankk.market.beans.BeanCommandeProjection;
+import com.ankk.market.beans.BeanCommentRequest;
 import com.ankk.market.beans.Beanarticledatahistory;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlerequest;
@@ -11,6 +12,7 @@ import com.ankk.market.beans.Beansousproduitarticle;
 import com.ankk.market.beans.Detail;
 import com.ankk.market.beans.RequestBean;
 import com.ankk.market.beans.RequeteBean;
+import com.ankk.market.beans.RequeteBeanArticle;
 import com.ankk.market.beans.RequeteHistoCommande;
 import com.ankk.market.beans.ResponseBooking;
 import com.ankk.market.models.Client;
@@ -74,11 +76,14 @@ public interface ApiProxy {
     Call<ResponseBooking> sendbooking(@Body Beanarticlerequest data);
 
     @POST("backendcommerce/getmobilearticleinformationbyidart")
-    Call<Beanarticledatahistory> getmobilearticleinformationbyidart(@Body RequeteBean data);
+    Call<Beanarticledatahistory> getmobilearticleinformationbyidart(@Body RequeteBeanArticle data);
 
     @POST("backendcommerce/getmobilehistoricalcommande")
     Call<List<BeanCommandeProjection>> getmobilehistoricalcommande(@Body RequeteBean data);
 
     @POST("backendcommerce/getcustomercommandearticle")
     Call<BeanArticleHistoCommande> getcustomercommandearticle(@Body RequeteHistoCommande data);
+
+    @POST("backendcommerce/sendmobilecomment")
+    Call<RequeteBean> sendmobilecomment(@Body BeanCommentRequest data);
 }

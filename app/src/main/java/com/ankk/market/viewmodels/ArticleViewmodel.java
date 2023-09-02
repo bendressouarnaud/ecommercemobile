@@ -4,8 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.ViewModel;
 
+import com.ankk.market.adapters.AdapterArticleCommande;
+import com.ankk.market.adapters.AdapterCommentaireArticle;
 import com.ankk.market.repositories.AchatRepository;
 import com.ankk.market.repositories.BeanarticledetailRepository;
+import com.ankk.market.repositories.ClientRepository;
 import com.ankk.market.repositories.CommandeRepository;
 
 public class ArticleViewmodel extends ViewModel {
@@ -13,9 +16,11 @@ public class ArticleViewmodel extends ViewModel {
     // A t t r i b u t e s :
     BeanarticledetailRepository beanarticledetailRepository;
     AchatRepository achatRepository;
+    ClientRepository clientRepository;
     int articleRestant;
     boolean valideCommande = false;
     int idart = 0;
+    AdapterCommentaireArticle adapterCommentaireArticle;
 
 
 
@@ -23,6 +28,8 @@ public class ArticleViewmodel extends ViewModel {
     public ArticleViewmodel(Application app) {
         beanarticledetailRepository = new BeanarticledetailRepository(app);
         achatRepository = new AchatRepository(app);
+        clientRepository = new ClientRepository(app);
+        adapterCommentaireArticle = new AdapterCommentaireArticle(app.getApplicationContext());
     }
 
     public BeanarticledetailRepository getBeanarticledetailRepository() {
@@ -55,5 +62,13 @@ public class ArticleViewmodel extends ViewModel {
 
     public void setIdart(int idart) {
         this.idart = idart;
+    }
+
+    public ClientRepository getClientRepository() {
+        return clientRepository;
+    }
+
+    public AdapterCommentaireArticle getAdapterCommentaireArticle() {
+        return adapterCommentaireArticle;
     }
 }

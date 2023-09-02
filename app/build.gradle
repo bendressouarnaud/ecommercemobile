@@ -25,7 +25,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://192.168.95.80:8080/"'
+            buildConfigField "String", "API_BCK_URL", '"http://192.168.137.1:8080/"'
             buildConfigField "String", "API_KEY_CINETPAY", '"14188340645523ee208a07.43334887"'
             buildConfigField "String", "SITE_ID_CINETPAY", '"201498"'
             buildConfigField "int", "AGE_LIMIT", '19'
