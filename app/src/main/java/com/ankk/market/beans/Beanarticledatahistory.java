@@ -10,6 +10,7 @@ public class Beanarticledatahistory {
     List<BeanCommentaireContenu> comments;
     String article, entreprise, modaliteretour, descriptionproduit, contact;
     int prix, reduction, nombrearticle, autorisecommentaire, commentaireexiste;
+    int iddet, note;
 
     public Beanarticledatahistory() {
     }
@@ -108,5 +109,21 @@ public class Beanarticledatahistory {
 
     public void setComments(List<BeanCommentaireContenu> comments) {
         this.comments = comments;
+    }
+
+    public int getIddet() {
+        return iddet;
+    }
+
+    public void setIddet(int iddet) {
+        this.iddet = iddet;
+    }
+
+    public int getNote() {
+        return note;
+    }
+
+    public void setNote(int note) {
+        this.note = note;
     }
 }

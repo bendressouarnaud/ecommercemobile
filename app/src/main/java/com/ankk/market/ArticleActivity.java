@@ -179,7 +179,24 @@ public class ArticleActivity extends AppCompatActivity {
                 // STOP SIMMMER :
 
                 if (response.code() == 200) {
-                    // Now save it :
+                    // Now save it if NOT EXIST:
+                    Beanarticledetail bl =
+                            viewmodel.getBeanarticledetailRepository().getItem(viewmodel.getIdart());
+                    if(bl == null){
+                        bl = new Beanarticledetail();
+                        bl.setIdart(idprd);
+                        bl.setIddet(response.body().getIddet());
+                        bl.setPrix(response.body().getPrix());
+                        bl.setReduction(response.body().getReduction());
+                        bl.setNote(response.body().getNote());
+                        bl.setArticlerestant(response.body().getNombrearticle());
+                        bl.setLibelle(response.body().getArticle());
+                        bl.setLienweb(response.body().getImages().get(
+                                response.body().getImages().size() - 1
+                        ).getLienweb());
+                        // Save IT :
+                        viewmodel.getBeanarticledetailRepository().insert(bl);
+                    }
 
                     // Call ADAPTER
                     binder.shimarticleloading.stopShimmer();
@@ -227,17 +244,26 @@ public class ArticleActivity extends AppCompatActivity {
                         binder.prixarticle.setText(NumberFormat.getInstance(Locale.FRENCH).format(response.body().getPrix()) + " FCFA");
                     }
 
-                    // Article restant :
-                    viewmodel.setArticleRestant(response.body().getNombrearticle());
-                    if(response.body().getNombrearticle() > 5){
+                    // Article restant , get the ONE that are being booked :
+                    Achat act = viewmodel.getAchatRepository().getAllByIdartAndActif(viewmodel.getIdart(),
+                            1).stream().findFirst().orElse(null);
+                    int articleAdeduire = 0;
+                    if(act != null){
+                        //
+                        articleAdeduire = viewmodel.getAchatRepository().getAllByIdartAndActif(
+                                viewmodel.getIdart(), 1).size();
+                    }
+
+                    viewmodel.setArticleRestant(response.body().getNombrearticle() - articleAdeduire);
+                    if((response.body().getNombrearticle() - articleAdeduire) > 5){
                         // Hide :
-                        //binder.imgalertearticle.setVisibility(View.INVISIBLE);
                         binder.imgalertearticle.setImageDrawable(
                                 getResources().getDrawable(R.drawable.ic_article_restant, null));
                         // Change COLOR :
                         binder.textarticlerestant.setTextColor(getResources().getColor(R.color.color_green, null));
                     }
-                    binder.textarticlerestant.setText(String.valueOf(response.body().getNombrearticle()) + " articles restants");
+                    binder.textarticlerestant.setText(String.valueOf(response.body().getNombrearticle() - articleAdeduire) + " articles restants");
+
 
                     // Contenu du TEXT :
                     binder.textcontenudetail.setText(response.body().getDescriptionproduit());
@@ -294,10 +320,11 @@ public class ArticleActivity extends AppCompatActivity {
         // Update field :
         Beanarticledetail bl = viewmodel.getBeanarticledetailRepository().getItem(viewmodel.getIdart());
         if(bl != null) {
-            int articleRestant = bl.getArticlerestant();
-            bl.setArticlerestant(articleRestant - nbreElement);
+            int articleRestant = viewmodel.getArticleRestant(); //  bl.getArticlerestant();
+            int deduction = articleRestant - nbreElement;
+            bl.setArticlerestant(deduction);
             viewmodel.getBeanarticledetailRepository().update(bl);
-            viewmodel.setArticleRestant(articleRestant - nbreElement);
+            viewmodel.setArticleRestant(deduction);
 
             // First HIDE texteview :
             //binder.quantitearticleart.setVisibility(View.GONE);
@@ -318,7 +345,8 @@ public class ArticleActivity extends AppCompatActivity {
             if (nbreElement == 1) {
 
                 // Disable but +
-                if(articleRestant == nbreCommande){
+                //if((articleRestant - nbreElement) == nbreCommande){
+                if(deduction == 0){
                     binder.articlebutplusart.setEnabled(false);
                     binder.articlebutmoinsart.setEnabled(true);
                 }
@@ -355,8 +383,7 @@ public class ArticleActivity extends AppCompatActivity {
 
                     // Now, display ARTICLE requested :
                     binder.textarticlerestant.setText(
-                            String.valueOf(viewmodel.getArticleRestant() -
-                                    nbreCommande) +
+                            String.valueOf(viewmodel.getArticleRestant()) +
                                     " article(s) restant(s)");
                     // Update
                     binder.quantitearticleart.setText(String.valueOf(nbreCommande));
