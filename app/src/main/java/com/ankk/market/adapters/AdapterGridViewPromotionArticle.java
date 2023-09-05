@@ -26,7 +26,7 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
     private List<Beanarticledetail> listData;
     private LayoutInflater layoutInflater;
     private Context context;
-    final int limitProduitName = 10;
+    final int limitProduitName = 16;
 
     public AdapterGridViewPromotionArticle(Context aContext, List<Beanarticledetail> listData) {
         this.context = aContext;

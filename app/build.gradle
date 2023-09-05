@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://10.1.4.102:8080/"'
+            buildConfigField "String", "API_BCK_URL", '"http://192.168.60.7:8080/"'
             buildConfigField "String", "API_KEY_CINETPAY", '"14188340645523ee208a07.43334887"'
             buildConfigField "String", "SITE_ID_CINETPAY", '"201498"'
             buildConfigField "int", "AGE_LIMIT", '19'
@@ -68,6 +68,8 @@ dependencies {
     // Carousel
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'org.imaginativeworld.whynotimagecarousel:whynotimagecarousel:2.1.0'
+    // new
+    //implementation 'com.github.ImaginativeShohag:Why-Not-Image-Carousel:v1.0.0'
 
     // ROOM : 2.2.6     |    2.4.0-alpha01
     def room_version = "2.3.0"
