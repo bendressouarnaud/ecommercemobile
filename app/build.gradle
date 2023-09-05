@@ -7,9 +7,10 @@ android {
     namespace 'com.ankk.market'
     compileSdk 33
 
+    // minSdk 28
     defaultConfig {
         applicationId "com.ankk.market"
-        minSdk 28
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -25,7 +26,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://192.168.60.7:8080/"'
+            buildConfigField "String", "API_BCK_URL", '"http://10.1.4.102:8080/"'
             buildConfigField "String", "API_KEY_CINETPAY", '"14188340645523ee208a07.43334887"'
             buildConfigField "String", "SITE_ID_CINETPAY", '"201498"'
             buildConfigField "int", "AGE_LIMIT", '19'
