@@ -59,7 +59,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:text="27 500 FCFA"
                 android:id="@+id/prixpromart"
@@ -71,12 +71,13 @@
                 app:layout_constraintTop_toBottomOf="@id/prixpromart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="10sp"
+                android:textSize="9sp"
                 android:text="25 articles restants"
                 android:id="@+id/itempromrestart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/black"
                 />
 
             <ProgressBar

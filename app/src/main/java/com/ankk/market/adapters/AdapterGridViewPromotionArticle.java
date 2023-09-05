@@ -17,7 +17,9 @@ import com.ankk.market.beans.Beanresumearticle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class AdapterGridViewPromotionArticle extends BaseAdapter {
 
@@ -67,7 +69,8 @@ public class AdapterGridViewPromotionArticle extends BaseAdapter {
         holder.libpromart.setText(detail.getLibelle().length() <= limitProduitName ?
                 detail.getLibelle() : (detail.getLibelle().substring(0, (limitProduitName-1)) + "...") );
         holder.itempromrestart.setText(String.valueOf(detail.getArticlerestant())+" article(s) restant(s)");
-        holder.prixpromart.setText(String.valueOf(detail.getPrix()) +" FCFA");
+        holder.prixpromart.setText(
+                NumberFormat.getInstance(Locale.FRENCH).format(detail.getPrix())+" FCFA");
         if(detail.getReduction() > 0){
             holder.textprompourcentage.setText("-"+String.valueOf(detail.getReduction())+"%");
         }

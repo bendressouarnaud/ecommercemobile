@@ -25,13 +25,13 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://192.168.36.80:8080/"'
+            buildConfigField "String", "API_BCK_URL", '"http://192.168.60.7:8080/"'
             buildConfigField "String", "API_KEY_CINETPAY", '"14188340645523ee208a07.43334887"'
             buildConfigField "String", "SITE_ID_CINETPAY", '"201498"'
             buildConfigField "int", "AGE_LIMIT", '19'
         }
         release {
-            buildConfigField "String", "API_CRM_URL", '"https://ankkapp.com/"'
+            buildConfigField "String", "API_BCK_URL", '"https://ankkapp.com/"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
