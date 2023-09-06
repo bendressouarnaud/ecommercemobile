@@ -7,4 +7,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="artcleproduitgrid">282dp</dimen>
     <dimen name="articlecardviewpromotion">700dp</dimen> <!--  480dp  -->
+    <dimen name="articlecardviewpromotion_little">460dp</dimen> <!--  480dp  -->
 </resources>

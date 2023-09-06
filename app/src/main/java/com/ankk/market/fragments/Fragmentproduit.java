@@ -233,8 +233,10 @@ public class Fragmentproduit extends Fragment {
                             }
                         });
 
-                        // Now save it :
-                        if (response.body().size() > 3)
+                        // Now Update height if needed :
+                        if(response.body().size() > 2 && response.body().size() <= 4)
+                            binder.gridviewdisplayproduit.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion_little);
+                        else if (response.body().size() > 4)
                             binder.gridviewdisplayproduit.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
                         binder.gridviewdisplayproduit.setAdapter(
                                 new AdapterGridViewPromotionArticle(getContext(),
@@ -265,9 +267,16 @@ public class Fragmentproduit extends Fragment {
             public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
                 //binder.shimmerproduit.stopShimmer();
                 if (response.code() == 200) {
-                    // Now save it :
-                    if(response.body().size() > 4)
+
+                    // Now Update height if needed :
+                    if(response.body().size() > 2 && response.body().size() <= 4)
+                        binder.gridviewdisplayproduitrecent.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion_little);
+                    else if (response.body().size() > 4)
                         binder.gridviewdisplayproduitrecent.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
+
+                    // Now save it :
+                    /*if(response.body().size() > 4)
+                        binder.gridviewdisplayproduitrecent.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);*/
                     binder.gridviewdisplayproduitrecent.setAdapter(
                             new AdapterGridViewPromotionArticle(getContext(),
                                     response.body()));

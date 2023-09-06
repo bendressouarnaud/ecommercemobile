@@ -289,6 +289,15 @@ public class ArticleActivity extends AppCompatActivity {
 
                     // Now process the LIST of COMMENTS :
                     if(!response.body().getComments().isEmpty()){
+
+                        // Comments number :
+                        int totalComment = response.body().getComments().size();
+                        // Average :
+                        double noteMoy = response.body().getComments().stream().mapToInt(d -> d.getNote()).average().getAsDouble();
+                        // Update :
+                        binder.noteevaluation.setText( String.valueOf(noteMoy)+"/"+String.valueOf(totalComment));
+                        binder.avisclients.setText( "("+ String.valueOf(totalComment)+ " Avis client(s))");
+
                         binder.recyclerviewarticle.setAdapter(viewmodel.getAdapterCommentaireArticle());
                         response.body().getComments().forEach(
                                 d -> {
@@ -300,6 +309,86 @@ public class ArticleActivity extends AppCompatActivity {
                         binder.constraintnocomment.setVisibility(View.GONE);
                         // Display :
                         binder.recyclerviewarticle.setVisibility(View.VISIBLE);
+
+                        // Set STAR :
+                        // Set NOTE
+                        if(noteMoy == 1) {
+                            binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            //
+                            binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        }
+                        else if(noteMoy == 2) {
+                            binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            //
+                            binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        }
+                        else if(noteMoy == 3) {
+                            binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            //
+                            binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        }
+                        else if(noteMoy == 4) {
+                            binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            //
+                            binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        }
+                        else if(noteMoy == 5) {
+                            binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                            binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                        }
+                        else{
+                            if((noteMoy > 1) && (noteMoy < 2)){
+                                binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                                //
+                                binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                                binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                                binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            }
+                            else if((noteMoy > 2) && (noteMoy < 3)){
+                                binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                                //
+                                binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                                binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            }
+                            else if((noteMoy > 3) && (noteMoy < 4)){
+                                binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                                //
+                                binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                            }
+                            else if(noteMoy > 4){
+                                binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                                binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                            }
+                        }
+                    }
+                    else {
+                        // Update :
+                        binder.noteevaluation.setText( "--/--");
+                        binder.avisclients.setText( "(0 Avis client)");
                     }
 
                     // Notify :

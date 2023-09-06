@@ -17,7 +17,9 @@ import com.ankk.market.beans.Detail;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class AdapterGridViewResumeArticle extends BaseAdapter {
 
@@ -61,12 +63,14 @@ public class AdapterGridViewResumeArticle extends BaseAdapter {
 
         Beanresumearticle detail = this.listData.get(position);
         holder.libgriditemdisplay.setText(detail.getLibelle());
-        holder.prixgriditemdisplay.setText(String.valueOf(detail.getPrix()) +" FCFA");
+        holder.prixgriditemdisplay.setText( NumberFormat.getInstance(Locale.FRENCH).format(detail.getPrix()) +" FCFA");
         Glide.with(context)
                 .load("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/" +
                         detail.getLienweb() + "?alt=media")
                 .onlyRetrieveFromCache(false)
-                .transition(DrawableTransitionOptions.withCrossFade())
+                //.transition(DrawableTransitionOptions.withCrossFade())
+                .transition(DrawableTransitionOptions.withCrossFade(500))
+                .placeholder(R.drawable.ic_panier)
                 .into(holder.imggriditemdisplay);
 
         holder.libgriditemdisplay.setOnClickListener(d -> openInterface(detail.getIdart()));
