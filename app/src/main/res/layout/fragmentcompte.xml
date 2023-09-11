@@ -82,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#EAE7E7"
+            android:id="@+id/linearmaincompte"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -220,5 +221,21 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/linearmaincompte"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Vous possédez déjà un compte ?"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#DD570F"
+            android:textStyle="bold"
+            android:id="@+id/textuncompte"
+            android:layout_marginTop="30dp"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

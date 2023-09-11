@@ -3,6 +3,8 @@ package com.ankk.market.proxies;
 import com.ankk.market.beans.BeanArticleHistoCommande;
 import com.ankk.market.beans.BeanCommandeProjection;
 import com.ankk.market.beans.BeanCommentRequest;
+import com.ankk.market.beans.BeanCustomerCreation;
+import com.ankk.market.beans.BeanResumeArticleDetail;
 import com.ankk.market.beans.Beanarticledatahistory;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlerequest;
@@ -34,7 +36,7 @@ public interface ApiProxy {
 
     //
     @POST("backendcommerce/getmobilepromotedarticles")
-    Call<List<Beanarticledetail>> getpromotedarticles(@Body RequeteBean rn);
+    Call<List<BeanResumeArticleDetail>> getpromotedarticles(@Body RequeteBean rn);
 
     @GET("backendcommerce/getmobilerecentarticles")
     Call<List<Beanarticledetail>> getrecentarticles();
@@ -50,11 +52,11 @@ public interface ApiProxy {
     Call<List<Beansousproduit>> getmobileallsousproduitsbyidprd(@Body RequeteBean rn);
 
     @POST("backendcommerce/getarticlesbasedoniddet")
-    Call<List<Beanarticledetail>> getarticlesbasedoniddet(@Body RequeteBean rn);
+    Call<List<BeanResumeArticleDetail>> getarticlesbasedoniddet(@Body RequeteBean rn);
 
     // Get DATA base on 'Sous-Produit' lib :
     @POST("backendcommerce/getmobilearticlesBasedonLib")
-    Call<List<Beanarticledetail>> getmobilearticlesBasedonLib(@Body RequestBean rn);
+    Call<List<BeanResumeArticleDetail>> getmobilearticlesBasedonLib(@Body RequestBean rn);
 
     //
     @POST("backendcommerce/getmobileallsousproduitsarticles")
@@ -70,7 +72,7 @@ public interface ApiProxy {
 
     // Send user for CREATION :
     @POST("backendcommerce/managecustomer")
-    Call<Client> managecustomer(@Body Client data);
+    Call<BeanCustomerCreation> managecustomer(@Body Client data);
 
     @POST("backendcommerce/sendbooking")
     Call<ResponseBooking> sendbooking(@Body Beanarticlerequest data);

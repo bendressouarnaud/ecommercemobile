@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.ankk.market.adapters.AdapterListArticle;
 import com.ankk.market.beans.Beanarticledetail;
+import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.models.Achat;
 import com.ankk.market.models.Produit;
 import com.ankk.market.models.Sousproduit;
@@ -15,6 +16,7 @@ import com.ankk.market.repositories.BeanarticledetailRepository;
 import com.ankk.market.repositories.ProduitRepository;
 import com.ankk.market.repositories.SousproduitRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailViewmodel extends ViewModel {
@@ -24,7 +26,10 @@ public class DetailViewmodel extends ViewModel {
     AchatRepository achatRepository;
     AdapterListArticle adapter;
     List<Produit> produits;
-    boolean valideCommande = false;
+    List<Beanarticlelive> beanarticlelives;
+    boolean valideCommande = false, refreshAdapter = false;
+    int iddet = 0, mode =0 ;
+    String libSousProduit ="";
 
 
     // M e t h o d s  :
@@ -32,6 +37,7 @@ public class DetailViewmodel extends ViewModel {
         beanarticledetailRepository = new BeanarticledetailRepository(app);
         achatRepository = new AchatRepository(app);
         adapter = new AdapterListArticle(app.getApplicationContext());
+        beanarticlelives = new ArrayList<>();
     }
 
     //
@@ -94,5 +100,49 @@ public class DetailViewmodel extends ViewModel {
 
     public void setValideCommande(boolean valideCommande) {
         this.valideCommande = valideCommande;
+    }
+
+    public int getIddet() {
+        return iddet;
+    }
+
+    public void setIddet(int iddet) {
+        this.iddet = iddet;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
+    public String getLibSousProduit() {
+        return libSousProduit;
+    }
+
+    public void setLibSousProduit(String libSousProduit) {
+        this.libSousProduit = libSousProduit;
+    }
+
+    public boolean isRefreshAdapter() {
+        return refreshAdapter;
+    }
+
+    public void setRefreshAdapter(boolean refreshAdapter) {
+        this.refreshAdapter = refreshAdapter;
+    }
+
+    public List<Beanarticlelive> getBeanarticlelives() {
+        return beanarticlelives;
+    }
+
+    public void setBeanarticlelives(List<Beanarticlelive> beanarticlelives) {
+        this.beanarticlelives = beanarticlelives;
+    }
+
+    public BeanarticledetailRepository getBeanarticledetailRepository() {
+        return beanarticledetailRepository;
     }
 }

@@ -65,6 +65,14 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
             public void onClick(View v) {
                 Intent it = new Intent(context, ArticleActivity.class);
                 it.putExtra("idart", donnee.get(position).getIdart());
+                it.putExtra("fromadapter", 1);
+                // Quantite
+                int qte = 0;
+                try{
+                    qte = Integer.valueOf(holder.binder.quantitearticle.getText().toString());
+                }
+                catch (Exception e){}
+                it.putExtra("qte", qte);
                 it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(it);
             }
@@ -137,6 +145,88 @@ public class AdapterListArticle extends RecyclerView.Adapter<AdapterListArticle.
         holder.binder.articlebutplus.setOnClickListener(d -> addarticle(holder, position, 1));
         holder.binder.articlebutmoins.setOnClickListener(d -> addarticle(holder, position, -1));
 
+        // Set STARs :
+        holder.binder.nbrecommentairearticle.setText("("+String.valueOf(
+                donnee.get(position).getTotalcomment()) +")");
+        if(donnee.get(position).getNoteart() == 0) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNoteart() == 1) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNoteart() == 2) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNoteart() == 3) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNoteart() == 4) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNoteart() == 5) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+        }
+        else{
+            if((donnee.get(position).getNoteart() > 1) && (donnee.get(position).getNoteart() < 2)){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                //
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            }
+            else if((donnee.get(position).getNoteart() > 2) && (donnee.get(position).getNoteart() < 3)){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                //
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            }
+            else if((donnee.get(position).getNoteart() > 3) && (donnee.get(position).getNoteart() < 4)){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                //
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            }
+            else if(donnee.get(position).getNoteart() > 4){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+            }
+        }
     }
 
 

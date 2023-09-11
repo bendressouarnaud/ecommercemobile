@@ -19,7 +19,7 @@ public class ArticleViewmodel extends ViewModel {
     ClientRepository clientRepository;
     int articleRestant;
     boolean valideCommande = false;
-    int idart = 0;
+    int idart = 0, fromadapter = 0, qte = 0;
     AdapterCommentaireArticle adapterCommentaireArticle;
 
 
@@ -70,5 +70,21 @@ public class ArticleViewmodel extends ViewModel {
 
     public AdapterCommentaireArticle getAdapterCommentaireArticle() {
         return adapterCommentaireArticle;
+    }
+
+    public int getFromadapter() {
+        return fromadapter;
+    }
+
+    public void setFromadapter(int fromadapter) {
+        this.fromadapter = fromadapter;
+    }
+
+    public int getQte() {
+        return qte;
+    }
+
+    public void setQte(int qte) {
+        this.qte = qte;
     }
 }

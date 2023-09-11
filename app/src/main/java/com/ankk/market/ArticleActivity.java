@@ -83,6 +83,8 @@ public class ArticleActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             int idart = extras.getInt("idart",0);
+            viewmodel.setFromadapter(extras.getInt("fromadapter",0));
+            viewmodel.setQte(extras.getInt("qte",0));
             viewmodel.setIdart(idart);
 
             // In case the ARTICLE has been already BOOKED, take it into account :
@@ -264,6 +266,11 @@ public class ArticleActivity extends AppCompatActivity {
                     }
                     binder.textarticlerestant.setText(String.valueOf(response.body().getNombrearticle() - articleAdeduire) + " articles restants");
 
+                    // Remove ACTION on BUTTON :
+                    if((response.body().getNombrearticle() - articleAdeduire) == 0){
+                        binder.articlebutart.setText("EPUISE");
+                        binder.articlebutart.setOnClickListener(null);
+                    }
 
                     // Contenu du TEXT :
                     binder.textcontenudetail.setText(response.body().getDescriptionproduit());
@@ -295,7 +302,8 @@ public class ArticleActivity extends AppCompatActivity {
                         // Average :
                         double noteMoy = response.body().getComments().stream().mapToInt(d -> d.getNote()).average().getAsDouble();
                         // Update :
-                        binder.noteevaluation.setText( String.valueOf(noteMoy)+"/"+String.valueOf(totalComment));
+                        //binder.noteevaluation.setText( String.valueOf(noteMoy)+"/"+String.valueOf(totalComment));
+                        binder.noteevaluation.setText( String.valueOf(noteMoy)+"/5");
                         binder.avisclients.setText( "("+ String.valueOf(totalComment)+ " Avis client(s))");
 
                         binder.recyclerviewarticle.setAdapter(viewmodel.getAdapterCommentaireArticle());
@@ -386,6 +394,11 @@ public class ArticleActivity extends AppCompatActivity {
                         }
                     }
                     else {
+                        binder.artstarun.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        binder.artstardeux.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        binder.artstartroix.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        binder.artstarquatre.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
+                        binder.artstarcinq.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_empty, null));
                         // Update :
                         binder.noteevaluation.setText( "--/--");
                         binder.avisclients.setText( "(0 Avis client)");
@@ -454,10 +467,15 @@ public class ArticleActivity extends AppCompatActivity {
 
                 // Delete the last ACHATS :
                 viewmodel.getAchatRepository().delete(lCommande.get(0));
-                /*if (nbreCommande == 0) {
-                    binder.articlebutmoinsart.setEnabled(false);
-                    binder.articlebutplusart.setEnabled(true);
-                }*/
+            }
+
+            // Refresh if NEEDED :
+            if(viewmodel.getFromadapter() > 0) {
+                // Update :
+                if (nbreCommande != viewmodel.getQte()) {
+                    // Raise flag to refresh INTERFACE Adapter :
+                    SousproduitActivity.getInstance().setFlagRefreshAdapter(true);
+                } else SousproduitActivity.getInstance().setFlagRefreshAdapter(false);
             }
 
             // Update :

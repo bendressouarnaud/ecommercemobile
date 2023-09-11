@@ -23,6 +23,7 @@ import com.ankk.market.adapters.AdapterGridViewPromotionArticle;
 import com.ankk.market.adapters.AdapterGridViewResumeArticle;
 import com.ankk.market.adapters.AdapterOffre;
 import com.ankk.market.adapters.AdapterProduit;
+import com.ankk.market.beans.BeanResumeArticleDetail;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beansousproduit;
 import com.ankk.market.beans.RequestBean;
@@ -209,16 +210,18 @@ public class Fragmentproduit extends Fragment {
         RequeteBean rn = new RequeteBean();
         rn.setIdprd(0);
 
-        apiProxy.getpromotedarticles(rn).enqueue(new Callback<List<Beanarticledetail>>() {
+        apiProxy.getpromotedarticles(rn).enqueue(new Callback<List<BeanResumeArticleDetail>>() {
             @Override
-            public void onResponse(Call<List<Beanarticledetail>> call, Response<List<Beanarticledetail>> response) {
+            public void onResponse(Call<List<BeanResumeArticleDetail>> call, Response<List<BeanResumeArticleDetail>> response) {
                 //binder.shimmerproduit.stopShimmer();
                 if (response.code() == 200) {
                     if(response.body().size() > 0) {
 
                         // get the Maximum REDUCTION value :
-                        Optional<Beanarticledetail> tpBl = response.body().stream()
-                            .sorted(Comparator.comparing(Beanarticledetail::getReduction).reversed()).findFirst();
+                        Optional<Beanarticledetail> tpBl = response.body().stream().map(d -> d.getBeanarticle()).sorted(
+                                Comparator.comparing(Beanarticledetail::getReduction).reversed()).findFirst();
+                        /*Optional<Beanarticledetail> tpBl = response.body().stream()
+                            .sorted(Comparator.comparing(Beanarticledetail::getReduction).reversed()).findFirst();*/
                         binder.accinfopffrepourcent.setText("Jusqu'à -"+
                                 String.valueOf(tpBl.get().getReduction())+"%");
 
@@ -240,7 +243,7 @@ public class Fragmentproduit extends Fragment {
                             binder.gridviewdisplayproduit.getLayoutParams().height = (int) getContext().getResources().getDimension(R.dimen.articlecardviewpromotion);
                         binder.gridviewdisplayproduit.setAdapter(
                                 new AdapterGridViewPromotionArticle(getContext(),
-                                        response.body()));
+                                        response.body().stream().map(d -> d.getBeanarticle()).collect(Collectors.toList())));
                     }
                     else{
                         // HIDE OBJECTS :
@@ -252,7 +255,7 @@ public class Fragmentproduit extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Beanarticledetail>> call, Throwable t) {
+            public void onFailure(Call<List<BeanResumeArticleDetail>> call, Throwable t) {
                 binder.shimmerproduit.stopShimmer();
                 //onErreur();
             }

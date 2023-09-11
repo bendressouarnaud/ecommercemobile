@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ankk.market.beans.BeanCustomerCreation;
 import com.ankk.market.databinding.ActivityCompteBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
 import com.ankk.market.models.Client;
@@ -50,7 +51,7 @@ public class CompteActivity extends AppCompatActivity {
     boolean flagCompte = false, flagFcmToken = false, flagSouscription = false;
     ApiProxy apiProxy;
     String fcmtoken;
-    boolean stopProcess = false;
+    boolean stopProcess = false, compteExiste = false;
 
 
 
@@ -154,7 +155,7 @@ public class CompteActivity extends AppCompatActivity {
     // save :
     protected void enregistrer(){
         Client ct = new Client();
-        ct.setIdcli(viewmodel.getCompte().isEmpty() ? 0 : ct.getIdcli());
+        ct.setIdcli(viewmodel.getCompte().isEmpty() ? 0 : viewmodel.getCompte().get(0).getIdcli());
         ct.setNom(binder.nomcompteinput.getText().toString());
         ct.setPrenom(binder.prenomcompteinput.getText().toString());
         ct.setEmail(binder.emailcompteinput.getText().toString());
@@ -194,27 +195,57 @@ public class CompteActivity extends AppCompatActivity {
         Runnable runAsynchLoad = new Runnable() {
             @Override
             public void run() {
-                if (flagCompte && flagSouscription && flagFcmToken) {
-                    // Job done :
-                    alertDialogLoadPicture.cancel();
-                    handlerAsynchLoad.removeCallbacks(this);
 
-                    // MOVE ON :
-                    finish();
+                if(viewmodel.getCompte().isEmpty()){
+                    if (flagCompte && flagSouscription && flagFcmToken) {
+                        // Job done :
+                        alertDialogLoadPicture.cancel();
+                        handlerAsynchLoad.removeCallbacks(this);
+
+                        if(!compteExiste) {
+                            // MOVE ON :
+                            finish();
+                        }
+                        else compteExiste = false;
+                    }
+                    else if(stopProcess){
+                        // Display message :
+                        Snackbar snackbar1 = Snackbar.make(binder.constraintcompte, "Erreur survenue !", Snackbar.LENGTH_LONG);
+                        snackbar1.show();
+                        handlerAsynchLoad.removeCallbacks(this);
+                    }
+                    else {
+                        handlerAsynchLoad.postDelayed(this, 1000);
+                    }
                 }
-                else if(stopProcess){
-                    // Display message :
-                    Snackbar snackbar1 = Snackbar.make(binder.constraintcompte, "Erreur survenue !", Snackbar.LENGTH_LONG);
-                    snackbar1.show();
-                    handlerAsynchLoad.removeCallbacks(this);
-                }
-                else {
-                    handlerAsynchLoad.postDelayed(this, 1000);
+                else{
+                    //
+                    if (flagCompte) {
+                        // Job done :
+                        alertDialogLoadPicture.cancel();
+                        handlerAsynchLoad.removeCallbacks(this);
+
+                        if(!compteExiste) {
+                            // MOVE ON :
+                            finish();
+                        }
+                        else compteExiste = false;
+                    }
+                    else if(stopProcess){
+                        // Display message :
+                        Snackbar snackbar1 = Snackbar.make(binder.constraintcompte, "Erreur survenue !", Snackbar.LENGTH_LONG);
+                        snackbar1.show();
+                        handlerAsynchLoad.removeCallbacks(this);
+                    }
+                    else {
+                        handlerAsynchLoad.postDelayed(this, 1000);
+                    }
                 }
             }
         };
         // Call
-        getFcmToken(ct);
+        if(viewmodel.getCompte().isEmpty()) getFcmToken(ct);
+        else managecustomer(ct);
 
         //
         handlerAsynchLoad.postDelayed(runAsynchLoad, 1000);
@@ -231,19 +262,37 @@ public class CompteActivity extends AppCompatActivity {
 
     public void managecustomer(Client ct){
         if(apiProxy == null) initProxy();
-        apiProxy.managecustomer(ct).enqueue(new Callback<Client>() {
+        apiProxy.managecustomer(ct).enqueue(new Callback<BeanCustomerCreation>() {
             @Override
-            public void onResponse(Call<Client> call, Response<Client> response) {
+            public void onResponse(Call<BeanCustomerCreation> call, Response<BeanCustomerCreation> response) {
                 //Toast.makeText(getApplicationContext(),"response : "+String.valueOf(response.code()),Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
-                    // Now save it :
-                    viewmodel.insert(response.body());
-                    flagCompte = true;
+                    switch (response.body().getFlag()){
+                        case 0:
+                            Snackbar.make(binder.constraintcompte,
+                                    "L'adresse MAIL est déjà utilisée !", Snackbar.LENGTH_LONG).show();
+                            compteExiste = true;
+                            flagCompte = true;
+                            break;
+
+                        case 1:
+                            Snackbar.make(binder.constraintcompte,
+                                    "Le numéro est déjà utilisé !", Snackbar.LENGTH_LONG).show();
+                            compteExiste = true;
+                            flagCompte = true;
+                            break;
+
+                        case 2:
+                            // Now save it :
+                            viewmodel.insert(response.body().getClt());
+                            flagCompte = true;
+                            break;
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<Client> call, Throwable t) {
+            public void onFailure(Call<BeanCustomerCreation> call, Throwable t) {
                 stopProcess = true;
             }
         });
@@ -260,7 +309,7 @@ public class CompteActivity extends AppCompatActivity {
                             return;
                         }
 
-                        Toast.makeText(getApplicationContext(),"FCM obtenu",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"FCM obtenu",Toast.LENGTH_SHORT).show();
 
                         // Get new FCM registration token
                         ct.setFcmtoken(task.getResult().toString());
@@ -285,10 +334,10 @@ public class CompteActivity extends AppCompatActivity {
                         }
 
                         //
-                        Toast.makeText(getApplicationContext(), "subscribeTo", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "subscribeTo", Toast.LENGTH_LONG).show();
 
                         if(msg.isEmpty()){
-                            Toast.makeText(getApplicationContext(), "Création l'utilisateur !", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), "Création l'utilisateur !", Toast.LENGTH_SHORT).show();
                             flagSouscription = true;
                             // Call
                             managecustomer(ct);

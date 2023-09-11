@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.ankk.market.Authentification;
 import com.ankk.market.BuildConfig;
 import com.ankk.market.CompteActivity;
 import com.ankk.market.OpenApplication;
@@ -96,6 +97,19 @@ public class Fragmentcompte extends Fragment {
         if(!viewmodel.getCompte().isEmpty()){
             binder.butcompte.setText("Compte");
             binder.textmerci.setText("Gérer vos données");
+            // Hide
+            binder.textuncompte.setVisibility(View.INVISIBLE);
+        }
+        else{
+            // Enter his 'PARAMETERS' :
+            binder.textuncompte.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent itC = new Intent(getContext(), Authentification.class);
+                    itC.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(itC);
+                }
+            });
         }
 
         // Set action :
@@ -112,6 +126,8 @@ public class Fragmentcompte extends Fragment {
                             if(!d.isEmpty()) {
                                 binder.butcompte.setText("Compte");
                                 binder.textmerci.setText("Gérer vos données");
+                                // Hide
+                                binder.textuncompte.setVisibility(View.INVISIBLE);
                             }
                         });
                     }

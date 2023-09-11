@@ -2,8 +2,9 @@ package com.ankk.market.beans;
 
 public class Beanarticlelive {
 
-    Integer idart, prix, reduction, note, articlerestant, articlereserve;
+    Integer idart, prix, reduction, note, articlerestant, articlereserve, totalcomment;
     String libelle, lienweb;
+    double noteart;
 
     public Beanarticlelive() {
     }
@@ -70,5 +71,21 @@ public class Beanarticlelive {
 
     public void setLienweb(String lienweb) {
         this.lienweb = lienweb;
+    }
+
+    public Integer getTotalcomment() {
+        return totalcomment;
+    }
+
+    public void setTotalcomment(Integer totalcomment) {
+        this.totalcomment = totalcomment;
+    }
+
+    public double getNoteart() {
+        return noteart;
+    }
+
+    public void setNoteart(double noteart) {
+        this.noteart = noteart;
     }
 }
