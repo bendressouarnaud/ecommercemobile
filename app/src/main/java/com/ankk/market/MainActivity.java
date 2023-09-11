@@ -132,6 +132,17 @@ public class MainActivity extends AppCompatActivity {
 
         //
         displayData();
+
+        // Get "EXTRAS" :
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            // Get EveryTHING :
+            int cmd = extras.getInt("commande",0);
+            if(cmd > 0){
+                fcm = new FragmentCommande();
+                openFragment(fcm);
+            }
+        }
     }
 
     @Override

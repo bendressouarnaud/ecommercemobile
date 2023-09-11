@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +14,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ankk.market.beans.BeanAuthentification;
+import com.ankk.market.beans.BeanCustomerAuth;
 import com.ankk.market.beans.BeanCustomerCreation;
 import com.ankk.market.databinding.ActivityAuthentificationBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
-import com.ankk.market.models.Client;
+import com.ankk.market.models.Commune;
 import com.ankk.market.proxies.ApiProxy;
+import com.ankk.market.viewmodels.AuthentificationViewmodel;
+import com.ankk.market.viewmodels.VMFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,7 +38,10 @@ public class Authentification extends AppCompatActivity {
     // A T T R I B U T E S :
     ActivityAuthentificationBinding binder;
     AlertDialog alertDialogLoadPicture;
-    boolean flagCompte = false, flagFcmToken = false, flagSouscription = false, stopProcess = false;
+    boolean flagCompte = false, flagFcmToken = false, flagSouscription = false, stopProcess = false, compteExiste = false;
+    ApiProxy apiProxy;
+    AuthentificationViewmodel viewmodel;
+
 
 
     // M E T H O D
@@ -51,6 +58,21 @@ public class Authentification extends AppCompatActivity {
 
         // Set COLOR BAR
         getWindow().setStatusBarColor(getResources().getColor(R.color.black, null));
+
+        // Set the VIEWMODEL :
+        viewmodel = new ViewModelProvider(this,
+                new VMFactory(getApplication()))
+                .get(AuthentificationViewmodel.class);
+
+        // Set action on 'ENREGISTRER'
+        binder.butenregistrerauth.setOnClickListener(d -> checkFields());
+        // Set action on 'RETOUR'
+        binder.butretourauth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     protected void checkFields(){
@@ -70,7 +92,7 @@ public class Authentification extends AppCompatActivity {
     }
 
     protected void displayCustomMessage(String message) {
-        Snackbar snackbar= Snackbar.make (binder.constraintcompte,
+        Snackbar snackbar= Snackbar.make (binder.constraintcompteauth,
                 message, Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
@@ -114,12 +136,15 @@ public class Authentification extends AppCompatActivity {
                     alertDialogLoadPicture.cancel();
                     handlerAsynchLoad.removeCallbacks(this);
 
-                    // MOVE ON :
-                    finish();
+                    if(!compteExiste) {
+                        // MOVE ON :
+                        finish();
+                    }
+                    else compteExiste = false;
                 }
                 else if(stopProcess){
                     // Display message :
-                    Snackbar snackbar1 = Snackbar.make(binder.constraintcompte, "Erreur survenue !", Snackbar.LENGTH_LONG);
+                    Snackbar snackbar1 = Snackbar.make(binder.constraintcompteauth, "Erreur survenue !", Snackbar.LENGTH_LONG);
                     snackbar1.show();
                     handlerAsynchLoad.removeCallbacks(this);
                 }
@@ -144,39 +169,30 @@ public class Authentification extends AppCompatActivity {
                 .build().create(ApiProxy.class);
     }
 
-    public void managecustomer(Client ct){
+    public void managecustomer(BeanAuthentification ct){
         if(apiProxy == null) initProxy();
-        apiProxy.managecustomer(ct).enqueue(new Callback<BeanCustomerCreation>() {
+        apiProxy.authenicatemobilecustomer(ct).enqueue(new Callback<BeanCustomerAuth>() {
             @Override
-            public void onResponse(Call<BeanCustomerCreation> call, Response<BeanCustomerCreation> response) {
+            public void onResponse(Call<BeanCustomerAuth> call, Response<BeanCustomerAuth> response) {
                 //Toast.makeText(getApplicationContext(),"response : "+String.valueOf(response.code()),Toast.LENGTH_SHORT).show();
                 if (response.code() == 200) {
-                    switch (response.body().getFlag()){
-                        case 0:
-                            Snackbar.make(binder.constraintcompte,
-                                    "L'adresse MAIL est déjà utilisée !", Snackbar.LENGTH_LONG).show();
-                            compteExiste = true;
-                            flagCompte = true;
-                            break;
-
-                        case 1:
-                            Snackbar.make(binder.constraintcompte,
-                                    "Le numéro est déjà utilisé !", Snackbar.LENGTH_LONG).show();
-                            compteExiste = true;
-                            flagCompte = true;
-                            break;
-
-                        case 2:
-                            // Now save it :
-                            viewmodel.insert(response.body().getClt());
-                            flagCompte = true;
-                            break;
+                    if(response.body().getFlag() == 0){
+                        Snackbar.make(binder.constraintcompteauth,
+                                "Impossible de vous authentifier !", Snackbar.LENGTH_LONG).show();
+                        compteExiste = true;
+                        flagCompte = true;
+                    }
+                    else {
+                        // Now save it :
+                        viewmodel.getClientRepository().insert(response.body().getClt());
+                        viewmodel.getCommuneRepository().insert(response.body().getCommune().toArray(new Commune[0]));
+                        flagCompte = true;
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<BeanCustomerCreation> call, Throwable t) {
+            public void onFailure(Call<BeanCustomerAuth> call, Throwable t) {
                 stopProcess = true;
             }
         });
@@ -205,7 +221,7 @@ public class Authentification extends AppCompatActivity {
                 });
     }
 
-    public void subscribeTo(String topic, Client ct){
+    public void subscribeTo(String topic, BeanAuthentification ct){
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

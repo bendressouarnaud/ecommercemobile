@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import com.ankk.market.adapters.AdapterListPanier;
 import com.ankk.market.beans.BeanActif;
+import com.ankk.market.beans.BeanArticlestatusrequest;
+import com.ankk.market.beans.BeanArticlestatusresponse;
+import com.ankk.market.beans.BeanItemPanier;
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.beans.Beanarticlerequest;
@@ -49,6 +52,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,6 +106,10 @@ public class PanierActivity extends AppCompatActivity {
         //
         //adapter = new AdapterListPanier(getApplicationContext());
         binder.layoutpanier.recyclerviewpanier.setAdapter(viewmodel.getAdapter());
+
+        /*binder.layoutpanier.shimpanier.stopShimmer();
+        binder.layoutpanier.constraintshimpanier.setVisibility(View.GONE);
+        binder.layoutpanier.constraintcontenupanier.setVisibility(View.VISIBLE);
 
         // Get ACHAT DATA :
         viewmodel.getAllLiveActif().observe(this, new Observer<List<BeanActif>>() {
@@ -163,7 +172,7 @@ public class PanierActivity extends AppCompatActivity {
                         }
                     }
                 }
-        );
+        );*/
 
         // Set ACTION on
         binder.toolbarpanier.setNavigationOnClickListener(new View.OnClickListener() {
@@ -181,6 +190,9 @@ public class PanierActivity extends AppCompatActivity {
                 displayWayToPay();
             }
         });
+
+        // Process :
+        getArticlesStatus();
     }
 
 
@@ -423,7 +435,7 @@ public class PanierActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Sélectionnez un moyen de paiement");
 
-        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setIcon(R.mipmap.ic_launcher_final);
         builder.setView(vRapport);
         //builder.setCancelable(false);
         alerdialogMoyenPaiement = builder.create();
@@ -439,4 +451,115 @@ public class PanierActivity extends AppCompatActivity {
         }
         else super.onBackPressed();
     }
+
+
+    public void getArticlesStatus(){
+        if(apiProxy == null) initProxy();
+
+        // Get All ACHAT :
+        Set<Integer> tpIdart = viewmodel.getAchatRepository().getAllByActif(1).stream().mapToInt(d -> d.getIdart()).boxed().collect(Collectors.toSet());
+        List<Integer> tpList = new ArrayList<>();
+        tpIdart.forEach(
+            d -> {
+                tpList.add(d);
+            }
+        );
+
+        // We can send this :
+        BeanArticlestatusrequest bt = new BeanArticlestatusrequest();
+        bt.setArticleid(tpList);
+        apiProxy.getarticledetails(bt).enqueue(new Callback<List<BeanArticlestatusresponse>>() {
+            @Override
+            public void onResponse(Call<List<BeanArticlestatusresponse>> call, Response<List<BeanArticlestatusresponse>> response) {
+
+                // Stop SHIMMER
+                binder.layoutpanier.shimpanier.stopShimmer();
+                binder.layoutpanier.constraintshimpanier.setVisibility(View.GONE);
+                binder.layoutpanier.constraintcontenupanier.setVisibility(View.VISIBLE);
+
+                if (response.code() == 200) {
+
+                    viewmodel.getAllLiveActif().observe(PanierActivity.this, new Observer<List<BeanActif>>() {
+                        @Override
+                        public void onChanged(List<BeanActif> achat) {
+                            if(PanierActivity.this.getLifecycle().getCurrentState()
+                                    == Lifecycle.State.RESUMED){
+
+                                // Kill ACTIVITY :
+                                if(achat.isEmpty()){
+                                    if(envoiValidation)
+                                        Toast.makeText(PanierActivity.this, "Votre commande a été enregistrée !", Toast.LENGTH_LONG).show();
+                                    else Toast.makeText(PanierActivity.this, "Le panier est vide !", Toast.LENGTH_LONG).show();
+                                    finish();
+                                }
+
+                                if(viewmodel.getAdapter().getItemCount() > 0){
+                                    // Clean :
+                                    viewmodel.getAdapter().clearEverything();
+                                }
+                                // Reset :
+                                prixTotal= 0;
+                                nbreArticleGobal= 0;
+
+                                // Track ARTICLE :
+                                if(!keepArticle.isEmpty()) keepArticle = new ArrayList<>();
+                                keepArticle = achat;
+
+                                // Update the cached copy of the words in the adapter.
+                                //article.forEach(viewmodel.getAdapter()::addItems);
+                                achat.forEach(
+                                        d -> {
+                                            //
+                                            Beanarticledetail bl = viewmodel.getBeanarticledetailRepository().getItem(d.getIdart());
+                                            // Map :
+                                            Beanarticlelive be = new Beanarticlelive();
+                                            BeanItemPanier bt = new BeanItemPanier();
+                                            be.setIdart(d.getIdart());
+                                            be.setPrix(bl.getPrix());
+                                            be.setReduction(bl.getReduction());
+                                            be.setNote(bl.getNote());
+                                            be.setArticlerestant(bl.getArticlerestant());
+                                            be.setLibelle(bl.getLibelle());
+                                            be.setLienweb(bl.getLienweb());
+                                            // Article reserve :
+                                            List<Achat> getAchat =
+                                                    viewmodel.getAchatRepository().getAllByIdartAndChoix(d.getIdart(), 1);
+                                            be.setArticlereserve(getAchat.size());
+
+                                            // Browse
+                                            BeanArticlestatusresponse br = response.body().stream().filter(e -> e.getIdart() == d.getIdart()).findFirst().get();
+                                            bt.setTotalcomment(br.getTotalcomment());
+                                            bt.setNote(br.getNote());
+                                            bt.setRestant(br.getRestant());
+                                            bt.setArticle(be);
+
+                                            viewmodel.getAdapter().addItems(bt);
+                                            //
+                                            nbreArticleGobal++;
+
+                                            // Compute PRICE :
+                                            prixTotal = prixTotal + (bl.getPrix() * getAchat.size());
+                                        }
+                                );
+
+                                //Toast.makeText(PanierActivity.this, "nbreArticleGobal : "+String.valueOf(nbreArticleGobal), Toast.LENGTH_LONG).show();
+
+                                // Update the field :
+                                binder.layoutpanier.textpanier.setText("PANIER ("+String.valueOf(nbreArticleGobal)+")");
+                                binder.layoutpanier.textmontanttotal.setText( NumberFormat.getInstance(Locale.FRENCH).format(prixTotal) + " FCFA");
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BeanArticlestatusresponse>> call, Throwable t) {
+                //
+                binder.layoutpanier.progresspanier.setVisibility(View.INVISIBLE);
+                binder.layoutpanier.textpanierpatienter.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
 }

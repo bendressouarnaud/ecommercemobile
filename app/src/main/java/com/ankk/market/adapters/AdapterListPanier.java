@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ankk.market.OpenApplication;
 import com.ankk.market.R;
+import com.ankk.market.beans.BeanArticlestatusresponse;
+import com.ankk.market.beans.BeanItemPanier;
 import com.ankk.market.beans.Beanarticlelive;
 import com.ankk.market.databinding.CardviewarticleBinding;
 import com.ankk.market.models.Achat;
@@ -35,7 +38,7 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
 
     // A t t r i b u t e s   :
     private final Context context;
-    private List<Beanarticlelive> donnee;
+    private List<BeanItemPanier> donnee;
     Activity activity;
     OpenApplication app;
     AchatRepository achatRepository;
@@ -66,22 +69,119 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         // Get DATA :
         Glide.with(context)
                 .load("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/"+
-                        donnee.get(position).getLienweb()+"?alt=media")
+                        donnee.get(position).getArticle().getLienweb()+"?alt=media")
                 .onlyRetrieveFromCache(false)
                 .transition(DrawableTransitionOptions.withCrossFade(1000))
                 //.placeholder(R.drawable.ic_panier)
                 .into(holder.binder.imgarticle);
-        holder.binder.libellearticle.setText(donnee.get(position).getLibelle());
+        holder.binder.libellearticle.setText(donnee.get(position).getArticle().getLibelle());
         holder.binder.prixarticle.setText(
-                NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getPrix())+" FCFA");
-        if(donnee.get(position).getReduction() == 0){
+                NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getArticle().getPrix())+" FCFA");
+        //------------------
+        if(donnee.get(position).getArticle().getReduction() == 0){
             holder.binder.prixpromotionarticle.setVisibility(View.INVISIBLE);
             holder.binder.articlepourcentage.setVisibility(View.INVISIBLE);
         }
+        else{
+            holder.binder.prixpromotionarticle.setText(
+                    NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getArticle().getPrix())+" FCFA"
+            );
+            holder.binder.prixpromotionarticle.setPaintFlags(
+                    holder.binder.prixpromotionarticle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG
+            );
+            holder.binder.articlepourcentage.setText("-"+String.valueOf(donnee.get(position).getArticle().getReduction())+"%");
+            // Compute PRICE :
+            float tpPrice = ((donnee.get(position).getArticle().getPrix() * donnee.get(position).getArticle().getReduction()) / 100);
+            holder.binder.prixarticle.setText(
+                    NumberFormat.getInstance(Locale.FRENCH).format(donnee.get(position).getArticle().getPrix() - tpPrice)+" FCFA");
+        }
 
         // Quantité article :
-        holder.binder.quantitearticle.setText( String.valueOf(donnee.get(position).getArticlereserve()) );
+        holder.binder.quantitearticle.setText( String.valueOf(donnee.get(position).getArticle().getArticlereserve()) );
+        holder.binder.articlerestant.setText( String.valueOf(donnee.get(position).getRestant()) + " article(s) restant(s)" );
 
+        // Set STARs :
+        holder.binder.nbrecommentairearticle.setText("("+String.valueOf(
+                donnee.get(position).getTotalcomment()) +")");
+        if(donnee.get(position).getNote() == 0) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNote() == 1) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNote() == 2) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNote() == 3) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNote() == 4) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            //
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+        }
+        else if(donnee.get(position).getNote() == 5) {
+            holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+            holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+        }
+        else{
+            if((donnee.get(position).getNote() > 1) && (donnee.get(position).getNote() < 2)){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                //
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            }
+            else if((donnee.get(position).getNote() > 2) && (donnee.get(position).getNote() < 3)){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                //
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            }
+            else if((donnee.get(position).getNote() > 3) && (donnee.get(position).getNote() < 4)){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+                //
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_empty, null));
+            }
+            else if(donnee.get(position).getNote() > 4){
+                holder.binder.artstarun.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstardeux.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstartroix.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstarquatre.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_full_gray, null));
+                holder.binder.artstarcinq.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_star_half_full, null));
+            }
+        }
         // Hide
         holder.binder.textalerte.setVisibility(View.INVISIBLE);
         holder.binder.articlebut.setVisibility(View.GONE);
@@ -96,7 +196,7 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         holder.binder.textsupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayDialog(donnee.get(position).getIdart());
+                displayDialog(donnee.get(position).getArticle().getIdart());
             }
         });
     }
@@ -115,7 +215,7 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         return donnee.size();
     }
 
-    public void addItems(Beanarticlelive data) {
+    public void addItems(BeanItemPanier data) {
         donnee.add(data);
         notifyItemInserted(donnee.size() - 1);
     }

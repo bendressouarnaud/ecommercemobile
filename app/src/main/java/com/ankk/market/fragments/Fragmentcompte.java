@@ -98,13 +98,28 @@ public class Fragmentcompte extends Fragment {
             binder.butcompte.setText("Compte");
             binder.textmerci.setText("Gérer vos données");
             // Hide
-            binder.textuncompte.setVisibility(View.INVISIBLE);
+            binder.textuncompte.setVisibility(View.GONE);
         }
         else{
             // Enter his 'PARAMETERS' :
             binder.textuncompte.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if(viewmodel.getCompte().isEmpty() && (!viewmodel.isFlagClientLive())){
+                        viewmodel.setFlagClientLive(true);
+                        // set listener :
+                        viewmodel.getCompteAllLive().observe(getActivity(), d-> {
+                            // User has successfully created his ACCOUNT, change BUTTON and TEXT
+                            if(!d.isEmpty()) {
+                                binder.butcompte.setText("Compte");
+                                binder.textmerci.setText("Gérer vos données");
+                                // Hide
+                                binder.textuncompte.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+
                     Intent itC = new Intent(getContext(), Authentification.class);
                     itC.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(itC);
@@ -127,7 +142,7 @@ public class Fragmentcompte extends Fragment {
                                 binder.butcompte.setText("Compte");
                                 binder.textmerci.setText("Gérer vos données");
                                 // Hide
-                                binder.textuncompte.setVisibility(View.INVISIBLE);
+                                binder.textuncompte.setVisibility(View.GONE);
                             }
                         });
                     }
@@ -194,6 +209,8 @@ public class Fragmentcompte extends Fragment {
                                 if(!d.isEmpty()) {
                                     binder.butcompte.setText("Compte");
                                     binder.textmerci.setText("Gérer vos données");
+                                    // Hide
+                                    binder.textuncompte.setVisibility(View.GONE);
                                 }
                             });
                         }

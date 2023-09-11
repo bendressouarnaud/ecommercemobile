@@ -107,7 +107,7 @@ public class Fragmentproduit extends Fragment {
 
         // Carousel :
         binder.carousel.registerLifecycle(getLifecycle());
-        List<CarouselItem> list = new ArrayList<>();
+        /*List<CarouselItem> list = new ArrayList<>();
         // Image URL with caption
         list.add(
                 new CarouselItem(
@@ -122,11 +122,10 @@ public class Fragmentproduit extends Fragment {
                 )
         );
 
-
         binder.carousel.setData(list);
         // See kotlin code for details.
         binder.carousel.setAutoPlay(true);
-        binder.carousel.setAutoPlayDelay(5000);
+        binder.carousel.setAutoPlayDelay(5000);*/
 
         //
         adapter = new AdapterProduit(getContext(), m);
@@ -139,19 +138,6 @@ public class Fragmentproduit extends Fragment {
         Integer[] donnees = {1, 2, 3, 4, 5};
         getmobileAllProduits();
 
-        // Meilleures offres :
-        /*adapterOff = new AdapterOffre(getContext(), m);
-        LinearLayoutManager layoutManagerOffre = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        binder.recycleroffre.setLayoutManager(layoutManagerOffre);
-        binder.recycleroffre.setAdapter(adapterOff);
-
-        // Read DATA :
-        Arrays.asList(donnees).forEach(
-                d -> {
-                    adapterOff.addItems(d);
-                }
-        );*/
         getpromotedarticles();
         getrecentarticles();
     }
@@ -178,6 +164,8 @@ public class Fragmentproduit extends Fragment {
 
                 if (response.code() == 200) {
                     // Now save it :
+                    List<CarouselItem> listCarousel = new ArrayList<>();
+
                     response.body().forEach(p -> {
                         Produit pt = new Produit();
                         pt.setChoix(0);
@@ -187,7 +175,21 @@ public class Fragmentproduit extends Fragment {
                         //
                         produitRepository.insert(pt);
                         adapter.addItems(pt);
+
+                        // Image URL with caption
+                        listCarousel.add(
+                                new CarouselItem(
+                                        "https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/"+p.getLienweb()+"?alt=media",
+                                        p.getLibelle()
+                                )
+                        );
                     });
+
+                    binder.carousel.setData(listCarousel);
+                    // See kotlin code for details.
+                    binder.carousel.setAutoPlay(true);
+                    binder.carousel.setAutoPlayDelay(5000);
+
                     // Hide :
                     binder.shimmerproduit.setVisibility(View.GONE);
                     binder.recyclerproduit.setVisibility(View.VISIBLE);

@@ -1,7 +1,9 @@
 package com.ankk.market.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ankk.market.R;
+import com.ankk.market.SousproduitActivity;
 import com.ankk.market.beans.Beancategorie;
 import com.ankk.market.beans.ProduitBean;
 import com.ankk.market.databinding.CardviewdetailsousproduitBinding;
@@ -37,6 +40,20 @@ public class AdapterDetailProduit extends RecyclerView.Adapter<AdapterDetailProd
                                  int position) {
         // Get DATA :
         holder.binder.libsousproduit.setText(donnee.get(position).getSousproduit());
+
+        // Set ACTION on 'VOIR TOUT' :
+        holder.binder.libsousproduittout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(context, SousproduitActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // Set Mode : 2 -> SOUS-PRODUIT
+                it.putExtra("mode",2);
+                it.putExtra("lib", donnee.get(position).getSousproduit());
+                context.startActivity(it);
+            }
+        });
+
         // Work on GRIDVIEW :
         holder.binder.gridview.setAdapter(new AdapterGridView(context, donnee.get(position).getDetails()));
     }
@@ -69,8 +86,11 @@ public class AdapterDetailProduit extends RecyclerView.Adapter<AdapterDetailProd
     }
 
     public void addItems(Beancategorie data) {
-        donnee.add(data);
-        notifyItemInserted(donnee.size() - 1);
+        // Limit DATA to three ITEM :
+        if(donnee.size() < 3) {
+            donnee.add(data);
+            notifyItemInserted(donnee.size() - 1);
+        }
     }
 
     public void clearEverything(){

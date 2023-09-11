@@ -1,8 +1,12 @@
 package com.ankk.market.proxies;
 
 import com.ankk.market.beans.BeanArticleHistoCommande;
+import com.ankk.market.beans.BeanArticlestatusrequest;
+import com.ankk.market.beans.BeanArticlestatusresponse;
+import com.ankk.market.beans.BeanAuthentification;
 import com.ankk.market.beans.BeanCommandeProjection;
 import com.ankk.market.beans.BeanCommentRequest;
+import com.ankk.market.beans.BeanCustomerAuth;
 import com.ankk.market.beans.BeanCustomerCreation;
 import com.ankk.market.beans.BeanResumeArticleDetail;
 import com.ankk.market.beans.Beanarticledatahistory;
@@ -58,6 +62,10 @@ public interface ApiProxy {
     @POST("backendcommerce/getmobilearticlesBasedonLib")
     Call<List<BeanResumeArticleDetail>> getmobilearticlesBasedonLib(@Body RequestBean rn);
 
+    // Get DETAILS for ARTICLE:
+    @POST("backendcommerce/getarticledetails")
+    Call<List<BeanArticlestatusresponse>> getarticledetails(@Body BeanArticlestatusrequest data);
+
     //
     @POST("backendcommerce/getmobileallsousproduitsarticles")
     Call<List<Beansousproduitarticle>> getmobileallsousproduitsarticles(@Body RequeteBean rn);
@@ -73,6 +81,9 @@ public interface ApiProxy {
     // Send user for CREATION :
     @POST("backendcommerce/managecustomer")
     Call<BeanCustomerCreation> managecustomer(@Body Client data);
+
+    @POST("backendcommerce/authenicatemobilecustomer")
+    Call<BeanCustomerAuth> authenicatemobilecustomer(@Body BeanAuthentification data);
 
     @POST("backendcommerce/sendbooking")
     Call<ResponseBooking> sendbooking(@Body Beanarticlerequest data);
