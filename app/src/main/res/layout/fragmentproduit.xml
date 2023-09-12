@@ -61,6 +61,7 @@
                     android:layout_height="250dp"
                     app:showTopShadow="true"
                     app:showBottomShadow="true"
+                    app:imageScaleType="fitXY"
                     />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
