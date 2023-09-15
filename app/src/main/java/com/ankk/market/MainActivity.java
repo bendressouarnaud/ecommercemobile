@@ -151,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
 
         // Alerte :
+        final MenuItem menuSearch = menu.findItem(R.id.actionsearch);
+        View actionViewSearch = menuSearch.getActionView();
+        //actionViewSearch.setOnClickListener( d -> onOptionsItemSelected(menuSearch));
+
+        // Alerte :
         final MenuItem menuAlerte = menu.findItem(R.id.actionalerte);
         View actionViewAlerte = menuAlerte.getActionView();
         textAlerteCount = (TextView) actionViewAlerte.findViewById(R.id.cart_badge);
@@ -166,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
         // Listener :
         notifyArticle();
 
-        actionViewAlerte.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
-        actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
+        //actionViewAlerte.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
+        //actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
 
         return true;
     }
@@ -191,6 +196,14 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),
                         "ACTION ALERTE",
                         Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.actionsearch:
+                Intent its = new Intent(getApplicationContext(), RechercheActivity.class);
+                startActivity(its);
+                /*Toast.makeText(getApplicationContext(),
+                        "ACTION SEARCH",
+                        Toast.LENGTH_SHORT).show();*/
                 break;
         }
         //return super.onOptionsItemSelected(item);
