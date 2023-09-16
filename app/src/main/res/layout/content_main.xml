@@ -11,8 +11,9 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     >
 
+    <!-- android:background="@color/main_background"  -->
     <FrameLayout
-        android:background="@color/main_background"
+        android:background="#FFFFFF"
         android:id="@+id/frameproduit"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

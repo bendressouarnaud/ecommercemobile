@@ -56,6 +56,11 @@ public class ClientRepository {
         insert(null, data);
     }
 
+    // Delete
+    public void deleteAll(Client... data){
+        clientDao.deleteAll(data);
+    }
+
     // appel :
     void insert(Runnable completion, Client... data){
         DbPool.post(()->{

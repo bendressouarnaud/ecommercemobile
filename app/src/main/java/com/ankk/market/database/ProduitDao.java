@@ -35,4 +35,7 @@ public interface ProduitDao {
     @Query("SELECT * FROM Produit where idprd =:id")
     Produit getByIdprd(int id);
 
+    @Query("SELECT * FROM Produit where libelle =:lib")
+    Produit getByLibelle(String lib);
+
 }

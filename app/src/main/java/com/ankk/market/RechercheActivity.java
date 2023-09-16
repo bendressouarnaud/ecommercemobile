@@ -5,14 +5,19 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ankk.market.beans.RequestBean;
 import com.ankk.market.databinding.ActivityArticleBinding;
 import com.ankk.market.databinding.ActivityRechercheBinding;
 import com.ankk.market.mesobjets.RetrofitTool;
@@ -67,19 +72,24 @@ public class RechercheActivity extends AppCompatActivity {
         // Add items to Array List
         mylist = new ArrayList<>();
         mylist.addAll(viewmodel.getProduitRepository().getAll().stream().map(d -> d.getLibelle()).collect(Collectors.toList()));
-        /*mylist.add("C");
-        mylist.add("C++");
-        mylist.add("C#");
-        mylist.add("Java");
-        mylist.add("Advanced java");
-        mylist.add("Interview prep with c++");
-        mylist.add("Interview prep with java");
-        mylist.add("data structures with c");
-        mylist.add("data structures with java");*/
 
         // Set adapter to ListView
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mylist);
         binder.listView.setAdapter(adapter);
+
+        // Click on it :
+        binder.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent it = new Intent(getApplicationContext(), SousproduitActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                it.putExtra("mode",5);
+                it.putExtra("lib", mylist.get(i));
+                startActivity(it);
+                // Kill ACTIVITY :
+                finish();
+            }
+        });
     }
 
     @Override
@@ -94,6 +104,23 @@ public class RechercheActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) searchViewItem.getActionView();
         //searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
 
+        View closeButton = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        // Set on click listener
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Manage this event.
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                mylist.clear();
+                mylist.addAll(viewmodel.getProduitRepository().getAll().stream().map(
+                        d -> d.getLibelle()).collect(Collectors.toList()));
+                adapter.clear();
+                adapter.addAll(mylist);
+                binder.listView.setAdapter(adapter);
+            }
+        });
+
         // attach setOnQueryTextListener
         // to search view defined above
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -106,7 +133,8 @@ public class RechercheActivity extends AppCompatActivity {
                     adapter.getFilter().filter(query);
                 } else {
                     // Search query not found in List View
-                    Toast.makeText(RechercheActivity.this, "Not found", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(RechercheActivity.this, "Not found", Toast.LENGTH_LONG).show();
+                    if(!(mylist.contains(query)) && (query.length() > 1)) getDataRequested(query);
                 }
                 return false;
             }
@@ -115,7 +143,12 @@ public class RechercheActivity extends AppCompatActivity {
             // to a search query when the user is typing search
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if(!mylist.contains(newText)){
+                    if(newText.length() > 1){
+                        getDataRequested(newText);
+                    }
+                }
+                else adapter.getFilter().filter(newText);
                 return false;
             }
         });
@@ -130,25 +163,28 @@ public class RechercheActivity extends AppCompatActivity {
                 .build().create(ApiProxy.class);
     }
 
-    public void getmobileAllCommunes(){
-        initProxy();
-        apiProxy.getmobileAllCommunes().enqueue(new Callback<List<Commune>>() {
+    public void getDataRequested(String text){
+        if(apiProxy == null) initProxy();
+
+        RequestBean rn = new RequestBean();
+        rn.setLib(text);
+        rn.setId(0);
+
+        apiProxy.lookforuserrequest(rn).enqueue(new Callback<List<String>>() {
             @Override
-            public void onResponse(Call<List<Commune>> call, Response<List<Commune>> response) {
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.code() == 200) {
-                    // Now save it :
-                    response.body().forEach(p -> {
-                        viewmodel.getCommuneRepository().insert(p);
-                        data.add(p);
-                    });
-                    // Notify :
-                    getCommune = true;
+                    // clear adapter :
+                    mylist.clear();
+                    mylist.addAll(response.body());
+                    adapter.clear();
+                    adapter.addAll(response.body());
+                    binder.listView.setAdapter(adapter);
                 }
-                //else onErreur();
             }
 
             @Override
-            public void onFailure(Call<List<Commune>> call, Throwable t) {
+            public void onFailure(Call<List<String>> call, Throwable t) {
                 //onErreur();
             }
         });

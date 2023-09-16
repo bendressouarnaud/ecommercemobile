@@ -18,6 +18,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.ankk.market.MainActivity;
 import com.ankk.market.R;
+import com.ankk.market.models.Client;
+import com.ankk.market.repositories.ClientRepository;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -27,6 +29,8 @@ import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    // A t t r i b u t e s :
+    ClientRepository clientRepository;
 
 
     // M e t h o d s :
@@ -36,6 +40,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
+
+        if(clientRepository==null) clientRepository = new ClientRepository(getApplication());
 
         // Process :
         handleMessage(message);
@@ -109,7 +115,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             break;
 
                         case 4:
-                            // Commercant :
+                            // Supprimer le COMPTE :
+                            try{
+                                Client ct = clientRepository.getAll().get(0);
+                                clientRepository.deleteAll(ct);
+                            }
+                            catch (Exception exc){
+
+                            }
                             break;
 
                         case 5:

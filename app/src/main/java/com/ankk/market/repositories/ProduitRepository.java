@@ -41,6 +41,10 @@ public class ProduitRepository {
         return produitDao.getByIdprd(id);
     }
 
+    public Produit getItemLib(String lib){
+        return produitDao.getByLibelle(lib);
+    }
+
     // Get user :
     public List<Produit> getAll(){
         return produitDao.getAll();

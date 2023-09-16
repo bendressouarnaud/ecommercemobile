@@ -12,8 +12,8 @@ android {
         applicationId "com.ankk.market"
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "API_BCK_URL", '"http://192.168.126.80:8080/"'
+            buildConfigField "String", "API_BCK_URL", '"http://192.168.60.7:8080/"'
             buildConfigField "String", "API_KEY_CINETPAY", '"14188340645523ee208a07.43334887"'
             buildConfigField "String", "SITE_ID_CINETPAY", '"201498"'
             buildConfigField "int", "AGE_LIMIT", '19'
@@ -104,4 +104,8 @@ dependencies {
 
     // CinetPay
     implementation 'com.cinetpay:androidsdk:1.0.0'
+
+    // This dependency is downloaded from the Google’s Maven repository.
+    // So, make sure you also include that repository in your project's build.gradle file.
+    implementation 'com.google.android.play:app-update:2.0.1'
 }

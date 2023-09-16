@@ -23,6 +23,7 @@ import com.ankk.market.models.Achat;
 import com.ankk.market.viewmodels.AccueilViewmodel;
 import com.ankk.market.viewmodels.DetailViewmodel;
 import com.ankk.market.viewmodels.VMFactory;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -46,6 +47,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ankk.market.databinding.ActivityMainBinding;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallState;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
@@ -56,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-    TextView textAlerteCount, textShopCount;
+    TextView textAlerteCount, textShopCount, textSearch;
     int mCartItemCount = 11;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -66,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     FragmentCommande fcm;
     int [] images = {R.drawable.ganoderma, R.drawable.lipidcare, R.drawable.pinepollen};
     AccueilViewmodel viewmodel;
+    AppUpdateManager appUpdateManager;
+    int MY_REQUEST_CODE_UPDATE = 7;
 
 
 
@@ -143,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 openFragment(fcm);
             }
         }
+        else checkUpdateAvailability();
     }
 
     @Override
@@ -151,19 +163,19 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
 
         // Alerte :
-        final MenuItem menuSearch = menu.findItem(R.id.actionsearch);
+        /*final MenuItem menuSearch = menu.findItem(R.id.actionsearchmain);
         View actionViewSearch = menuSearch.getActionView();
-        //actionViewSearch.setOnClickListener( d -> onOptionsItemSelected(menuSearch));
-
-        // Alerte :
-        final MenuItem menuAlerte = menu.findItem(R.id.actionalerte);
-        View actionViewAlerte = menuAlerte.getActionView();
-        textAlerteCount = (TextView) actionViewAlerte.findViewById(R.id.cart_badge);
+        textSearch = (TextView) actionViewSearch.findViewById(R.id.cart_badge_search);*/
 
         // Panier :
         final MenuItem menuPanier = menu.findItem(R.id.actionbook);
         View actionViewPanier = menuPanier.getActionView();
         textShopCount = (TextView) actionViewPanier.findViewById(R.id.cart_badge_shop);
+
+        // Alerte :
+        final MenuItem menuAlerte = menu.findItem(R.id.actionalerte);
+        View actionViewAlerte = menuAlerte.getActionView();
+        textAlerteCount = (TextView) actionViewAlerte.findViewById(R.id.cart_badge);
 
         //setupBadge();
         textAlerteCount.setVisibility(View.GONE);
@@ -171,8 +183,9 @@ public class MainActivity extends AppCompatActivity {
         // Listener :
         notifyArticle();
 
-        //actionViewAlerte.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
-        //actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
+        actionViewAlerte.setOnClickListener( d -> onOptionsItemSelected(menuAlerte));
+        actionViewPanier.setOnClickListener( d -> onOptionsItemSelected(menuPanier));
+        //actionViewSearch.setOnClickListener( d -> onOptionsItemSelected(menuSearch));
 
         return true;
     }
@@ -193,12 +206,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.actionalerte:
-                Toast.makeText(getApplicationContext(),
-                        "ACTION ALERTE",
-                        Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.actionsearch:
                 Intent its = new Intent(getApplicationContext(), RechercheActivity.class);
                 startActivity(its);
                 /*Toast.makeText(getApplicationContext(),
@@ -248,14 +255,14 @@ public class MainActivity extends AppCompatActivity {
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
                     // FCM SDK (and your app) can post notifications.
-                    Toast.makeText(getApplicationContext(),
+                    /*Toast.makeText(getApplicationContext(),
                             "post notifications !",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();*/
                 } else {
                     // TODO: Inform user that that your app will not show notifications.
-                    Toast.makeText(getApplicationContext(),
+                    /*Toast.makeText(getApplicationContext(),
                             "NO post notifications !",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();*/
                 }
             });
 
@@ -321,5 +328,41 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+
+    // Check for update availability
+    public void checkUpdateAvailability(){
+        appUpdateManager = AppUpdateManagerFactory.create(this);
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(new OnSuccessListener<AppUpdateInfo>() {
+            @Override
+            public void onSuccess(AppUpdateInfo appUpdateInfo) {
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    // Request the update.
+                    try {
+                        appUpdateManager.startUpdateFlowForResult(appUpdateInfo,AppUpdateType.IMMEDIATE,
+                                MainActivity.this, MY_REQUEST_CODE_UPDATE);
+                    }
+                    catch (Exception exc){}
+                }
+            }
+        });
+        //appUpdateManager.registerListener(installStateUpdatedListener);
+    }
+
+    private InstallStateUpdatedListener installStateUpdatedListener = new InstallStateUpdatedListener() {
+        @Override
+        public void onStateUpdate(@NonNull InstallState installState) {
+            if(installState.installStatus() == InstallStatus.DOWNLOADED){
+                showCompletedUpdate();
+            }
+        }
+    };
+
+    private void showCompletedUpdate() {
+        Toast.makeText(getApplicationContext(),
+                "La nouvelle application est prête !",
+                Toast.LENGTH_LONG).show();
     }
 }

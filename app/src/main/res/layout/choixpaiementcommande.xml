@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="Mobile Money"
             android:textSize="20sp"
+            android:enabled="false"
             />
 
     </RadioGroup>

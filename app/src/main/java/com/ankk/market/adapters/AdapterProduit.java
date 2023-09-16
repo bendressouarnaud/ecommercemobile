@@ -66,6 +66,9 @@ public class AdapterProduit extends RecyclerView.Adapter<
         holder.binder.itemrestantoffre.setVisibility(View.GONE);
         holder.binder.baroffre.setVisibility(View.GONE);
         holder.binder.textpourcentage.setVisibility(View.GONE);
+        // increase IMG width :
+        holder.binder.constraintmaincrdimg.getLayoutParams().width = (int) context.getResources().getDimension(
+                R.dimen.productimg);
         // Change picture :
         Glide.with(context)
                 .load("https://firebasestorage.googleapis.com/v0/b/gestionpanneaux.appspot.com/o/"+

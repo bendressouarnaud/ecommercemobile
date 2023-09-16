@@ -13,8 +13,9 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_search_item"/>
 
+
     <TextView
-        android:id="@+id/cart_badge"
+        android:id="@+id/cart_badge_search"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="right|end|top"
@@ -26,6 +27,7 @@
         android:padding="3dp"
         android:textColor="@android:color/white"
         android:text="0"
-        android:textSize="10sp"/>
+        android:textSize="10sp"
+        />
 
 </FrameLayout>

@@ -27,6 +27,7 @@ import com.ankk.market.models.Produit;
 import com.ankk.market.models.Sousproduit;
 
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -99,4 +100,11 @@ public interface ApiProxy {
 
     @POST("backendcommerce/sendmobilecomment")
     Call<RequeteBean> sendmobilecomment(@Body BeanCommentRequest data);
+
+    @POST("backendcommerce/lookforuserrequest")
+    Call<List<String>> lookforuserrequest(@Body RequestBean data);
+
+    // Get DATA base on 'Sous-Produit' lib :
+    @POST("backendcommerce/lookforwhatuserrequested")
+    Call<List<BeanResumeArticleDetail>> lookforwhatuserrequested(@Body RequestBean rn);
 }

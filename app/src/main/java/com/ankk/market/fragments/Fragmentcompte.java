@@ -178,7 +178,7 @@ public class Fragmentcompte extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Synchronisation");
 
-        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setIcon(R.mipmap.ic_launcher_final);
         builder.setView(vRapport);
         builder.setCancelable(false);
         alertDialogLoadPicture = builder.create();

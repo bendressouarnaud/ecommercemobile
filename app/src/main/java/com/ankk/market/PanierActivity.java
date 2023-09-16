@@ -433,7 +433,7 @@ public class PanierActivity extends AppCompatActivity {
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Sélectionnez un moyen de paiement");
+        builder.setTitle("Sélectionnez un mode de paiement");
 
         builder.setIcon(R.mipmap.ic_launcher_final);
         builder.setView(vRapport);

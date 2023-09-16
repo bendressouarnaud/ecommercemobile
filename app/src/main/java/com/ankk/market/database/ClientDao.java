@@ -2,11 +2,13 @@ package com.ankk.market.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.ankk.market.models.Achat;
 import com.ankk.market.models.Client;
 
 import java.util.List;
@@ -34,5 +36,8 @@ public interface ClientDao {
 
     @Query("SELECT * FROM Client where idcli =:id")
     Client getByIdcli(int id);
+
+    @Delete
+    void deleteAll(Client... data);
 
 }

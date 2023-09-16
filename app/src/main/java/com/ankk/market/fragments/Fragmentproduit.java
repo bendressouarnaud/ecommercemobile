@@ -13,10 +13,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewbinding.ViewBinding;
 
 import com.ankk.market.ArticleActivity;
 import com.ankk.market.BuildConfig;
 import com.ankk.market.OpenApplication;
+import com.ankk.market.ProduitActivity;
 import com.ankk.market.R;
 import com.ankk.market.SousproduitActivity;
 import com.ankk.market.adapters.AdapterGridViewPromotionArticle;
@@ -37,6 +39,7 @@ import com.ankk.market.repositories.ProduitRepository;
 import com.ankk.market.viewmodels.FragmentproduitViewmodel;
 import com.ankk.market.viewmodels.VMFactory;
 
+import org.imaginativeworld.whynotimagecarousel.listener.CarouselListener;
 import org.imaginativeworld.whynotimagecarousel.model.CarouselItem;
 
 import java.util.ArrayList;
@@ -189,6 +192,35 @@ public class Fragmentproduit extends Fragment {
                     // See kotlin code for details.
                     binder.carousel.setAutoPlay(true);
                     binder.carousel.setAutoPlayDelay(5000);
+
+                    // set ACTION on CAROUSEL Item :
+                    binder.carousel.setCarouselListener(new CarouselListener() {
+                        @Nullable
+                        @Override
+                        public ViewBinding onCreateViewHolder(@NonNull LayoutInflater layoutInflater, @NonNull ViewGroup viewGroup) {
+                            return null;
+                        }
+
+                        @Override
+                        public void onBindViewHolder(@NonNull ViewBinding viewBinding, @NonNull CarouselItem carouselItem, int i) {
+
+                        }
+
+                        @Override
+                        public void onClick(int i, @NonNull CarouselItem carouselItem) {
+                            //
+                            Produit pt = produitRepository.getItemLib(carouselItem.getCaption());
+                            Intent it = new Intent(getContext(), ProduitActivity.class);
+                            it.putExtra("idprd", pt.getIdprd());
+                            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getContext().startActivity(it);
+                        }
+
+                        @Override
+                        public void onLongClick(int i, @NonNull CarouselItem carouselItem) {
+
+                        }
+                    });
 
                     // Hide :
                     binder.shimmerproduit.setVisibility(View.GONE);

@@ -101,7 +101,13 @@ public class SousproduitActivity extends AppCompatActivity {
 
                 case 4:
                     // Display All PROMOTED ARTICLE
-                    getpromotedarticles();
+                    getarticlesBasedonLib();
+                    break;
+
+                case 5:
+                    // Display Porduct whose name is familiar to the one requested by user :
+                    viewmodel.setLibSousProduit( extras.getString("lib"));
+                    lookforwhatuserrequested();
                     break;
 
                 default:
@@ -442,5 +448,65 @@ public class SousproduitActivity extends AppCompatActivity {
                 }
             );
         }
+    }
+
+
+
+    public void lookforwhatuserrequested(){
+        if(apiProxy ==null) initProxy();
+        // Set Object :
+        RequestBean rn = new RequestBean();
+        rn.setId(0);
+        rn.setLib(viewmodel.getLibSousProduit());
+
+        apiProxy.lookforwhatuserrequested(rn).enqueue(new Callback<List<BeanResumeArticleDetail>>() {
+            @Override
+            public void onResponse(Call<List<BeanResumeArticleDetail>> call, Response<List<BeanResumeArticleDetail>> response) {
+                // STOP SIMMMER :
+
+                if (response.code() == 200) {
+                    // Now save it :
+
+                    // Call ADAPTER
+                    //AdapterListArticle adapter = new AdapterListArticle(getApplicationContext());
+                    binder.shimarticledetail.stopShimmer();
+                    binder.shimarticledetail.setVisibility(View.GONE);
+                    binder.recyclerarticle.setVisibility(View.VISIBLE);
+                    binder.recyclerarticle.setAdapter(viewmodel.getAdapter());
+                    response.body().forEach(
+                            d -> {
+                                // Save each :
+                                viewmodel.insertArticle(d.getBeanarticle());
+
+                                //
+                                Beanarticlelive be = new Beanarticlelive();
+                                be.setIdart(d.getBeanarticle().getIdart());
+                                be.setPrix(d.getBeanarticle().getPrix());
+                                be.setReduction(d.getBeanarticle().getReduction());
+                                be.setNote(d.getBeanarticle().getNote());
+                                be.setArticlerestant(d.getBeanarticle().getArticlerestant());
+                                be.setLibelle(d.getBeanarticle().getLibelle());
+                                be.setLienweb(d.getBeanarticle().getLienweb());
+                                // Article reserve :
+                                List<Achat> getAchat = viewmodel.getAllByIdart(d.getBeanarticle().getIdart());
+                                be.setArticlereserve(getAchat != null ? getAchat.size() : 0);
+                                be.setNoteart(d.getNoteart());
+                                be.setTotalcomment(d.getTotalcomment());
+                                viewmodel.getAdapter().addItems(be);
+                                viewmodel.getBeanarticlelives().add(be);
+                            }
+                    );
+
+                    // Call
+                    notifyUser();
+                }
+                //else onErreur();
+            }
+
+            @Override
+            public void onFailure(Call<List<BeanResumeArticleDetail>> call, Throwable t) {
+                Toast.makeText(SousproduitActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
