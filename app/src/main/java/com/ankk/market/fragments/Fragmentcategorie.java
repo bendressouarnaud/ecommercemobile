@@ -93,15 +93,6 @@ public class Fragmentcategorie extends Fragment {
         pd.setChoix(1);
         viewmodel.updateProduit(pd);
 
-        /*viewmodel.getAllProduit().forEach(
-            d -> {
-                // Set FOCUS on the first ELEMENT :
-                if(keepFirstProductId == 0) keepFirstProductId = d.getIdprd();
-                adapter.addItems(d);
-            }
-        );
-        */
-
         // Test LIVE :
         viewmodel.getAllProduitLive().observe(getActivity(), new Observer<List<Produit>>() {
             @Override

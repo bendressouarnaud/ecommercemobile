@@ -11,6 +11,7 @@ import com.ankk.market.repositories.AchatRepository;
 import com.ankk.market.repositories.BeanarticledetailRepository;
 import com.ankk.market.repositories.ClientRepository;
 import com.ankk.market.repositories.CommandeRepository;
+import com.ankk.market.repositories.ProduitRepository;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class AccueilViewmodel extends ViewModel {
     AchatRepository achatRepository;
     CommandeRepository commandeRepository;
     ClientRepository clientRepository;
+    ProduitRepository produitRepository;
 
 
     // M e t h o d s  :
@@ -28,6 +30,7 @@ public class AccueilViewmodel extends ViewModel {
         commandeRepository = new CommandeRepository(app);
         achatRepository = new AchatRepository(app);
         clientRepository = new ClientRepository(app);
+        produitRepository = new ProduitRepository(app);
     }
 
     public List<Achat> getAllByIdart(int idart){
@@ -72,5 +75,9 @@ public class AccueilViewmodel extends ViewModel {
 
     public ClientRepository getClientRepository() {
         return clientRepository;
+    }
+
+    public ProduitRepository getProduitRepository() {
+        return produitRepository;
     }
 }

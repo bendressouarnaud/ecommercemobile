@@ -108,8 +108,15 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.menucategorie:
-                        fc = new Fragmentcategorie();
-                        openFragment(fc);
+                        if(viewmodel.getProduitRepository().getAll().isEmpty()){
+                            Toast.makeText(getApplicationContext(),
+                                    "Il n'existe aucun produit !",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            fc = new Fragmentcategorie();
+                            openFragment(fc);
+                        }
                         break;
 
                     case R.id.menucommande:
