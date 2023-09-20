@@ -1,5 +1,6 @@
 package com.ankk.market;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -488,9 +489,11 @@ public class PanierActivity extends AppCompatActivity {
                                 // Kill ACTIVITY :
                                 if(achat.isEmpty()){
                                     if(envoiValidation)
-                                        Toast.makeText(PanierActivity.this, "Votre commande a été enregistrée !", Toast.LENGTH_LONG).show();
-                                    else Toast.makeText(PanierActivity.this, "Le panier est vide !", Toast.LENGTH_LONG).show();
-                                    finish();
+                                        displayInfoBox();
+                                    else{
+                                        Toast.makeText(PanierActivity.this, "Le panier est vide !", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
                                 }
 
                                 if(viewmodel.getAdapter().getItemCount() > 0){
@@ -560,6 +563,31 @@ public class PanierActivity extends AppCompatActivity {
                 binder.layoutpanier.textpanierpatienter.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+
+    // Display DIALOGBOX :
+    protected void displayInfoBox(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Set Title and Message:
+        builder.setTitle("Information").setMessage("Votre commande a été enregistrée !");
+
+        //
+        builder.setCancelable(false);
+        builder.setIcon(R.mipmap.ic_launcher_final);
+
+        // Create "Positive" button with OnClickListener.
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                finish();
+            }
+        });
+
+        // Create AlertDialog:
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 }

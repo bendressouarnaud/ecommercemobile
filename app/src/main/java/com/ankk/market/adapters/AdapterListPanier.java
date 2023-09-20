@@ -193,6 +193,13 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         holder.binder.textsupprimer.setVisibility(View.VISIBLE);
 
         // Supprimer item :
+        holder.binder.imgdeletearticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayDialog(donnee.get(position).getArticle().getIdart());
+            }
+        });
+
         holder.binder.textsupprimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -235,7 +242,7 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
 
         //
         builder.setCancelable(true);
-        builder.setIcon(R.drawable.ic_launcher_background);
+        builder.setIcon(R.mipmap.ic_launcher_final);
 
         // Create "Positive" button with OnClickListener.
         builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
@@ -251,8 +258,6 @@ public class AdapterListPanier extends RecyclerView.Adapter<AdapterListPanier.Pa
         // Create "Negative" button with OnClickListener.
         builder.setNegativeButton("Non", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                Toast.makeText(context,"You choose positive button",
-                        Toast.LENGTH_SHORT).show();
                 //  Cancel
                 dialog.cancel();
             }
