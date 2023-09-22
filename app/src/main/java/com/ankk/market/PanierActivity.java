@@ -568,16 +568,20 @@ public class PanierActivity extends AppCompatActivity {
 
     // Display DIALOGBOX :
     protected void displayInfoBox(){
+
+        // We can launch the appropriate METHOD to send the DATA :
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+        View vRapport = inflater.inflate(R.layout.infovalidationpaiement, null);
+
+        //---------
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Information");
 
-        // Set Title and Message:
-        builder.setTitle("Information").setMessage("Votre commande a été enregistrée !");
-
-        //
         builder.setCancelable(false);
         builder.setIcon(R.mipmap.ic_launcher_final);
 
-        // Create "Positive" button with OnClickListener.
+        builder.setView(vRapport);
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
@@ -585,9 +589,13 @@ public class PanierActivity extends AppCompatActivity {
             }
         });
 
+        //builder.setCancelable(false);
+        alerdialogMoyenPaiement = builder.create();
+        alerdialogMoyenPaiement.show();
+
         // Create AlertDialog:
-        AlertDialog alert = builder.create();
-        alert.show();
+        //AlertDialog alert = builder.create();
+        //alert.show();
     }
 
 }
