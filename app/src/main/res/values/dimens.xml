@@ -9,4 +9,5 @@
     <dimen name="articlecardviewpromotion">700dp</dimen> <!--  480dp  -->
     <dimen name="articlecardviewpromotion_little">460dp</dimen> <!--  480dp  -->
     <dimen name="productimg">140dp</dimen> <!--  480dp  -->
+    <dimen name="carouselarticle">440dp</dimen>
 </resources>

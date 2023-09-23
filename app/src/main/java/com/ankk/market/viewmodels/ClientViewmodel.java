@@ -19,6 +19,8 @@ public class ClientViewmodel extends ViewModel {
     ClientRepository clientRepository;
     CommuneRepository communeRepository;
     boolean flagClientLive = false;
+    int creation = 0;
+
 
     // M e t h o d s  :
     public ClientViewmodel(Application app) {
@@ -51,5 +53,13 @@ public class ClientViewmodel extends ViewModel {
 
     public void setFlagClientLive(boolean flagClientLive) {
         this.flagClientLive = flagClientLive;
+    }
+
+    public int getCreation() {
+        return creation;
+    }
+
+    public void setCreation(int creation) {
+        this.creation = creation;
     }
 }

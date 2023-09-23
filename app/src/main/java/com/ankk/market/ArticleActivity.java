@@ -205,6 +205,13 @@ public class ArticleActivity extends AppCompatActivity {
                     binder.shimarticleloading.setVisibility(View.GONE);
                     binder.constraintcontenuarticle.setVisibility(View.VISIBLE);
 
+                    // Increase height if needed :
+                    if(response.body().getTrackVetement() == 4){
+                        binder.carouselarticle.getLayoutParams().height =
+                                (int) getApplicationContext().getResources().getDimension(
+                                R.dimen.carouselarticle);
+                    }
+
                     // Set DATA :
                     binder.carouselarticle.registerLifecycle(getLifecycle());
                     List<CarouselItem> list = new ArrayList<>();
@@ -221,7 +228,6 @@ public class ArticleActivity extends AppCompatActivity {
                     );
 
                     binder.carouselarticle.setData(list);
-
                     binder.textarticle.setText(response.body().getArticle());
                     binder.nomentreprisearticle.setText(response.body().getEntreprise());
 

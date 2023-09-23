@@ -27,6 +27,10 @@ import com.ankk.market.viewmodels.PanierViewmodel;
 import com.ankk.market.viewmodels.VMFactory;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -229,8 +233,8 @@ public class PanierActivity extends AppCompatActivity {
                     if(!data.isEmpty()){
                         // Open COMPTE :
                         Intent it = new Intent(PanierActivity.this, CompteActivity.class);
-                        //it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(it);
+                        it.putExtra("creation", 1);
+                        launchCompteAtivity.launch(it);
                     }
                 } else {
                     handlerAsynchLoad.postDelayed(this, 1000);
@@ -351,7 +355,24 @@ public class PanierActivity extends AppCompatActivity {
         }
     }
 
-    //
+
+    ActivityResultLauncher<Intent> launchCompteAtivity = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if(!viewmodel.getClientRepository().getAll().isEmpty()) {
+                    //Intent data = result.getData();
+                    // Get DATA from
+                    binder.layoutpanier.progresspanier.setVisibility(View.VISIBLE);
+                    binder.layoutpanier.textpanierpatienter.setVisibility(View.VISIBLE);
+                    viewmodel.setModePaiement(2);
+                    setPaiementeffectue();
+                }
+            }
+        }
+    );
+
+
     // Show progressBar
     void displayWayToPay(){
 
@@ -398,7 +419,8 @@ public class PanierActivity extends AppCompatActivity {
                         else {
                             // Call to register USER's account :
                             Intent it = new Intent(PanierActivity.this, CompteActivity.class);
-                            startActivity(it);
+                            it.putExtra("creation", 1);
+                            launchCompteAtivity.launch(it);
                         }
                     }
                 }

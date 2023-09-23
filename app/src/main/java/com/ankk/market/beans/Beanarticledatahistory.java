@@ -11,6 +11,7 @@ public class Beanarticledatahistory {
     String article, entreprise, modaliteretour, descriptionproduit, contact;
     int prix, reduction, nombrearticle, autorisecommentaire, commentaireexiste;
     int iddet, note;
+    int trackVetement;
 
     public Beanarticledatahistory() {
     }
@@ -125,5 +126,13 @@ public class Beanarticledatahistory {
 
     public void setNote(int note) {
         this.note = note;
+    }
+
+    public int getTrackVetement() {
+        return trackVetement;
+    }
+
+    public void setTrackVetement(int trackVetement) {
+        this.trackVetement = trackVetement;
     }
 }

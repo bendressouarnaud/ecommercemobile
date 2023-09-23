@@ -74,6 +74,12 @@ public class CompteActivity extends AppCompatActivity {
                 new VMFactory(getApplication()))
                 .get(ClientViewmodel.class);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            // Get EveryTHING :
+            viewmodel.setCreation(extras.getInt("creation", 0));
+        }
+
         // Les COMMUNES
         libCommunes = new String[viewmodel.getAllCommune().size()];
         viewmodel.getAllCommune().stream().map(

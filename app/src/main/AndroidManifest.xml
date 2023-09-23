@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_final_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Market"
-
-        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="false"
         tools:targetApi="31">
         <activity
             android:name=".RechercheActivity"
@@ -29,39 +29,57 @@
         <activity
             android:name=".Authentification"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".CommentaireActivity"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".HistoriqueCommande"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ArticleActivity"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".DetailActivity"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ProduitActivity"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".CompteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".PanierActivity"
             android:exported="false"
             android:label="@string/title_activity_panier"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".SousproduitActivity"
             android:exported="false"
-            android:theme="@style/Theme.Market.NoActionBar" />
+            android:theme="@style/Theme.Market.NoActionBar"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"
