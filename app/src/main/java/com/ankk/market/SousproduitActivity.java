@@ -101,7 +101,8 @@ public class SousproduitActivity extends AppCompatActivity {
 
                 case 4:
                     // Display All PROMOTED ARTICLE
-                    getarticlesBasedonLib();
+                    //getarticlesBasedonLib();
+                    getpromotedarticles();
                     break;
 
                 case 5:
