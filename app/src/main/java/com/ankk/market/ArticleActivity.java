@@ -206,7 +206,7 @@ public class ArticleActivity extends AppCompatActivity {
                     binder.constraintcontenuarticle.setVisibility(View.VISIBLE);
 
                     // Increase height if needed :
-                    if(response.body().getTrackVetement() == 4){
+                    if((response.body().getTrackVetement() == 4) || (response.body().getTaille()==1)){
                         binder.carouselarticle.getLayoutParams().height =
                                 (int) getApplicationContext().getResources().getDimension(
                                 R.dimen.carouselarticle);
