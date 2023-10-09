@@ -90,6 +90,14 @@ public class RechercheActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        binder.toolbarsearch.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kill
+                finish();
+            }
+        });
     }
 
     @Override

@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ankk.market.beans.Beanarticlelive;
@@ -39,6 +43,7 @@ public class ProduitActivity extends AppCompatActivity {
     ActivityProduitBinding binder;
     int idprd = 0;
     ProduitViewmodel viewmodel;
+    TextView textSearch;
 
 
 
@@ -80,6 +85,26 @@ public class ProduitActivity extends AppCompatActivity {
         getmobileallsousproduitsbyidprd();
         getmobileallsousproduits();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.produitmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.rechproduit:
+                Intent its = new Intent(getApplicationContext(), RechercheActivity.class);
+                startActivity(its);
+                break;
+        }
+        return true;
+    }
+
 
     // Set API :
     private void initProxy() {

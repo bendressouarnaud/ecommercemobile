@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--<item
-        android:id="@+id/actionsearchmain"
-        android:title="Rech."
-        android:actionLayout="@layout/custom_action_search"
-        app:showAsAction="always"
-        />-->
     <item
         android:id="@+id/actionbook"
         android:title="Panier"

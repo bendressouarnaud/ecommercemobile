@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -79,6 +82,23 @@ public class DetailActivity extends AppCompatActivity {
         getmobilealldetailsarticles(idspr);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.produitmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.rechproduit:
+                Intent its = new Intent(getApplicationContext(), RechercheActivity.class);
+                startActivity(its);
+                break;
+        }
+        return true;
+    }
 
     private void initProxy() {
         apiProxy = new Retrofit.Builder()
