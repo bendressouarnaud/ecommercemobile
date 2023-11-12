@@ -117,6 +117,14 @@ public class CompteActivity extends AppCompatActivity {
             if(ct.getGenre() == 0) binder.radiof.setChecked(true);
             else binder.radiom.setChecked(true);
             //
+            binder.codeinvitationinput.setText(ct.getCodeinvitation());
+            if(ct.getCodeinvitation() != null){
+                if(!ct.getCodeinvitation().isEmpty()) {
+                    // Disable :
+                    binder.codeinvitationinput.setEnabled(false);
+                }
+            }
+            //
             List<Commune> lteC = viewmodel.getAllCommune();
             for (int j=0; j < lteC.size(); j++){
                 if(ct.getCommune() == lteC.get(j).getIdcom()){
@@ -169,6 +177,7 @@ public class CompteActivity extends AppCompatActivity {
         ct.setCommune(viewmodel.getAllCommune().get(i_commune).getIdcom());
         ct.setAdresse(binder.adressecompteinput.getText().toString());
         ct.setGenre(binder.radiof.isChecked() ? 0 : 1);
+        ct.setCodeinvitation(binder.codeinvitationinput.getText().toString().trim());
         if(viewmodel.getCompte().isEmpty()) ct.setFcmtoken("");
         if(viewmodel.getCompte().isEmpty()) ct.setPwd("");
 
@@ -289,6 +298,13 @@ public class CompteActivity extends AppCompatActivity {
                             break;
 
                         case 2:
+                            Snackbar.make(binder.constraintcompte,
+                                    "Le CODE utilisé n'existe pas !", Snackbar.LENGTH_LONG).show();
+                            compteExiste = true;
+                            flagCompte = true;
+                            break;
+
+                        case 3:
                             // Now save it :
                             viewmodel.insert(response.body().getClt());
                             flagCompte = true;

@@ -37,6 +37,9 @@ public class Client {
     @ColumnInfo(name = "pwd")
     String pwd;
 
+    @ColumnInfo(name = "codeinvitation")
+    String codeinvitation;
+
     public Client() {
     }
 
@@ -118,5 +121,13 @@ public class Client {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getCodeinvitation() {
+        return codeinvitation;
+    }
+
+    public void setCodeinvitation(String codeinvitation) {
+        this.codeinvitation = codeinvitation;
     }
 }

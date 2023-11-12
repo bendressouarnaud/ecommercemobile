@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.ankk.market.beans.Beanarticledetail;
 import com.ankk.market.models.Achat;
@@ -16,7 +18,7 @@ import com.ankk.market.models.Sousproduit;
 
 @Database(entities = {Produit.class, Sousproduit.class, Beanarticledetail.class, Achat.class, Client.class,
         Commune.class, Commande.class},
-        version = 1, exportSchema = true)
+        version = 2, exportSchema = true)
 
 public abstract class MarketDatabase extends RoomDatabase {
 
@@ -34,12 +36,21 @@ public abstract class MarketDatabase extends RoomDatabase {
     public abstract CommandeDao commandeDao();
 
 
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE Client "
+                    + " ADD COLUMN codeinvitation TEXT");
+        }
+    };
+
+
     // --- INSTANCE ---
     public synchronized static MarketDatabase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                             MarketDatabase.class, "mrktdatabase.db")
-                    //.addMigrations(MIGRATION_7_8)
+                    .addMigrations(MIGRATION_1_2)
                     .allowMainThreadQueries().build();
         }
         return instance;
