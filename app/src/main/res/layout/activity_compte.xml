@@ -232,7 +232,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/codeinvitation"
-            android:hint="Code invitation"
+            android:hint="Code invitation (FACULTATIF)"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             >
             <com.google.android.material.textfield.TextInputEditText
